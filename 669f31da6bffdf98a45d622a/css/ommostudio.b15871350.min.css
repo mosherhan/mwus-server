@@ -1852,6 +1852,7 @@ textarea.w-select {
   --size--0-5rem: 0.5rem;
   --size--0-75rem: 0.75rem;
   --radius--small: 0.5rem;
+  --theme--background--loader:rgba(255, 255, 255, 0.202);
   --theme--background: white;
   --line-height--1em: 1em;
   --space--extra-small: var(--size--0-5rem);
