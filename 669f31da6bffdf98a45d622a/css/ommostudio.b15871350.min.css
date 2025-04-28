@@ -1811,7 +1811,7 @@ textarea.w-select {
   left: 0;
 }
 :root {
-  --swatch--dark: #0fe5de;
+  --swatch--dark: #101010;
   --text-main--font-family: var(--font--primary-family);
   --theme--text: white;
   --text-main--font-size: var(--size--1-25rem);
@@ -1852,7 +1852,8 @@ textarea.w-select {
   --size--0-5rem: 0.5rem;
   --size--0-75rem: 0.75rem;
   --radius--small: 0.5rem;
-  --theme--background: rgba(255, 255, 255, 0.082);
+  --theme--background--loader:rgba(255, 255, 255, 0.202);
+  --theme--background: white;
   --line-height--1em: 1em;
   --space--extra-small: var(--size--0-5rem);
   --text-small--font-size: var(--size--1rem);
@@ -1893,14 +1894,14 @@ textarea.w-select {
   --size--0rem: 0rem;
   --space--large: var(--size--4rem);
   --letter-spacing--0-03em: -0.03em;
-  --swatch--light: #d82222;
+  --swatch--light: white;
   --line-height--1-5em: 1.5em;
-  --swatch--dark-secondary: #0fe5de;
+  --swatch--dark-secondary: #000000;
   --line-height--1-1em: 1.1em;
   --padding-vertical--large: var(--size--10rem);
   --line-height--1-3em: 1.3em;
   --size--6-5rem: 6.5rem;
-  --swatch--light-secondary: #d82222;
+  --swatch--light-secondary: #fcfcfc;
   --swatch--light-transparent: #fff3;
   --swatch--dark-transparent: #0000001a;
   --max-width--main: 90rem;
@@ -3092,7 +3093,7 @@ figure {
 }
 .nav_contain.u-container.u-hflex-between-center {
   z-index: 4;
-  color: #ffff;
+  color: var(--swatch--light);
   mix-blend-mode: difference;
   min-height: 5rem;
   position: fixed;
@@ -3134,7 +3135,7 @@ figure {
   position: relative;
 }
 .loader_overlay.u-cover {
-  =;
+  background-color: var(--theme--background);
 }
 .loader_overlay.fixed {
   z-index: 6;
@@ -3142,7 +3143,7 @@ figure {
   top: 363px;
 }
 .loader_wrap {
-  z-index: 001;
+  z-index: 999;
   display: none;
   position: fixed;
   inset: 0%;
@@ -3561,7 +3562,7 @@ figure {
   top: auto;
 }
 .loader_logo {
-  color: #000000;
+  color: #fff;
 }
 .loader_logo_wrap {
   width: 20rem;
