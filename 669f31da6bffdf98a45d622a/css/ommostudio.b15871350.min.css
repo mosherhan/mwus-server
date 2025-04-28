@@ -1811,7 +1811,7 @@ textarea.w-select {
   left: 0;
 }
 :root {
-  --swatch--dark: #101010;
+  --swatch--dark: #0fe5de;
   --text-main--font-family: var(--font--primary-family);
   --theme--text: white;
   --text-main--font-size: var(--size--1-25rem);
@@ -1894,14 +1894,14 @@ textarea.w-select {
   --size--0rem: 0rem;
   --space--large: var(--size--4rem);
   --letter-spacing--0-03em: -0.03em;
-  --swatch--light: white;
+  --swatch--light: #d82222;
   --line-height--1-5em: 1.5em;
-  --swatch--dark-secondary: #000000;
+  --swatch--dark-secondary:#0fe5de;
   --line-height--1-1em: 1.1em;
   --padding-vertical--large: var(--size--10rem);
   --line-height--1-3em: 1.3em;
   --size--6-5rem: 6.5rem;
-  --swatch--light-secondary: #fcfcfc;
+  --swatch--light-secondary: #d82222;
   --swatch--light-transparent: #fff3;
   --swatch--dark-transparent: #0000001a;
   --max-width--main: 90rem;
@@ -2506,6 +2506,9 @@ figure {
   opacity: 0.1;
   background-color: currentColor;
 }
+.g_visual_video{
+  mix-blend-mode:soft-light;
+}
 .g_visual_overlay {
   background-color: #000;
 }
@@ -3093,7 +3096,7 @@ figure {
 }
 .nav_contain.u-container.u-hflex-between-center {
   z-index: 4;
-  color: var(--swatch--light);
+  color: #ffff;
   mix-blend-mode: difference;
   min-height: 5rem;
   position: fixed;
