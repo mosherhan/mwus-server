@@ -610,7 +610,7 @@ textarea.w-select {
   font-size: 10px;
 }
 .w-file-upload-error-msg {
-  color: #ea384c;
+  color: #000000;
   padding: 2px 0;
   display: inline-block;
 }
@@ -1811,7 +1811,7 @@ textarea.w-select {
   left: 0;
 }
 :root {
-  --swatch--dark: #0fe5de;
+  --swatch--dark: #ffffff;
   --text-main--font-family: var(--font--primary-family);
   --theme--text: white;
   --text-main--font-size: var(--size--1-25rem);
@@ -1894,14 +1894,14 @@ textarea.w-select {
   --size--0rem: 0rem;
   --space--large: var(--size--4rem);
   --letter-spacing--0-03em: -0.03em;
-  --swatch--light: #d82222;
+  --swatch--light: #000000;
   --line-height--1-5em: 1.5em;
-  --swatch--dark-secondary:#0fe5de;
+  --swatch--dark-secondary:#ffffff;
   --line-height--1-1em: 1.1em;
   --padding-vertical--large: var(--size--10rem);
   --line-height--1-3em: 1.3em;
   --size--6-5rem: 6.5rem;
-  --swatch--light-secondary: #d82222;
+  --swatch--light-secondary: #0c0c0c;
   --swatch--light-transparent: #fff3;
   --swatch--dark-transparent: #0000001a;
   --max-width--main: 90rem;
