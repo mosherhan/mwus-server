@@ -2505,9 +2505,10 @@ figure {
 .g_visual_background {
   opacity: 0.1;
   background-color: currentColor;
+  border-radius: 40px;
 }
 .g_visual_video{
-  mix-blend-mode:soft-light;
+  border-radius: 40px;
 }
 .g_visual_overlay {
   background-color: #000;
