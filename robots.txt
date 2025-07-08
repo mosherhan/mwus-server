@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /login/
+Disallow: /checkout/
+Allow: /
+
+Sitemap: https://www.makewithus.in/sitemap.xml
