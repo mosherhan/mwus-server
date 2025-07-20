@@ -3128,6 +3128,17 @@ figure {
 .hero_home_title_text {
   max-width: 21ch;
 }
+
+.hero_home_title_text_red {
+ color: #ff1f1f; 
+  max-width: 21ch;
+}
+
+.red:hover {
+  color: #2af4ff;
+  transition: color 0.2s;
+}
+
 .hero_home_visual {
   position: relative;
 }
