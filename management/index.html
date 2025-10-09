@@ -22,11 +22,11 @@
     <title>Management · Dashboard</title>
 
     <!-- Favicon and App Icons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="../favicon/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="../favicon/android-chrome-512x512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="favicon/android-chrome-512x512.png">
     <link rel="shortcut icon" href="favicon/favicon.ico">
     <!-- End favicon and icon block -->
 
@@ -61,95 +61,95 @@
             --border: #1e1e1e;
         }
 
-         * {
-             box-sizing: border-box;
-         }
+        * {
+            box-sizing: border-box;
+        }
 
-         html {
-             scroll-behavior: smooth;
-         }
+        html {
+            scroll-behavior: smooth;
+        }
 
-         html,
-         body {
-             height: 100%;
-         }
+        html,
+        body {
+            height: 100%;
+        }
 
-         /* Custom Scrollbars */
-         ::-webkit-scrollbar {
-             width: 8px;
-             height: 8px;
-         }
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
 
-         ::-webkit-scrollbar-track {
-             background: var(--bg);
-             border-radius: 4px;
-         }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+            border-radius: 4px;
+        }
 
-         ::-webkit-scrollbar-thumb {
-             background: var(--border);
-             border-radius: 4px;
-             transition: background 0.2s ease;
-         }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+            transition: background 0.2s ease;
+        }
 
-         ::-webkit-scrollbar-thumb:hover {
-             background: #2a2a2a;
-         }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2a2a2a;
+        }
 
-         ::-webkit-scrollbar-corner {
-             background: var(--bg);
-         }
+        ::-webkit-scrollbar-corner {
+            background: var(--bg);
+        }
 
-         /* Firefox scrollbar */
-         * {
-             scrollbar-width: thin;
-             scrollbar-color: var(--border) var(--bg);
-         }
+        /* Firefox scrollbar */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) var(--bg);
+        }
 
-         /* Custom Number Input Scrollbars */
-         input[type="number"]::-webkit-outer-spin-button,
-         input[type="number"]::-webkit-inner-spin-button {
-             -webkit-appearance: none;
-             margin: 0;
-         }
+        /* Custom Number Input Scrollbars */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
 
-         input[type="number"] {
-             -moz-appearance: textfield;
-             appearance: textfield;
-         }
+        input[type="number"] {
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
 
-         /* Modern Number Input Spinner */
-         .number-input-wrapper {
-             position: relative;
-         }
+        /* Modern Number Input Spinner */
+        .number-input-wrapper {
+            position: relative;
+        }
 
-         .number-input-wrapper::after {
-             content: '';
-             position: absolute;
-             right: 12px;
-             top: 50%;
-             transform: translateY(-50%);
-             width: 0;
-             height: 0;
-             border-left: 4px solid transparent;
-             border-right: 4px solid transparent;
-             border-bottom: 6px solid var(--muted);
-             pointer-events: none;
-         }
+        .number-input-wrapper::after {
+            content: '';
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-bottom: 6px solid var(--muted);
+            pointer-events: none;
+        }
 
-         .number-input-wrapper::before {
-             content: '';
-             position: absolute;
-             right: 12px;
-             top: 50%;
-             transform: translateY(-50%);
-             width: 0;
-             height: 0;
-             border-left: 4px solid transparent;
-             border-right: 4px solid transparent;
-             border-top: 6px solid var(--muted);
-             pointer-events: none;
-             margin-top: 8px;
-         }
+        .number-input-wrapper::before {
+            content: '';
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 6px solid var(--muted);
+            pointer-events: none;
+            margin-top: 8px;
+        }
 
         body {
             margin: 0;
@@ -245,17 +245,17 @@
             border: 1px solid var(--border);
         }
 
-         .brand-img {
-             width: 30px;
-             height: 30px;
-             border-radius: 8px;
-             display: grid;
-             place-items: center;
-             background-image: url('../mwslogo.png');
-             background-size: contain;
-             background-repeat: no-repeat;
-             background-position: center;
-         }
+        .brand-img {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            background-image: url('../mwslogo.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
 
         .brand-title {
             font-weight: 700;
@@ -500,302 +500,369 @@
             background: #210e0e;
         }
 
-         .progress {
-             height: 16px;
-             border-radius: 999px;
-             background: linear-gradient(180deg, #0a0a0a, #0f0f0f);
-             border: 1px solid var(--border);
-             overflow: hidden;
-             position: relative;
-             box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
-             margin: 10px 0 8px;
-         }
+        .progress {
+            height: 24px;
+            border-radius: 16px;
+            background: linear-gradient(180deg, #0d0d0d, #1a1a1a);
+            border: 2px solid #2a2a2a;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.6), 0 4px 12px rgba(0, 0, 0, 0.3);
+            margin: 14px 0 12px;
+        }
 
-         .progress>span {
-             display: block;
-             height: 100%;
-             background: linear-gradient(135deg, #4f8bff 0%, #7aa7ff 50%, #a0c9ff 100%);
-             border-radius: 999px;
-             position: relative;
-             transition: width 0.3s ease;
-             box-shadow: 0 2px 12px rgba(79, 139, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-         }
+        .progress>span {
+            display: block;
+            height: 100%;
+            background: linear-gradient(135deg, #00d4aa 0%, #00b894 25%, #00a085 50%, #00d4aa 75%, #26d0ce 100%);
+            border-radius: 14px;
+            position: relative;
+            transition: width 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 0 20px rgba(0, 212, 170, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.2);
+        }
 
-         .progress>span::after {
-             content: '';
-             position: absolute;
-             top: 0;
-             left: 0;
-             right: 0;
-             bottom: 0;
-             background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
-             border-radius: 999px;
-             animation: shimmer 2s infinite;
-         }
+        .progress>span::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 30%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0.4) 70%, transparent 100%);
+            border-radius: 14px;
+            animation: progressShine 2.5s infinite;
+        }
 
-         @keyframes shimmer {
-             0% { transform: translateX(-100%); }
-             100% { transform: translateX(100%); }
-         }
+        .progress>span::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%, rgba(255, 255, 255, 0.1) 100%);
+            border-radius: 12px;
+        }
 
-         .progress .progress-label {
-             position: absolute;
-             top: 50%;
-             right: 10px;
-             transform: translateY(-50%);
-             font-size: 12px;
-             color: #eaeaea;
-             font-weight: 600;
-             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
-             letter-spacing: 0.5px;
-         }
+        @keyframes progressShine {
+            0% {
+                transform: translateX(-100%);
+            }
 
-         /* Modern Range Input Styling */
-         input[type="range"] {
-             -webkit-appearance: none;
-             appearance: none;
-             background: transparent;
-             cursor: pointer;
-         }
+            100% {
+                transform: translateX(100%);
+            }
+        }
 
-         input[type="range"]::-webkit-slider-track {
-             background: linear-gradient(180deg, #0a0a0a, #0f0f0f);
-             height: 12px;
-             border-radius: 999px;
-             border: 1px solid var(--border);
-             box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
-         }
+        .progress .progress-label {
+            position: absolute;
+            top: 50%;
+            right: 16px;
+            transform: translateY(-50%);
+            font-size: 14px;
+            color: #ffffff;
+            font-weight: 800;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
+            letter-spacing: 0.8px;
+            z-index: 3;
+            font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+        }
 
-         input[type="range"]::-webkit-slider-thumb {
-             -webkit-appearance: none;
-             appearance: none;
-             background: linear-gradient(135deg, #4f8bff 0%, #7aa7ff 100%);
-             height: 20px;
-             width: 20px;
-             border-radius: 50%;
-             border: 2px solid var(--panel);
-             box-shadow: 0 4px 12px rgba(79, 139, 255, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
-             cursor: pointer;
-             transition: all 0.2s ease;
-         }
+        .progress .progress-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
+            border-radius: 14px;
+            opacity: 0.4;
+        }
 
-         input[type="range"]::-webkit-slider-thumb:hover {
-             transform: scale(1.1);
-             box-shadow: 0 6px 16px rgba(79, 139, 255, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3);
-         }
+        .progress .progress-dots {
+            position: absolute;
+            top: 50%;
+            left: 8px;
+            transform: translateY(-50%);
+            display: flex;
+            gap: 3px;
+            z-index: 2;
+        }
 
-         input[type="range"]::-moz-range-track {
-             background: linear-gradient(180deg, #0a0a0a, #0f0f0f);
-             height: 12px;
-             border-radius: 999px;
-             border: 1px solid var(--border);
-             box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
-         }
+        .progress .progress-dots::before,
+        .progress .progress-dots::after {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: progressPulse 1.5s infinite;
+        }
 
-         input[type="range"]::-moz-range-thumb {
-             background: linear-gradient(135deg, #4f8bff 0%, #7aa7ff 100%);
-             height: 20px;
-             width: 20px;
-             border-radius: 50%;
-             border: 2px solid var(--panel);
-             box-shadow: 0 4px 12px rgba(79, 139, 255, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
-             cursor: pointer;
-             transition: all 0.2s ease;
-         }
+        .progress .progress-dots::after {
+            animation-delay: 0.3s;
+        }
 
-         input[type="range"]::-moz-range-thumb:hover {
-             transform: scale(1.1);
-             box-shadow: 0 6px 16px rgba(79, 139, 255, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3);
-         }
+        @keyframes progressPulse {
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1.2);
+            }
+        }
+
+        /* Modern Range Input Styling */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-track {
+            background: linear-gradient(180deg, #0a0a0a, #0f0f0f);
+            height: 12px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            background: linear-gradient(135deg, #4f8bff 0%, #7aa7ff 100%);
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            border: 2px solid var(--panel);
+            box-shadow: 0 4px 12px rgba(79, 139, 255, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(79, 139, 255, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        input[type="range"]::-moz-range-track {
+            background: linear-gradient(180deg, #0a0a0a, #0f0f0f);
+            height: 12px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            background: linear-gradient(135deg, #4f8bff 0%, #7aa7ff 100%);
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            border: 2px solid var(--panel);
+            box-shadow: 0 4px 12px rgba(79, 139, 255, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        input[type="range"]::-moz-range-thumb:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(79, 139, 255, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
 
         .select[multiple] {
             min-height: 140px;
         }
 
-         #assignDevs {
-             background: #0f0f0f;
-         }
+        #assignDevs {
+            background: #0f0f0f;
+        }
 
-         /* Custom File Input */
-         .file-input-wrapper {
-             position: relative;
-             display: inline-block;
-             width: 100%;
-         }
+        /* Custom File Input */
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
 
-         .file-input-wrapper input[type="file"] {
-             position: absolute;
-             left: -9999px;
-             opacity: 0;
-             pointer-events: none;
-         }
+        .file-input-wrapper input[type="file"] {
+            position: absolute;
+            left: -9999px;
+            opacity: 0;
+            pointer-events: none;
+        }
 
-         .file-input-button {
-             display: inline-flex;
-             align-items: center;
-             gap: 8px;
-             justify-content: center;
-             background: #181818;
-             border: 1px solid var(--border);
-             color: var(--text);
-             padding: 12px 14px;
-             border-radius: 12px;
-             cursor: pointer;
-             transition: transform 0.12s ease, background 0.2s ease, border-color 0.2s ease;
-             width: 100%;
-             font-size: 14px;
-         }
+        .file-input-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+            background: #181818;
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 12px 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.12s ease, background 0.2s ease, border-color 0.2s ease;
+            width: 100%;
+            font-size: 14px;
+        }
 
-         .file-input-button:hover {
-             transform: translateY(-1px);
-             background: #1f1f1f;
-             border-color: #2a2a2a;
-         }
+        .file-input-button:hover {
+            transform: translateY(-1px);
+            background: #1f1f1f;
+            border-color: #2a2a2a;
+        }
 
-         .file-input-button::before {
-             content: "📎";
-             font-size: 16px;
-         }
+        .file-input-button::before {
+            content: "📎";
+            font-size: 16px;
+        }
 
-         .file-input-button.has-file {
-             background: #1d1d1d;
-             border-color: #3a3a46;
-             color: var(--accent);
-         }
+        .file-input-button.has-file {
+            background: #1d1d1d;
+            border-color: #3a3a46;
+            color: var(--accent);
+        }
 
-         .file-input-button.has-file::before {
-             content: "✅";
-         }
+        .file-input-button.has-file::before {
+            content: "✅";
+        }
 
-         .file-name {
-             font-size: 12px;
-             color: var(--muted);
-             margin-top: 4px;
-             font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
-         }
+        .file-name {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 4px;
+            font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+        }
 
-         /* Calendar Styles */
-         .calendar-grid {
-             display: grid;
-             grid-template-columns: repeat(7, 1fr);
-             gap: 1px;
-             background: var(--border);
-             border-radius: 12px;
-             overflow: hidden;
-         }
+        /* Calendar Styles */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
 
-         .calendar-header {
-             background: var(--panel-3);
-             padding: 8px;
-             text-align: center;
-             font-size: 12px;
-             font-weight: 600;
-             color: var(--muted);
-         }
+        .calendar-header {
+            background: var(--panel-3);
+            padding: 8px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--muted);
+        }
 
-         .calendar-day {
-             background: var(--panel);
-             min-height: 40px;
-             padding: 6px;
-             cursor: pointer;
-             transition: background 0.2s ease;
-             position: relative;
-             display: flex;
-             flex-direction: column;
-             align-items: center;
-             justify-content: center;
-         }
+        .calendar-day {
+            background: var(--panel);
+            min-height: 40px;
+            padding: 6px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
 
-         .calendar-day:hover {
-             background: var(--panel-2);
-         }
+        .calendar-day:hover {
+            background: var(--panel-2);
+        }
 
-         .calendar-day.today {
-             background: var(--panel-3);
-             border: 1px solid var(--accent);
-         }
+        .calendar-day.today {
+            background: var(--panel-3);
+            border: 1px solid var(--accent);
+        }
 
-         .calendar-day.has-events::after {
-             content: '';
-             width: 6px;
-             height: 6px;
-             background: var(--accent);
-             border-radius: 50%;
-             position: absolute;
-             bottom: 2px;
-         }
+        .calendar-day.has-events::after {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            position: absolute;
+            bottom: 2px;
+        }
 
-         .calendar-day.other-month {
-             color: var(--muted);
-             opacity: 0.5;
-         }
+        .calendar-day.other-month {
+            color: var(--muted);
+            opacity: 0.5;
+        }
 
-         .calendar-nav {
-             display: flex;
-             align-items: center;
-             justify-content: space-between;
-             margin-bottom: 16px;
-         }
+        .calendar-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
 
-         .calendar-nav-btn {
-             background: var(--panel);
-             border: 1px solid var(--border);
-             border-radius: 8px;
-             padding: 8px 12px;
-             cursor: pointer;
-             transition: all 0.2s ease;
-         }
+        .calendar-nav-btn {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
 
-         .calendar-nav-btn:hover {
-             background: var(--panel-2);
-             transform: translateY(-1px);
-         }
+        .calendar-nav-btn:hover {
+            background: var(--panel-2);
+            transform: translateY(-1px);
+        }
 
-         .calendar-title {
-             font-weight: 600;
-             color: var(--text);
-         }
+        .calendar-title {
+            font-weight: 600;
+            color: var(--text);
+        }
 
-         .event-item {
-             background: var(--panel-2);
-             border: 1px solid var(--border);
-             border-radius: 8px;
-             padding: 8px;
-             margin-bottom: 8px;
-             font-size: 12px;
-         }
+        .event-item {
+            background: var(--panel-2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
 
-         .event-item.completed {
-             opacity: 0.6;
-             text-decoration: line-through;
-         }
+        .event-item.completed {
+            opacity: 0.6;
+            text-decoration: line-through;
+        }
 
-         .event-time {
-             color: var(--accent);
-             font-weight: 500;
-         }
+        .event-time {
+            color: var(--accent);
+            font-weight: 500;
+        }
 
-         .event-title {
-             color: var(--text);
-             font-weight: 600;
-             margin: 2px 0;
-         }
+        .event-title {
+            color: var(--text);
+            font-weight: 600;
+            margin: 2px 0;
+        }
 
-         .event-notes {
-             color: var(--muted);
-             font-size: 11px;
-         }
+        .event-notes {
+            color: var(--muted);
+            font-size: 11px;
+        }
 
-         .event-actions {
-             display: flex;
-             gap: 4px;
-             margin-top: 6px;
-         }
+        .event-actions {
+            display: flex;
+            gap: 4px;
+            margin-top: 6px;
+        }
 
-         .event-actions .btn {
-             padding: 4px 8px;
-             font-size: 10px;
-         }
+        .event-actions .btn {
+            padding: 4px 8px;
+            font-size: 10px;
+        }
 
         /*
         ==========================
@@ -832,83 +899,83 @@
         Responsive
         ==========================
       */
-         @media (max-width: 1100px) {
-             .span-12 {
-                 grid-column: span 12;
-             }
+        @media (max-width: 1100px) {
+            .span-12 {
+                grid-column: span 12;
+            }
 
-             .span-8 {
-                 grid-column: span 12;
-             }
+            .span-8 {
+                grid-column: span 12;
+            }
 
-             .span-6 {
-                 grid-column: span 12;
-             }
+            .span-6 {
+                grid-column: span 12;
+            }
 
-             .span-4 {
-                 grid-column: span 12;
-             }
+            .span-4 {
+                grid-column: span 12;
+            }
 
-             .items .item {
-                 grid-column: span 12;
-             }
+            .items .item {
+                grid-column: span 12;
+            }
 
-             .row .col-6 {
-                 grid-column: span 12;
-             }
+            .row .col-6 {
+                grid-column: span 12;
+            }
 
-             .row .col-4 {
-                 grid-column: span 12;
-             }
-         }
+            .row .col-4 {
+                grid-column: span 12;
+            }
+        }
 
-         @media (max-width: 768px) {
-             .container {
-                 padding: 20px 16px 32px;
-             }
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 16px 32px;
+            }
 
-             .card {
-                 padding: 16px;
-                 margin-bottom: 16px;
-             }
+            .card {
+                padding: 16px;
+                margin-bottom: 16px;
+            }
 
-             .row {
-                 gap: 8px;
-             }
+            .row {
+                gap: 8px;
+            }
 
-             .field {
-                 margin-bottom: 10px;
-             }
+            .field {
+                margin-bottom: 10px;
+            }
 
-             .goals-list-item {
-                 flex-direction: column;
-                 align-items: stretch;
-                 gap: 8px;
-                 padding: 12px;
-             }
+            .goals-list-item {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+                padding: 12px;
+            }
 
-             .goals-list-item .goal-content {
-                 flex: none;
-                 margin-bottom: 8px;
-             }
+            .goals-list-item .goal-content {
+                flex: none;
+                margin-bottom: 8px;
+            }
 
-             .goals-list-item .goal-controls {
-                 display: grid;
-                 grid-template-columns: 1fr 1fr;
-                 gap: 8px;
-                 align-items: center;
-             }
+            .goals-list-item .goal-controls {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+                align-items: center;
+            }
 
-             .goals-list-item select {
-                 width: 100%;
-                 margin-bottom: 0;
-             }
+            .goals-list-item select {
+                width: 100%;
+                margin-bottom: 0;
+            }
 
-             .goals-list-item .btn {
-                 padding: 8px 12px;
-                 font-size: 11px;
-             }
-         }
+            .goals-list-item .btn {
+                padding: 8px 12px;
+                font-size: 11px;
+            }
+        }
     </style>
 </head>
 
@@ -958,25 +1025,27 @@
         <section style="margin: 12px 0 26px;">
             <h1 class="display" style="margin-bottom: 6px;">Founders Dashboard</h1>
             <p class="mono muted" style="max-width: 760px; font-size: 13px; line-height: 1.6;">
-                MakeWithUs Founder's System (MFS) created to manage operations within MWU. System handled by Sudarsanan & Sherhan.
+                MakeWithUs Founder's System (MFS) created to manage operations within MWU. System handled by Sudarsanan
+                & Sherhan.
             </p>
         </section>
 
         <section class="grid" id="grid">
             <!-- Add Project -->
-            <article class="card span-6" id="addProjectCard">
+            <article class="card span-12" id="addProjectCard">
                 <h3>Add Project</h3>
                 <div class="row">
                     <div class="col-6 field">
                         <label for="projectName">Project Name</label>
                         <input id="projectName" class="input" placeholder="Website redesign" />
                     </div>
-                     <div class="col-6 field">
-                         <label for="projectPrice">Project Price (₹)</label>
-                         <div class="number-input-wrapper">
-                             <input id="projectPrice" class="input" type="number" inputmode="decimal" placeholder="20000" />
-                         </div>
-                     </div>
+                    <div class="col-6 field">
+                        <label for="projectPrice">Project Price (₹)</label>
+                        <div class="number-input-wrapper">
+                            <input id="projectPrice" class="input" type="number" inputmode="decimal"
+                                placeholder="20000" />
+                        </div>
+                    </div>
                     <div class="col-12 field">
                         <label for="division">Division of Money (₹)</label>
                         <input id="division" class="input" placeholder="12000 · 8000" />
@@ -992,24 +1061,24 @@
                         <label for="deadline">Deadline</label>
                         <input id="deadline" class="input" type="date" />
                     </div>
-                     <div class="col-4 field">
-                         <label for="budget">Budget (₹)</label>
-                         <div class="number-input-wrapper">
-                             <input id="budget" class="input" type="number" inputmode="decimal" placeholder="15000" />
-                         </div>
-                     </div>
-                     <div class="col-4 field">
-                         <label for="expense">Expense (₹)</label>
-                         <div class="number-input-wrapper">
-                             <input id="expense" class="input" type="number" inputmode="decimal" placeholder="5000" />
-                         </div>
-                     </div>
-                     <div class="col-4 field">
-                         <label for="revenue">Revenue (₹)</label>
-                         <div class="number-input-wrapper">
-                             <input id="revenue" class="input" type="number" inputmode="decimal" placeholder="20000" />
-                         </div>
-                     </div>
+                    <div class="col-4 field">
+                        <label for="budget">Budget (₹)</label>
+                        <div class="number-input-wrapper">
+                            <input id="budget" class="input" type="number" inputmode="decimal" placeholder="15000" />
+                        </div>
+                    </div>
+                    <div class="col-4 field">
+                        <label for="expense">Expense (₹)</label>
+                        <div class="number-input-wrapper">
+                            <input id="expense" class="input" type="number" inputmode="decimal" placeholder="5000" />
+                        </div>
+                    </div>
+                    <div class="col-4 field">
+                        <label for="revenue">Revenue (₹)</label>
+                        <div class="number-input-wrapper">
+                            <input id="revenue" class="input" type="number" inputmode="decimal" placeholder="20000" />
+                        </div>
+                    </div>
                     <div class="col-12 field">
                         <label for="assignDevs">Assign Developers</label>
                         <select id="assignDevs" class="select" multiple size="4"></select>
@@ -1019,14 +1088,14 @@
                         <label for="progress">Progress</label>
                         <input id="progress" class="input" type="range" min="0" max="100" value="0" />
                     </div>
-                     <div class="col-12 field">
-                         <label for="projectFile">Attachment (optional)</label>
-                         <div class="file-input-wrapper">
-                             <input id="projectFile" type="file" />
-                             <button type="button" class="file-input-button" id="projectFileBtn">Choose File</button>
-                             <div class="file-name" id="projectFileName"></div>
-                         </div>
-                     </div>
+                    <div class="col-12 field">
+                        <label for="projectFile">Attachment (optional)</label>
+                        <div class="file-input-wrapper">
+                            <input id="projectFile" type="file" />
+                            <button type="button" class="file-input-button" id="projectFileBtn">Choose File</button>
+                            <div class="file-name" id="projectFileName"></div>
+                        </div>
+                    </div>
                     <div class="col-12" style="display:flex; gap:10px; align-items:center;">
                         <button id="addProjectBtn" class="btn primary">Add Project</button>
                         <span id="addProjectMsg" class="muted mono" style="font-size:12px;"></span>
@@ -1035,7 +1104,7 @@
             </article>
 
             <!-- Ongoing Projects -->
-            <article class="card span-6" id="projectsCard">
+            <article class="card span-12" id="projectsCard">
                 <div style="display:flex; align-items:center; justify-content:space-between;">
                     <h3>Ongoing Projects</h3>
                     <span class="muted mono" id="projectsCount">0</span>
@@ -1047,6 +1116,73 @@
                 </div>
                 <div class="items" id="projectsList"></div>
             </article>
+
+            <!-- Developer Payouts -->
+            <article class="card span-8" id="payoutsCard">
+                <div style="display:flex; align-items:center; justify-content:space-between;">
+                    <h3>Developer Payouts</h3>
+                    <span class="muted mono" id="payoutsTotal">₹0</span>
+                </div>
+                <div class="row" style="margin-bottom: 10px;">
+                    <div class="col-6 field">
+                        <label for="payoutProject">Project</label>
+                        <select id="payoutProject" class="select"></select>
+                    </div>
+                    <div class="col-6 field">
+                        <label for="payoutDeveloper">Developer</label>
+                        <select id="payoutDeveloper" class="select"></select>
+                    </div>
+                    <div class="col-4 field">
+                        <label for="payoutAmount">Amount (₹)</label>
+                        <input id="payoutAmount" class="input" type="number" inputmode="decimal" placeholder="10000" />
+                    </div>
+                    <div class="col-4 field">
+                        <label for="payoutDate">Date</label>
+                        <input id="payoutDate" class="input" type="date" />
+                    </div>
+                    <div class="col-4 field">
+                        <label for="payoutNote">Note</label>
+                        <input id="payoutNote" class="input" placeholder="Milestone 1" />
+                    </div>
+                    <div class="col-12" style="display:flex; gap:10px; align-items:center;">
+                        <button id="addPayoutBtn" class="btn">Add Payout</button>
+                        <span id="addPayoutMsg" class="muted mono" style="font-size:12px;"></span>
+                    </div>
+                </div>
+                <div id="payoutsList" style="max-height: 260px; overflow-y:auto;"></div>
+            </article>
+
+            <!-- Client Payments -->
+            <article class="card span-4" id="paymentsCard">
+                <div style="display:flex; align-items:center; justify-content:space-between;">
+                    <h3>Client Payments</h3>
+                    <span class="muted mono" id="paymentsTotal">₹0</span>
+                </div>
+                <div class="row" style="margin-bottom: 10px;">
+                    <div class="col-12 field">
+                        <label for="paymentProject">Project</label>
+                        <select id="paymentProject" class="select"></select>
+                    </div>
+                    <div class="col-6 field">
+                        <label for="paymentAmount">Amount (₹)</label>
+                        <input id="paymentAmount" class="input" type="number" inputmode="decimal" placeholder="25000" />
+                    </div>
+                    <div class="col-6 field">
+                        <label for="paymentDate">Date</label>
+                        <input id="paymentDate" class="input" type="date" />
+                    </div>
+                    <div class="col-12 field">
+                        <label for="paymentNote">Note</label>
+                        <input id="paymentNote" class="input" placeholder="Advance / Final / Installment" />
+                    </div>
+                    <div class="col-12" style="display:flex; gap:10px; align-items:center;">
+                        <button id="addPaymentBtn" class="btn">Add Payment</button>
+                        <span id="addPaymentMsg" class="muted mono" style="font-size:12px;"></span>
+                    </div>
+                </div>
+                <div id="paymentsList" style="max-height: 260px; overflow-y:auto;"></div>
+            </article>
+
 
             <!-- Future Goals -->
             <article class="card span-12" id="goalsCard">
@@ -1097,72 +1233,75 @@
                 <div class="items" id="devsList"></div>
             </article>
 
-             <!-- Analytics -->
-             <article class="card span-4" id="analyticsCard">
-                 <h3>Analytics</h3>
-                 <div class="mono muted" id="analyticsText" style="font-size:13px; display:grid; gap:6px;"></div>
-             </article>
+            <!-- Analytics -->
+            <article class="card span-4" id="analyticsCard">
+                <h3>Analytics</h3>
+                <div class="mono muted" id="analyticsText" style="font-size:13px; display:grid; gap:6px;"></div>
+            </article>
 
-             <!-- Calendar / Meetings -->
-             <article class="card span-12" id="calendarCard">
-                 <div style="display:flex; align-items:center; justify-content:space-between;">
-                     <h3>Calendar & Meetings</h3>
-                     <span class="muted mono" id="eventsCount">0</span>
-                 </div>
-                 
-                 <div class="row" style="margin-bottom: 16px;">
-                     <div class="col-6">
-                         <div class="calendar-nav">
-                             <button class="calendar-nav-btn" id="prevMonth">←</button>
-                             <span class="calendar-title" id="currentMonth">January 2024</span>
-                             <button class="calendar-nav-btn" id="nextMonth">→</button>
-                         </div>
-                         <div class="calendar-grid" id="calendarGrid">
-                             <div class="calendar-header">Sun</div>
-                             <div class="calendar-header">Mon</div>
-                             <div class="calendar-header">Tue</div>
-                             <div class="calendar-header">Wed</div>
-                             <div class="calendar-header">Thu</div>
-                             <div class="calendar-header">Fri</div>
-                             <div class="calendar-header">Sat</div>
-                         </div>
-                     </div>
-                     <div class="col-6">
-                         <h4 style="margin-bottom: 12px; font-size: 14px;">Add Event</h4>
-                         <div class="row">
-                             <div class="col-6 field">
-                                 <label for="eventTitle">Title</label>
-                                 <input id="eventTitle" class="input" placeholder="Team Meeting" />
-                             </div>
-                             <div class="col-6 field">
-                                 <label for="eventDate">Date</label>
-                                 <input id="eventDate" class="input" type="date" />
-                             </div>
-                             <div class="col-6 field">
-                                 <label for="eventTime">Time</label>
-                                 <input id="eventTime" class="input" type="time" />
-                             </div>
-                             <div class="col-6 field">
-                                 <label for="eventParticipants">Participants</label>
-                                 <input id="eventParticipants" class="input" placeholder="founder1@co.com, founder2@co.com" />
-                             </div>
-                             <div class="col-12 field">
-                                 <label for="eventNotes">Notes</label>
-                                 <textarea id="eventNotes" class="textarea" placeholder="Meeting agenda, preparation notes..." rows="3"></textarea>
-                             </div>
-                             <div class="col-12" style="display:flex; gap:10px; align-items:center;">
-                                 <button id="addEventBtn" class="btn primary">Add Event</button>
-                                 <span id="addEventMsg" class="muted mono" style="font-size:12px;"></span>
-                             </div>
-                         </div>
-                     </div>
-                 </div>
-                 
-                 <div style="margin-top: 16px;">
-                     <h4 style="margin-bottom: 12px; font-size: 14px;">Upcoming Events</h4>
-                     <div id="eventsList" style="max-height: 300px; overflow-y: auto;"></div>
-                 </div>
-             </article>
+
+            <!-- Calendar / Meetings -->
+            <article class="card span-12" id="calendarCard">
+                <div style="display:flex; align-items:center; justify-content:space-between;">
+                    <h3>Calendar & Meetings</h3>
+                    <span class="muted mono" id="eventsCount">0</span>
+                </div>
+
+                <div class="row" style="margin-bottom: 16px;">
+                    <div class="col-6">
+                        <div class="calendar-nav">
+                            <button class="calendar-nav-btn" id="prevMonth">←</button>
+                            <span class="calendar-title" id="currentMonth">January 2024</span>
+                            <button class="calendar-nav-btn" id="nextMonth">→</button>
+                        </div>
+                        <div class="calendar-grid" id="calendarGrid">
+                            <div class="calendar-header">Sun</div>
+                            <div class="calendar-header">Mon</div>
+                            <div class="calendar-header">Tue</div>
+                            <div class="calendar-header">Wed</div>
+                            <div class="calendar-header">Thu</div>
+                            <div class="calendar-header">Fri</div>
+                            <div class="calendar-header">Sat</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <h4 style="margin-bottom: 12px; font-size: 14px;">Add Event</h4>
+                        <div class="row">
+                            <div class="col-6 field">
+                                <label for="eventTitle">Title</label>
+                                <input id="eventTitle" class="input" placeholder="Team Meeting" />
+                            </div>
+                            <div class="col-6 field">
+                                <label for="eventDate">Date</label>
+                                <input id="eventDate" class="input" type="date" />
+                            </div>
+                            <div class="col-6 field">
+                                <label for="eventTime">Time</label>
+                                <input id="eventTime" class="input" type="time" />
+                            </div>
+                            <div class="col-6 field">
+                                <label for="eventParticipants">Participants</label>
+                                <input id="eventParticipants" class="input"
+                                    placeholder="founder1@co.com, founder2@co.com" />
+                            </div>
+                            <div class="col-12 field">
+                                <label for="eventNotes">Notes</label>
+                                <textarea id="eventNotes" class="textarea"
+                                    placeholder="Meeting agenda, preparation notes..." rows="3"></textarea>
+                            </div>
+                            <div class="col-12" style="display:flex; gap:10px; align-items:center;">
+                                <button id="addEventBtn" class="btn primary">Add Event</button>
+                                <span id="addEventMsg" class="muted mono" style="font-size:12px;"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 16px;">
+                    <h4 style="margin-bottom: 12px; font-size: 14px;">Upcoming Events</h4>
+                    <div id="eventsList" style="max-height: 300px; overflow-y: auto;"></div>
+                </div>
+            </article>
 
             <!-- Announcements -->
             <article class="card span-12" id="notesCard">
@@ -1200,188 +1339,188 @@
             measurementId: "G-9644QRM5PK"
         };
 
-         // Initialize
-         const app = initializeApp(firebaseConfig);
-         const auth = getAuth(app);
-         const db = getFirestore(app);
-         const storage = getStorage(app);
+        // Initialize
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
 
-         // Custom File Input Functionality
-         function setupFileInput(fileInputId, buttonId, fileNameId) {
-             const fileInput = document.getElementById(fileInputId);
-             const button = document.getElementById(buttonId);
-             const fileName = document.getElementById(fileNameId);
+        // Custom File Input Functionality
+        function setupFileInput(fileInputId, buttonId, fileNameId) {
+            const fileInput = document.getElementById(fileInputId);
+            const button = document.getElementById(buttonId);
+            const fileName = document.getElementById(fileNameId);
 
-             button.addEventListener('click', () => {
-                 fileInput.click();
-             });
+            button.addEventListener('click', () => {
+                fileInput.click();
+            });
 
-             fileInput.addEventListener('change', (e) => {
-                 const file = e.target.files[0];
-                 if (file) {
-                     button.classList.add('has-file');
-                     button.textContent = 'File Selected';
-                     fileName.textContent = file.name;
-                 } else {
-                     button.classList.remove('has-file');
-                     button.textContent = 'Choose File';
-                     fileName.textContent = '';
-                 }
-             });
-         }
+            fileInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    button.classList.add('has-file');
+                    button.textContent = 'File Selected';
+                    fileName.textContent = file.name;
+                } else {
+                    button.classList.remove('has-file');
+                    button.textContent = 'Choose File';
+                    fileName.textContent = '';
+                }
+            });
+        }
 
-         // Initialize file inputs when DOM is ready
-         document.addEventListener('DOMContentLoaded', () => {
-             setupFileInput('projectFile', 'projectFileBtn', 'projectFileName');
-         });
+        // Initialize file inputs when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            setupFileInput('projectFile', 'projectFileBtn', 'projectFileName');
+        });
 
-         // ------------------------------
-         // Calendar / Events
-         // ------------------------------
-         let currentDate = new Date();
-         let currentMonth = currentDate.getMonth();
-         let currentYear = currentDate.getFullYear();
+        // ------------------------------
+        // Calendar / Events
+        // ------------------------------
+        let currentDate = new Date();
+        let currentMonth = currentDate.getMonth();
+        let currentYear = currentDate.getFullYear();
 
-         const calendarGrid = document.getElementById('calendarGrid');
-         const currentMonthEl = document.getElementById('currentMonth');
-         const prevMonthBtn = document.getElementById('prevMonth');
-         const nextMonthBtn = document.getElementById('nextMonth');
-         const eventsList = document.getElementById('eventsList');
-         const eventsCount = document.getElementById('eventsCount');
+        const calendarGrid = document.getElementById('calendarGrid');
+        const currentMonthEl = document.getElementById('currentMonth');
+        const prevMonthBtn = document.getElementById('prevMonth');
+        const nextMonthBtn = document.getElementById('nextMonth');
+        const eventsList = document.getElementById('eventsList');
+        const eventsCount = document.getElementById('eventsCount');
 
-         const eventTitle = document.getElementById('eventTitle');
-         const eventDate = document.getElementById('eventDate');
-         const eventTime = document.getElementById('eventTime');
-         const eventParticipants = document.getElementById('eventParticipants');
-         const eventNotes = document.getElementById('eventNotes');
-         const addEventBtn = document.getElementById('addEventBtn');
-         const addEventMsg = document.getElementById('addEventMsg');
+        const eventTitle = document.getElementById('eventTitle');
+        const eventDate = document.getElementById('eventDate');
+        const eventTime = document.getElementById('eventTime');
+        const eventParticipants = document.getElementById('eventParticipants');
+        const eventNotes = document.getElementById('eventNotes');
+        const addEventBtn = document.getElementById('addEventBtn');
+        const addEventMsg = document.getElementById('addEventMsg');
 
-         const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-             'July', 'August', 'September', 'October', 'November', 'December'];
+        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'];
 
-         function renderCalendar() {
-             // Clear existing calendar days
-             const existingDays = calendarGrid.querySelectorAll('.calendar-day');
-             existingDays.forEach(day => day.remove());
+        function renderCalendar() {
+            // Clear existing calendar days
+            const existingDays = calendarGrid.querySelectorAll('.calendar-day');
+            existingDays.forEach(day => day.remove());
 
-             const firstDay = new Date(currentYear, currentMonth, 1);
-             const lastDay = new Date(currentYear, currentMonth + 1, 0);
-             const startDate = new Date(firstDay);
-             startDate.setDate(startDate.getDate() - firstDay.getDay());
+            const firstDay = new Date(currentYear, currentMonth, 1);
+            const lastDay = new Date(currentYear, currentMonth + 1, 0);
+            const startDate = new Date(firstDay);
+            startDate.setDate(startDate.getDate() - firstDay.getDay());
 
-             currentMonthEl.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+            currentMonthEl.textContent = `${monthNames[currentMonth]} ${currentYear}`;
 
-             // Render 42 days (6 weeks)
-             for (let i = 0; i < 42; i++) {
-                 const dayDate = new Date(startDate);
-                 dayDate.setDate(startDate.getDate() + i);
+            // Render 42 days (6 weeks)
+            for (let i = 0; i < 42; i++) {
+                const dayDate = new Date(startDate);
+                dayDate.setDate(startDate.getDate() + i);
 
-                 const dayEl = document.createElement('div');
-                 dayEl.className = 'calendar-day';
-                 dayEl.textContent = dayDate.getDate();
+                const dayEl = document.createElement('div');
+                dayEl.className = 'calendar-day';
+                dayEl.textContent = dayDate.getDate();
 
-                 // Highlight today
-                 if (dayDate.toDateString() === new Date().toDateString()) {
-                     dayEl.classList.add('today');
-                 }
+                // Highlight today
+                if (dayDate.toDateString() === new Date().toDateString()) {
+                    dayEl.classList.add('today');
+                }
 
-                 // Gray out other months
-                 if (dayDate.getMonth() !== currentMonth) {
-                     dayEl.classList.add('other-month');
-                 }
+                // Gray out other months
+                if (dayDate.getMonth() !== currentMonth) {
+                    dayEl.classList.add('other-month');
+                }
 
-                 // Add click handler
-                 dayEl.addEventListener('click', () => {
-                     const dateStr = dayDate.toISOString().split('T')[0];
-                     eventDate.value = dateStr;
-                 });
+                // Add click handler
+                dayEl.addEventListener('click', () => {
+                    const dateStr = dayDate.toISOString().split('T')[0];
+                    eventDate.value = dateStr;
+                });
 
-                 calendarGrid.appendChild(dayEl);
-             }
+                calendarGrid.appendChild(dayEl);
+            }
 
-             updateCalendarEvents();
-         }
+            updateCalendarEvents();
+        }
 
-         function updateCalendarEvents() {
-             // This will be called when events are loaded from Firebase
-             const dayElements = calendarGrid.querySelectorAll('.calendar-day');
-             dayElements.forEach(day => day.classList.remove('has-events'));
+        function updateCalendarEvents() {
+            // This will be called when events are loaded from Firebase
+            const dayElements = calendarGrid.querySelectorAll('.calendar-day');
+            dayElements.forEach(day => day.classList.remove('has-events'));
 
-             // Add has-events class to days with events
-             // This will be populated when we load events from Firebase
-         }
+            // Add has-events class to days with events
+            // This will be populated when we load events from Firebase
+        }
 
-         prevMonthBtn.addEventListener('click', () => {
-             currentMonth--;
-             if (currentMonth < 0) {
-                 currentMonth = 11;
-                 currentYear--;
-             }
-             renderCalendar();
-         });
+        prevMonthBtn.addEventListener('click', () => {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            renderCalendar();
+        });
 
-         nextMonthBtn.addEventListener('click', () => {
-             currentMonth++;
-             if (currentMonth > 11) {
-                 currentMonth = 0;
-                 currentYear++;
-             }
-             renderCalendar();
-         });
+        nextMonthBtn.addEventListener('click', () => {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            renderCalendar();
+        });
 
-         addEventBtn.addEventListener('click', async () => {
-             const title = eventTitle.value.trim();
-             const date = eventDate.value;
-             const time = eventTime.value;
-             const participants = eventParticipants.value.trim();
-             const notes = eventNotes.value.trim();
+        addEventBtn.addEventListener('click', async () => {
+            const title = eventTitle.value.trim();
+            const date = eventDate.value;
+            const time = eventTime.value;
+            const participants = eventParticipants.value.trim();
+            const notes = eventNotes.value.trim();
 
-             if (!title || !date) {
-                 flash(addEventMsg, 'Please enter title and date.', true);
-                 return;
-             }
+            if (!title || !date) {
+                flash(addEventMsg, 'Please enter title and date.', true);
+                return;
+            }
 
-             try {
-                 await addDoc(collection(db, 'events'), {
-                     title,
-                     date,
-                     time,
-                     participants,
-                     notes,
-                     completed: false,
-                     createdAt: serverTimestamp(),
-                 });
+            try {
+                await addDoc(collection(db, 'events'), {
+                    title,
+                    date,
+                    time,
+                    participants,
+                    notes,
+                    completed: false,
+                    createdAt: serverTimestamp(),
+                });
 
-                 eventTitle.value = '';
-                 eventDate.value = '';
-                 eventTime.value = '';
-                 eventParticipants.value = '';
-                 eventNotes.value = '';
-                 flash(addEventMsg, 'Event added.');
-             } catch (e) {
-                 console.error('addEvent error:', e);
-                 flash(addEventMsg, 'Error adding event.', true);
-             }
-         });
+                eventTitle.value = '';
+                eventDate.value = '';
+                eventTime.value = '';
+                eventParticipants.value = '';
+                eventNotes.value = '';
+                flash(addEventMsg, 'Event added.');
+            } catch (e) {
+                console.error('addEvent error:', e);
+                flash(addEventMsg, 'Error adding event.', true);
+            }
+        });
 
-         // Load events from Firebase
-         onSnapshot(query(collection(db, 'events'), orderBy('date', 'asc')), (snap) => {
-             eventsList.innerHTML = '';
-             let count = 0;
-             const today = new Date().toISOString().split('T')[0];
+        // Load events from Firebase
+        onSnapshot(query(collection(db, 'events'), orderBy('date', 'asc')), (snap) => {
+            eventsList.innerHTML = '';
+            let count = 0;
+            const today = new Date().toISOString().split('T')[0];
 
-             snap.forEach((d) => {
-                 const event = { id: d.id, ...d.data() };
-                 count++;
+            snap.forEach((d) => {
+                const event = { id: d.id, ...d.data() };
+                count++;
 
-                 const eventEl = document.createElement('div');
-                 eventEl.className = `event-item ${event.completed ? 'completed' : ''}`;
-                 
-                 const isUpcoming = event.date >= today;
-                 if (!isUpcoming) return;
+                const eventEl = document.createElement('div');
+                eventEl.className = `event-item ${event.completed ? 'completed' : ''}`;
 
-                 eventEl.innerHTML = `
+                const isUpcoming = event.date >= today;
+                if (!isUpcoming) return;
+
+                eventEl.innerHTML = `
                      <div class="event-time">${event.date} ${event.time ? `at ${event.time}` : ''}</div>
                      <div class="event-title">${escapeHtml(event.title)}</div>
                      ${event.participants ? `<div class="event-notes">Participants: ${escapeHtml(event.participants)}</div>` : ''}
@@ -1394,34 +1533,36 @@
                      </div>
                  `;
 
-                 eventEl.addEventListener('click', async (e) => {
-                     const target = e.target;
-                     if (!(target instanceof HTMLElement)) return;
-                     const action = target.getAttribute('data-action');
-                     const eventId = target.getAttribute('data-id');
-                     if (!action || !eventId) return;
+                eventEl.addEventListener('click', async (e) => {
+                    const target = e.target;
+                    if (!(target instanceof HTMLElement)) return;
+                    const action = target.getAttribute('data-action');
+                    const eventId = target.getAttribute('data-id');
+                    if (!action || !eventId) return;
 
-                     try {
-                         const ref = doc(db, 'events', eventId);
-                         if (action === 'toggle') {
-                             await updateDoc(ref, { completed: !event.completed });
-                         } else if (action === 'delete') {
-                             await deleteDoc(ref);
-                         }
-                     } catch (e) {
-                         console.error('event action error:', e);
-                     }
-                 });
+                    try {
+                        const ref = doc(db, 'events', eventId);
+                        if (action === 'toggle') {
+                            await updateDoc(ref, { completed: !event.completed });
+                        } else if (action === 'delete') {
+                            confirmAction(`Are you sure you want to delete "${event.title}"?`, async () => {
+                                try { await deleteDoc(ref); } catch (e) { console.error('delete event error:', e); }
+                            });
+                        }
+                    } catch (e) {
+                        console.error('event action error:', e);
+                    }
+                });
 
-                 eventsList.appendChild(eventEl);
-             });
+                eventsList.appendChild(eventEl);
+            });
 
-             eventsCount.textContent = String(count);
-             updateCalendarEvents();
-         });
+            eventsCount.textContent = String(count);
+            updateCalendarEvents();
+        });
 
-         // Initialize calendar
-         renderCalendar();
+        // Initialize calendar
+        renderCalendar();
 
         // UI Elements
         const authView = document.getElementById('auth');
@@ -1482,6 +1623,28 @@
         const projectSearch = document.getElementById('projectSearch');
         const clearSearch = document.getElementById('clearSearch');
 
+        // ------------------------------
+        // Payouts & Payments Elements
+        // ------------------------------
+        const payoutProject = document.getElementById('payoutProject');
+        const payoutDeveloper = document.getElementById('payoutDeveloper');
+        const payoutAmount = document.getElementById('payoutAmount');
+        const payoutDate = document.getElementById('payoutDate');
+        const payoutNote = document.getElementById('payoutNote');
+        const addPayoutBtn = document.getElementById('addPayoutBtn');
+        const addPayoutMsg = document.getElementById('addPayoutMsg');
+        const payoutsList = document.getElementById('payoutsList');
+        const payoutsTotal = document.getElementById('payoutsTotal');
+
+        const paymentProject = document.getElementById('paymentProject');
+        const paymentAmount = document.getElementById('paymentAmount');
+        const paymentDate = document.getElementById('paymentDate');
+        const paymentNote = document.getElementById('paymentNote');
+        const addPaymentBtn = document.getElementById('addPaymentBtn');
+        const addPaymentMsg = document.getElementById('addPaymentMsg');
+        const paymentsList = document.getElementById('paymentsList');
+        const paymentsTotal = document.getElementById('paymentsTotal');
+
         // Populate developer multi-select
         onSnapshot(query(collection(db, 'developers'), orderBy('createdAt', 'desc')), (snap) => {
             assignDevs.innerHTML = '';
@@ -1490,6 +1653,15 @@
                 const opt = document.createElement('option');
                 opt.value = dev.id; opt.textContent = dev.name || 'Unnamed';
                 assignDevs.appendChild(opt);
+            });
+
+            // Populate payout developer select
+            payoutDeveloper.innerHTML = '';
+            snap.forEach((d) => {
+                const dev = { id: d.id, ...d.data() };
+                const opt = document.createElement('option');
+                opt.value = dev.id; opt.textContent = dev.name || 'Unnamed';
+                payoutDeveloper.appendChild(opt);
             });
         });
 
@@ -1538,11 +1710,11 @@
                 budgetInput.value = '';
                 expenseInput.value = '';
                 revenueInput.value = '';
-                 projectFileInput.value = '';
-                 document.getElementById('projectFileBtn').classList.remove('has-file');
-                 document.getElementById('projectFileBtn').textContent = 'Choose File';
-                 document.getElementById('projectFileName').textContent = '';
-                 flash(addProjectMsg, 'Project added.');
+                projectFileInput.value = '';
+                document.getElementById('projectFileBtn').classList.remove('has-file');
+                document.getElementById('projectFileBtn').textContent = 'Choose File';
+                document.getElementById('projectFileName').textContent = '';
+                flash(addProjectMsg, 'Project added.');
             } catch (e) {
                 const msg = (e && e.message) ? e.message : 'Error adding project.';
                 flash(addProjectMsg, msg, true);
@@ -1586,7 +1758,9 @@
               <input class="inline-input" style="grid-column: span 4;" data-k="revenue" type="number" placeholder="Revenue (₹)" value="${escapeAttr(p.revenue ?? '')}" />
             </div>
              <div class="progress">
+                 <div class="progress-bg"></div>
                  <span style="width:${progress}%;"></span>
+                 <div class="progress-dots"></div>
                  <span class="progress-label">${progress}%</span>
              </div>
             <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
@@ -1618,7 +1792,9 @@
                         } else if (action === 'complete') {
                             await updateDoc(ref, { status: 'completed', progress: 100 });
                         } else if (action === 'delete') {
-                            await deleteDoc(ref);
+                            confirmAction(`Are you sure you want to delete "${p.name}"? This action cannot be undone.`, async () => {
+                                try { await deleteDoc(ref); } catch (e) { console.error('delete project error:', e); }
+                            });
                         }
                     } catch (e) { console.error('project action error:', e); }
                 });
@@ -1634,6 +1810,18 @@
             latestProjects = [];
             snap.forEach((docSnap) => { latestProjects.push({ id: docSnap.id, ...docSnap.data() }); });
             renderProjects(latestProjects);
+
+            // Populate project selects for payouts/payments
+            payoutProject.innerHTML = '';
+            paymentProject.innerHTML = '';
+            latestProjects.forEach(p => {
+                const opt1 = document.createElement('option'); opt1.value = p.id; opt1.textContent = p.name || 'Untitled';
+                const opt2 = document.createElement('option'); opt2.value = p.id; opt2.textContent = p.name || 'Untitled';
+                payoutProject.appendChild(opt1); paymentProject.appendChild(opt2);
+            });
+            // trigger refresh lists
+            refreshPayouts();
+            refreshPayments();
         });
 
         // Search/filter
@@ -1645,7 +1833,12 @@
             });
             renderProjects(filtered);
         });
-        clearSearch.addEventListener('click', () => { projectSearch.value = ''; renderProjects(latestProjects); });
+        clearSearch.addEventListener('click', () => {
+            confirmAction('Clear search and show all projects?', () => {
+                projectSearch.value = '';
+                renderProjects(latestProjects);
+            });
+        });
 
         // ------------------------------
         // Goals
@@ -1677,7 +1870,7 @@
                 li.style.border = '1px solid #202028';
                 li.style.borderRadius = '12px';
                 li.style.padding = '10px 12px';
-                 li.innerHTML = `
+                li.innerHTML = `
                      <div class="goal-content" style="flex:1; margin-bottom: 8px;">${escapeHtml(g.text || '')}</div>
                      <div class="goal-controls" style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
                          <select class="inline-input" style="width:140px;" data-k="status">
@@ -1700,7 +1893,11 @@
                     const prioEl = /** @type {HTMLSelectElement} */(li.querySelector('[data-k="priority"]'));
                     try {
                         if (action === 'save') await updateDoc(doc(db, 'goals', g.id), { status: statusEl.value, priority: Number(prioEl.value) });
-                        else if (action === 'delete') await deleteDoc(doc(db, 'goals', g.id));
+                        else if (action === 'delete') {
+                            confirmAction(`Are you sure you want to delete this goal?`, async () => {
+                                try { await deleteDoc(doc(db, 'goals', g.id)); } catch (e) { console.error('delete goal error:', e); }
+                            });
+                        }
                     } catch (e) { console.error('goal action error:', e); }
                 });
                 goalsList.appendChild(li);
@@ -1764,7 +1961,11 @@
                     try {
                         const ref = doc(db, 'developers', dev.id);
                         if (action === 'save') await updateDoc(ref, updated);
-                        else if (action === 'delete') await deleteDoc(ref);
+                        else if (action === 'delete') {
+                            confirmAction(`Are you sure you want to delete developer "${dev.name}"? This action cannot be undone.`, async () => {
+                                try { await deleteDoc(ref); } catch (e) { console.error('delete developer error:', e); }
+                            });
+                        }
                     } catch (e) { console.error('developer action error:', e); }
                 });
                 devsList.appendChild(c);
@@ -1779,6 +1980,12 @@
             el.textContent = text; el.style.color = isError ? 'var(--danger)' : 'var(--muted)';
             el.style.opacity = '1';
             setTimeout(() => { el.style.transition = 'opacity .6s ease'; el.style.opacity = '0'; }, 1400);
+        }
+
+        function confirmAction(message, action) {
+            if (confirm(message)) {
+                action();
+            }
         }
 
         function escapeHtml(str) {
@@ -1823,9 +2030,121 @@
                 li.style.display = 'flex'; li.style.gap = '10px'; li.style.alignItems = 'center';
                 li.style.border = '1px solid #202028'; li.style.background = '#0e0e12'; li.style.borderRadius = '12px'; li.style.padding = '10px 12px';
                 li.innerHTML = `<span style="flex:1;">${escapeHtml(n.text || '')}</span><button class="btn ghost" data-action="delete">Delete</button>`;
-                li.addEventListener('click', async (ev) => { const t = ev.target; if (!(t instanceof HTMLElement)) return; if (t.getAttribute('data-action') === 'delete') { try { await deleteDoc(doc(db, 'notes', n.id)); } catch (e) { console.error('deleteNote error:', e); } } });
+                li.addEventListener('click', async (ev) => {
+                    const t = ev.target;
+                    if (!(t instanceof HTMLElement)) return;
+                    if (t.getAttribute('data-action') === 'delete') {
+                        confirmAction('Are you sure you want to delete this note?', async () => {
+                            try { await deleteDoc(doc(db, 'notes', n.id)); } catch (e) { console.error('deleteNote error:', e); }
+                        });
+                    }
+                });
                 notesList.appendChild(li);
             });
+        });
+
+        // ------------------------------
+        // Payouts & Payments Logic
+        // ------------------------------
+        function formatINR(n) { return `₹${Number(n || 0).toLocaleString('en-IN')}`; }
+
+        payoutProject?.addEventListener('change', refreshPayouts);
+        paymentProject?.addEventListener('change', refreshPayments);
+
+        async function refreshPayouts() {
+            payoutsList.innerHTML = '';
+            payoutsTotal.textContent = '₹0';
+            const pid = payoutProject.value; if (!pid) return;
+            onSnapshot(query(collection(db, `projects/${pid}/payouts`), orderBy('date', 'desc')), (snap) => {
+                let total = 0; payoutsList.innerHTML = '';
+                snap.forEach(d => {
+                    const p = { id: d.id, ...d.data() };
+                    total += Number(p.amount || 0);
+                    const item = document.createElement('div');
+                    item.className = 'event-item';
+                    item.innerHTML = `
+                        <div class="event-time">${p.date || ''}</div>
+                        <div class="event-title">${formatINR(p.amount)}</div>
+                        ${p.developerName ? `<div class="event-notes">${p.developerName}</div>` : ''}
+                        ${p.note ? `<div class="event-notes">${p.note}</div>` : ''}
+                        <div class="event-actions">
+                            <button class="btn danger" data-action="delete" data-id="${p.id}">Delete</button>
+                        </div>
+                    `;
+                    item.addEventListener('click', async (ev) => {
+                        const t = ev.target; if (!(t instanceof HTMLElement)) return;
+                        if (t.getAttribute('data-action') === 'delete') {
+                            confirmAction(`Are you sure you want to delete this payout of ${formatINR(p.amount)}?`, async () => {
+                                try { await deleteDoc(doc(db, `projects/${pid}/payouts`, p.id)); } catch (e) { console.error('delete payout', e); }
+                            });
+                        }
+                    });
+                    payoutsList.appendChild(item);
+                });
+                payoutsTotal.textContent = formatINR(total);
+            });
+        }
+
+        async function refreshPayments() {
+            paymentsList.innerHTML = '';
+            paymentsTotal.textContent = '₹0';
+            const pid = paymentProject.value; if (!pid) return;
+            onSnapshot(query(collection(db, `projects/${pid}/payments`), orderBy('date', 'desc')), (snap) => {
+                let total = 0; paymentsList.innerHTML = '';
+                snap.forEach(d => {
+                    const p = { id: d.id, ...d.data() };
+                    total += Number(p.amount || 0);
+                    const item = document.createElement('div');
+                    item.className = 'event-item';
+                    item.innerHTML = `
+                        <div class="event-time">${p.date || ''}</div>
+                        <div class="event-title">${formatINR(p.amount)}</div>
+                        ${p.note ? `<div class="event-notes">${p.note}</div>` : ''}
+                        <div class="event-actions">
+                            <button class="btn danger" data-action="delete" data-id="${p.id}">Delete</button>
+                        </div>
+                    `;
+                    item.addEventListener('click', async (ev) => {
+                        const t = ev.target; if (!(t instanceof HTMLElement)) return;
+                        if (t.getAttribute('data-action') === 'delete') {
+                            confirmAction(`Are you sure you want to delete this payment of ${formatINR(p.amount)}?`, async () => {
+                                try { await deleteDoc(doc(db, `projects/${pid}/payments`, p.id)); } catch (e) { console.error('delete payment', e); }
+                            });
+                        }
+                    });
+                    paymentsList.appendChild(item);
+                });
+                paymentsTotal.textContent = formatINR(total);
+            });
+        }
+
+        addPayoutBtn?.addEventListener('click', async () => {
+            const pid = payoutProject.value;
+            const did = payoutDeveloper.value;
+            const amount = Number(payoutAmount.value || 0);
+            const date = payoutDate.value || null;
+            const note = payoutNote.value.trim();
+            if (!pid || !did || !amount) { flash(addPayoutMsg, 'Select project/developer and amount', true); return; }
+            const devOption = payoutDeveloper.options[payoutDeveloper.selectedIndex];
+            const developerName = devOption ? devOption.textContent : '';
+            try {
+                await addDoc(collection(db, `projects/${pid}/payouts`), { developerId: did, developerName, amount, date, note, createdAt: serverTimestamp() });
+                payoutAmount.value = ''; payoutDate.value = ''; payoutNote.value = '';
+                flash(addPayoutMsg, 'Payout added.');
+            } catch (e) { console.error('addPayout error', e); flash(addPayoutMsg, 'Error adding payout', true); }
+        });
+
+        addPaymentBtn?.addEventListener('click', async () => {
+            const pid = paymentProject.value;
+            const amount = Number(paymentAmount.value || 0);
+            const date = paymentDate.value || null;
+            const note = paymentNote.value.trim();
+            if (!pid || !amount) { flash(addPaymentMsg, 'Select project and amount', true); return; }
+            try {
+                await addDoc(collection(db, `projects/${pid}/payments`), { amount, date, note, createdAt: serverTimestamp() });
+                paymentAmount.value = ''; paymentDate.value = ''; paymentNote.value = '';
+                flash(addPaymentMsg, 'Payment added.');
+            } catch (e) { console.error('addPayment error', e); flash(addPaymentMsg, 'Error adding payment', true); }
         });
     </script>
 </body>
