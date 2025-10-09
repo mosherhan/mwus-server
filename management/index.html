@@ -830,36 +830,83 @@
         Responsive
         ==========================
       */
-        @media (max-width: 1100px) {
-            .span-12 {
-                grid-column: span 12;
-            }
+         @media (max-width: 1100px) {
+             .span-12 {
+                 grid-column: span 12;
+             }
 
-            .span-8 {
-                grid-column: span 12;
-            }
+             .span-8 {
+                 grid-column: span 12;
+             }
 
-            .span-6 {
-                grid-column: span 12;
-            }
+             .span-6 {
+                 grid-column: span 12;
+             }
 
-            .span-4 {
-                grid-column: span 12;
-            }
+             .span-4 {
+                 grid-column: span 12;
+             }
 
-            .items .item {
-                grid-column: span 12;
-            }
+             .items .item {
+                 grid-column: span 12;
+             }
 
+             .row .col-6 {
+                 grid-column: span 12;
+             }
 
-            .row .col-6 {
-                grid-column: span 12;
-            }
+             .row .col-4 {
+                 grid-column: span 12;
+             }
+         }
 
-            .row .col-4 {
-                grid-column: span 12;
-            }
-        }
+         @media (max-width: 768px) {
+             .container {
+                 padding: 20px 16px 32px;
+             }
+
+             .card {
+                 padding: 16px;
+                 margin-bottom: 16px;
+             }
+
+             .row {
+                 gap: 8px;
+             }
+
+             .field {
+                 margin-bottom: 10px;
+             }
+
+             .goals-list-item {
+                 flex-direction: column;
+                 align-items: stretch;
+                 gap: 8px;
+                 padding: 12px;
+             }
+
+             .goals-list-item .goal-content {
+                 flex: none;
+                 margin-bottom: 8px;
+             }
+
+             .goals-list-item .goal-controls {
+                 display: grid;
+                 grid-template-columns: 1fr 1fr;
+                 gap: 8px;
+                 align-items: center;
+             }
+
+             .goals-list-item select {
+                 width: 100%;
+                 margin-bottom: 0;
+             }
+
+             .goals-list-item .btn {
+                 padding: 8px 12px;
+                 font-size: 11px;
+             }
+         }
     </style>
 </head>
 
@@ -1628,19 +1675,21 @@
                 li.style.border = '1px solid #202028';
                 li.style.borderRadius = '12px';
                 li.style.padding = '10px 12px';
-                li.innerHTML = `
-            <span style="flex:1;">${escapeHtml(g.text || '')}</span>
-            <select class="inline-input" style="width:140px;" data-k="status">
-              ${GOAL_STATUSES.map(s => `<option value="${s}" ${g.status === s ? 'selected' : ''}>${s.replace('_', ' ')}</option>`).join('')}
-            </select>
-            <select class="inline-input" style="width:120px;" data-k="priority">
-              <option value="1" ${String(g.priority) === '1' ? 'selected' : ''}>Low</option>
-              <option value="2" ${String(g.priority) === '2' ? 'selected' : ''}>Medium</option>
-              <option value="3" ${String(g.priority) === '3' ? 'selected' : ''}>High</option>
-            </select>
-            <button class="btn ghost" data-action="save">Save</button>
-            <button class="btn ghost" data-action="delete">Delete</button>
-          `;
+                 li.innerHTML = `
+                     <div class="goal-content" style="flex:1; margin-bottom: 8px;">${escapeHtml(g.text || '')}</div>
+                     <div class="goal-controls" style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                         <select class="inline-input" style="width:140px;" data-k="status">
+                             ${GOAL_STATUSES.map(s => `<option value="${s}" ${g.status === s ? 'selected' : ''}>${s.replace('_', ' ')}</option>`).join('')}
+                         </select>
+                         <select class="inline-input" style="width:120px;" data-k="priority">
+                             <option value="1" ${String(g.priority) === '1' ? 'selected' : ''}>Low</option>
+                             <option value="2" ${String(g.priority) === '2' ? 'selected' : ''}>Medium</option>
+                             <option value="3" ${String(g.priority) === '3' ? 'selected' : ''}>High</option>
+                         </select>
+                         <button class="btn ghost" data-action="save">Save</button>
+                         <button class="btn ghost" data-action="delete">Delete</button>
+                     </div>
+                 `;
                 li.addEventListener('click', async (ev) => {
                     const t = ev.target; if (!(t instanceof HTMLElement)) return;
                     const action = t.getAttribute('data-action');
