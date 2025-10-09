@@ -198,8 +198,11 @@
       .badge { display:inline-block; padding:4px 8px; border:1px solid var(--border); border-radius:999px; font-size:11px; }
       .badge.warn { color:#ffd6a0; border-color:#3a2f12; background:#201708; }
       .badge.urgent { color:#ffb3b3; border-color:#3a1e1e; background:#210e0e; }
-      .progress { height:8px; border-radius:999px; background:#121212; border:1px solid var(--border); overflow:hidden; }
-      .progress > span { display:block; height:100%; background:#2e7df5; }
+      .progress { height:10px; border-radius:999px; background:#0f0f0f; border:1px solid var(--border); overflow:hidden; position:relative; }
+      .progress > span { display:block; height:100%; background: linear-gradient(90deg, #4f8bff, #7aa7ff); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06); }
+      .progress .progress-label { position:absolute; top:50%; right:8px; transform:translateY(-50%); font-size:11px; color:#c6c6cf; }
+      .select[multiple] { min-height: 140px; }
+      #assignDevs { background:#0f0f0f; }
 
       /*
         ==========================
@@ -325,7 +328,7 @@
             </div>
             <div class="col-8 field">
               <label for="assignDevs">Assign Developers</label>
-              <select id="assignDevs" class="select" multiple size="3"></select>
+              <select id="assignDevs" class="select" multiple size="6"></select>
               <span class="muted mono" style="font-size:11px;">Hold Ctrl/Cmd to multi‑select</span>
             </div>
             <div class="col-4 field">
@@ -359,11 +362,13 @@
         <!-- Future Goals -->
         <article class="card span-4" id="goalsCard">
           <h3>Future Goals</h3>
-          <div style="display:flex; gap:8px; margin-bottom: 10px;">
-            <input id="goalText" class="input" placeholder="Ship v2, automate onboarding, ..." />
-            <button id="addGoalBtn" class="btn">Add</button>
+          <div class="row" style="margin-bottom: 10px; align-items:end;">
+            <div class="col-8"><input id="goalText" class="input" placeholder="Ship v2, automate onboarding, ..." /></div>
+            <div class="col-4" style="display:flex; gap:8px;">
+              <button id="addGoalBtn" class="btn" style="width:100%;">Add</button>
+            </div>
           </div>
-          <ul id="goalsList" class="mono" style="list-style:none; padding:0; margin:0; display:grid; gap:8px;"></ul>
+          <ul id="goalsList" class="mono" style="list-style:none; padding:0; margin:0; display:grid; gap:8px; grid-auto-rows:auto;"></ul>
         </article>
 
         <!-- Developers Info -->
@@ -607,7 +612,10 @@
               <input class="inline-input" style="grid-column: span 4;" data-k="expense" type="number" placeholder="Expense (₹)" value="${escapeAttr(p.expense ?? '')}" />
               <input class="inline-input" style="grid-column: span 4;" data-k="revenue" type="number" placeholder="Revenue (₹)" value="${escapeAttr(p.revenue ?? '')}" />
             </div>
-            <div class="progress" style="margin:6px 0 4px;"><span style="width:${progress}%;"></span></div>
+            <div class="progress" style="margin:8px 0 6px;">
+              <span style="width:${progress}%;"></span>
+              <span class="progress-label">${progress}%</span>
+            </div>
             <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
               <button class="btn" data-action="save">Save</button>
               <button class="btn ghost" data-action="complete">Mark Completed</button>
