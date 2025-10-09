@@ -155,6 +155,16 @@
             border: 1px solid var(--border);
         }
 
+        .brand-img {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            background-image: url('../mwslogo.png');
+        }
+
         .brand-title {
             font-weight: 700;
             letter-spacing: 0.02em;
@@ -533,7 +543,7 @@
     <div id="app" class="container" style="display:none;" aria-hidden="true">
         <header class="topbar">
             <div class="brand">
-                <div class="brand-badge mono"><img src="../mwslogo.png"></img></div>
+                <div class="brand-img"></div>
                 <div class="brand-title">Management Dashboard</div>
                 <span class="muted mono" style="font-size: 12px;">internal</span>
             </div>
