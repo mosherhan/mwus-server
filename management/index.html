@@ -370,7 +370,7 @@
             apiKey: "AIzaSyC_hpImJNC4YrG3q5GhPRfRjXfYzJF-Dzk",
             authDomain: "management-8f186.firebaseapp.com",
             projectId: "management-8f186",
-            storageBucket: "management-8f186.firebasestorage.app",
+            storageBucket: "management-8f186.appspot.com", // corrected bucket domain
             messagingSenderId: "908972656891",
             appId: "1:908972656891:web:86910fe3fce34e91fe085e",
             measurementId: "G-9644QRM5PK"
@@ -451,8 +451,9 @@
           status.value = 'ongoing';
           flash(addProjectMsg, 'Project added.');
         } catch (e) {
-          flash(addProjectMsg, 'Error adding project.', true);
-          console.error(e);
+          const msg = (e && e.message) ? e.message : 'Error adding project.';
+          flash(addProjectMsg, msg, true);
+          console.error('addProject error:', e);
         }
       });
 
@@ -503,7 +504,7 @@
               } else if (action === 'delete') {
                 await deleteDoc(ref);
               }
-            } catch (e) { console.error(e); }
+            } catch (e) { console.error('project action error:', e); }
           });
 
           projectsList.appendChild(card);
@@ -524,7 +525,7 @@
         try {
           await addDoc(collection(db, 'goals'), { text, createdAt: serverTimestamp() });
           goalText.value = '';
-        } catch (e) { console.error(e); }
+        } catch (e) { console.error('addGoal error:', e); }
       });
 
       onSnapshot(query(collection(db, 'goals'), orderBy('createdAt', 'desc')), (snap) => {
@@ -544,7 +545,7 @@
             <button class="btn ghost" data-id="${g.id}">Delete</button>
           `;
           li.querySelector('button')?.addEventListener('click', async () => {
-            try { await deleteDoc(doc(db, 'goals', g.id)); } catch (e) { console.error(e); }
+            try { await deleteDoc(doc(db, 'goals', g.id)); } catch (e) { console.error('deleteGoal error:', e); }
           });
           goalsList.appendChild(li);
         });
@@ -570,7 +571,7 @@
           await addDoc(collection(db, 'developers'), { name, role, contact, createdAt: serverTimestamp() });
           devName.value = ''; devRole.value = ''; devContact.value = '';
           flash(addDevMsg, 'Developer added.');
-        } catch (e) { console.error(e); flash(addDevMsg, 'Error adding developer', true); }
+        } catch (e) { console.error('addDeveloper error:', e); flash(addDevMsg, e && e.message ? e.message : 'Error adding developer', true); }
       });
 
       onSnapshot(query(collection(db, 'developers'), orderBy('createdAt', 'desc')), (snap) => {
@@ -602,7 +603,7 @@
               const ref = doc(db, 'developers', dev.id);
               if (action === 'save') await updateDoc(ref, updated);
               else if (action === 'delete') await deleteDoc(ref);
-            } catch (e) { console.error(e); }
+            } catch (e) { console.error('developer action error:', e); }
           });
           devsList.appendChild(c);
         });
