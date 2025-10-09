@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--
+      Founders-only Project Management Dashboard
+      Single file (HTML + CSS + JS). Uses Firebase (Auth + Firestore, modular v9+).
+
+      Setup instructions:
+      1) Create a Firebase project, enable Email/Password authentication, create founder accounts.
+      2) Create a Firestore database (in production or test as you prefer).
+      3) Replace the firebaseConfig object in the JS section with your project's values.
+      4) Optionally configure Firestore Security Rules to restrict to founders.
+
+      Collections used:
+        - projects: { name, price, division, status, createdAt }
+        - goals: { text, createdAt }
+        - developers: { name, role, contact, createdAt }
+    -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Management · Dashboard</title>
+
+    <!-- Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+      /*
+        ==========================
+        Base: Aesthetic + Resets
+        ==========================
+      */
+      :root {
+        --bg: #0b0b0c;
+        --panel: #141416;
+        --panel-2: #17171a;
+        --panel-3: #1c1c20;
+        --text: #e9e9ec;
+        --muted: #a9a9b2;
+        --accent: #6ee7ff;
+        --accent-2: #8b88ff;
+        --ok: #6ee7a0;
+        --warn: #ffd166;
+        --danger: #ff6b6b;
+        --ring: rgba(110, 231, 255, 0.3);
+        --shadow-soft: 0 8px 24px rgba(0,0,0,0.35), 0 2px 8px rgba(0,0,0,0.25);
+        --radius: 22px;
+        --radius-sm: 16px;
+      }
+
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        margin: 0;
+        background: radial-gradient(1200px 800px at 20% -10%, #111114 0%, var(--bg) 55%) fixed;
+        color: var(--text);
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      a { color: inherit; text-decoration: none; }
+      button, input, textarea, select { font: inherit; color: inherit; }
+      input, textarea, select { background: transparent; }
+
+      /*
+        ==========================
+        Layout: App Shell
+        ==========================
+      */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 28px 20px 48px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 22px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        user-select: none;
+      }
+      .brand-badge {
+        width: 34px; height: 34px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, var(--panel-3), var(--panel));
+        display: grid; place-items: center;
+        box-shadow: var(--shadow-soft);
+      }
+      .brand-title {
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+
+      .logout-btn {
+        padding: 10px 14px;
+        border-radius: 12px;
+        background: var(--panel);
+        border: 1px solid #24242a;
+        transition: transform .12s ease, background .2s ease, box-shadow .2s ease;
+        cursor: pointer;
+      }
+      .logout-btn:hover { transform: translateY(-1px); background: #1a1a1f; box-shadow: var(--shadow-soft); }
+
+      /*
+        ==========================
+        Grid: Bento Board
+        ==========================
+      */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 16px;
+      }
+
+      .card {
+        background: linear-gradient(180deg, var(--panel-2), var(--panel));
+        border: 1px solid #222228;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-soft);
+        padding: 18px;
+        transition: transform .18s ease, box-shadow .18s ease, background .2s ease;
+      }
+      .card:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(0,0,0,0.45); }
+
+      .card h3 {
+        margin: 2px 0 14px;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+      }
+
+      .muted { color: var(--muted); }
+
+      /* spans across columns */
+      .span-4 { grid-column: span 4; }
+      .span-6 { grid-column: span 6; }
+      .span-8 { grid-column: span 8; }
+      .span-12 { grid-column: span 12; }
+
+      /*
+        ==========================
+        Forms
+        ==========================
+      */
+      .field { display: grid; gap: 8px; margin-bottom: 12px; }
+      .field label { font-size: 12px; color: var(--muted); }
+      .input, .select, .textarea {
+        width: 100%;
+        background: #111115;
+        border: 1px solid #23232a;
+        border-radius: 12px;
+        padding: 12px 12px;
+        outline: none;
+        transition: border-color .15s ease, box-shadow .15s ease, background .2s ease;
+      }
+      .textarea { min-height: 88px; resize: vertical; }
+      .input:focus, .select:focus, .textarea:focus {
+        border-color: #2f2f38;
+        box-shadow: 0 0 0 6px var(--ring);
+        background: #0f0f13;
+      }
+
+      .btn {
+        display: inline-flex; align-items: center; gap: 8px; justify-content: center;
+        background: linear-gradient(180deg, #1e1e24, #17171c);
+        border: 1px solid #2a2a33;
+        color: var(--text);
+        padding: 12px 14px; border-radius: 12px;
+        cursor: pointer; transition: transform .12s ease, background .2s ease, box-shadow .2s ease;
+      }
+      .btn:hover { transform: translateY(-1px); background: #20202a; box-shadow: var(--shadow-soft); }
+      .btn.primary { background: linear-gradient(180deg, #2a2a32, #1c1c22); border-color: #3a3a46; }
+      .btn.ghost { background: transparent; border-color: #2a2a33; }
+      .btn.danger { border-color: #3a2a2a; color: #ffb3b3; }
+
+      .row { display: grid; grid-template-columns: repeat(12, 1fr); gap: 12px; }
+      .col-6 { grid-column: span 6; }
+      .col-4 { grid-column: span 4; }
+      .col-12 { grid-column: span 12; }
+
+      /*
+        ==========================
+        Lists & Cards
+        ==========================
+      */
+      .items { display: grid; grid-template-columns: repeat(12, 1fr); gap: 12px; }
+      .item { grid-column: span 6; background: #101014; border: 1px solid #21212a; border-radius: 16px; padding: 14px; }
+      .item h4 { margin: 4px 0 10px; font-size: 15px; }
+
+      .status-badge {
+        display: inline-grid; place-items: center; padding: 4px 8px; border-radius: 999px; font-size: 11px; letter-spacing: .02em; border: 1px solid #2c2c35;
+      }
+      .ongoing { color: #b2f5ea; border-color: #254e5b; background: #102329; }
+      .completed { color: #a0f0b5; border-color: #24573a; background: #0f2418; }
+
+      .inline-input { width: 100%; background: #0e0e12; border: 1px solid #22222a; border-radius: 10px; padding: 8px 10px; margin-bottom: 8px; }
+
+      /*
+        ==========================
+        Auth Views
+        ==========================
+      */
+      .auth {
+        min-height: 100vh;
+        display: grid; place-items: center;
+      }
+      .auth-card {
+        width: 100%; max-width: 380px;
+        padding: 22px;
+        border-radius: 20px;
+        background: linear-gradient(180deg, var(--panel-2), var(--panel));
+        border: 1px solid #222228;
+        box-shadow: var(--shadow-soft);
+      }
+      .auth-title { font-weight: 700; margin: 6px 0 18px; }
+      .mono { font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; }
+
+      /*
+        ==========================
+        Responsive
+        ==========================
+      */
+      @media (max-width: 1100px) {
+        .span-8 { grid-column: span 12; }
+        .span-6 { grid-column: span 12; }
+        .span-4 { grid-column: span 12; }
+        .items .item { grid-column: span 12; }
+        .row .col-6 { grid-column: span 12; }
+        .row .col-4 { grid-column: span 12; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ==========================
+         Auth View
+         ========================== -->
+    <main id="auth" class="auth" aria-hidden="false">
+      <section class="auth-card">
+        <div class="brand" style="margin-bottom: 8px;">
+          <div class="brand-badge mono">Ø</div>
+          <div class="brand-title">Founders · Access</div>
+        </div>
+        <h2 class="auth-title">Sign in</h2>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" class="input" placeholder="founder@company.com" autocomplete="username" />
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" type="password" class="input" placeholder="••••••••" autocomplete="current-password" />
+        </div>
+        <button id="loginBtn" class="btn primary" style="width: 100%; margin-top: 6px;">Sign in</button>
+        <p class="muted mono" style="font-size: 12px; margin-top: 12px;">Email/password only. No sign‑ups here.</p>
+        <p id="authError" class="mono" style="color: var(--danger); font-size: 12px; margin-top: 10px; display: none;"></p>
+      </section>
+    </main>
+
+    <!-- ==========================
+         Dashboard View
+         ========================== -->
+    <div id="app" class="container" style="display:none;" aria-hidden="true">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-badge mono">Ø</div>
+          <div class="brand-title">Management Dashboard</div>
+          <span class="muted mono" style="font-size: 12px;">internal</span>
+        </div>
+        <div>
+          <button id="logoutBtn" class="logout-btn">Logout</button>
+        </div>
+      </header>
+
+      <section class="grid" id="grid">
+        <!-- Add Project -->
+        <article class="card span-6" id="addProjectCard">
+          <h3>Add Project</h3>
+          <div class="row">
+            <div class="col-6 field">
+              <label for="projectName">Project Name</label>
+              <input id="projectName" class="input" placeholder="Website redesign" />
+            </div>
+            <div class="col-6 field">
+              <label for="projectPrice">Project Price</label>
+              <input id="projectPrice" class="input" type="number" inputmode="decimal" placeholder="20000" />
+            </div>
+            <div class="col-12 field">
+              <label for="division">Division of Money</label>
+              <input id="division" class="input" placeholder="60% Founder A · 40% Founder B" />
+            </div>
+            <div class="col-6 field">
+              <label for="status">Status</label>
+              <select id="status" class="select">
+                <option value="ongoing">Ongoing</option>
+                <option value="completed">Completed</option>
+              </select>
+            </div>
+            <div class="col-12" style="display:flex; gap:10px; align-items:center;">
+              <button id="addProjectBtn" class="btn primary">Add Project</button>
+              <span id="addProjectMsg" class="muted mono" style="font-size:12px;"></span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Ongoing Projects -->
+        <article class="card span-6" id="projectsCard">
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <h3>Ongoing Projects</h3>
+            <span class="muted mono" id="projectsCount">0</span>
+          </div>
+          <div class="items" id="projectsList"></div>
+        </article>
+
+        <!-- Future Goals -->
+        <article class="card span-4" id="goalsCard">
+          <h3>Future Goals</h3>
+          <div style="display:flex; gap:8px; margin-bottom: 10px;">
+            <input id="goalText" class="input" placeholder="Ship v2, automate onboarding, ..." />
+            <button id="addGoalBtn" class="btn">Add</button>
+          </div>
+          <ul id="goalsList" class="mono" style="list-style:none; padding:0; margin:0; display:grid; gap:8px;"></ul>
+        </article>
+
+        <!-- Developers Info -->
+        <article class="card span-8" id="developersCard">
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <h3>Developers</h3>
+            <span class="muted mono" id="devsCount">0</span>
+          </div>
+          <div class="row" style="margin-bottom: 6px;">
+            <div class="col-4 field">
+              <label for="devName">Name</label>
+              <input id="devName" class="input" placeholder="Alex Doe" />
+            </div>
+            <div class="col-4 field">
+              <label for="devRole">Role</label>
+              <input id="devRole" class="input" placeholder="Frontend Engineer" />
+            </div>
+            <div class="col-4 field">
+              <label for="devContact">Contact</label>
+              <input id="devContact" class="input" placeholder="@username | email" />
+            </div>
+            <div class="col-12" style="display:flex; gap:10px; align-items:center;">
+              <button id="addDevBtn" class="btn">Add Developer</button>
+              <span id="addDevMsg" class="muted mono" style="font-size:12px;"></span>
+            </div>
+          </div>
+          <div class="items" id="devsList"></div>
+        </article>
+      </section>
+    </div>
+
+    <!-- ==========================
+         Firebase + App Logic
+         ========================== -->
+    <script type="module">
+      // Firebase modular SDK v9+ via CDN
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js';
+      import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js';
+      import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, orderBy, updateDoc, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
+
+      // ---- Replace with your Firebase project's config ----
+      const firebaseConfig = {
+        apiKey: "REPLACE_ME",
+        authDomain: "REPLACE_ME.firebaseapp.com",
+        projectId: "REPLACE_ME",
+        storageBucket: "REPLACE_ME.appspot.com",
+        messagingSenderId: "REPLACE_ME",
+        appId: "REPLACE_ME"
+      };
+
+      // Initialize
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getFirestore(app);
+
+      // UI Elements
+      const authView = document.getElementById('auth');
+      const appView = document.getElementById('app');
+      const loginBtn = document.getElementById('loginBtn');
+      const logoutBtn = document.getElementById('logoutBtn');
+      const authErrorEl = document.getElementById('authError');
+
+      // Auth state
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          authView.style.display = 'none';
+          authView.setAttribute('aria-hidden', 'true');
+          appView.style.display = 'block';
+          appView.setAttribute('aria-hidden', 'false');
+        } else {
+          appView.style.display = 'none';
+          appView.setAttribute('aria-hidden', 'true');
+          authView.style.display = 'grid';
+          authView.setAttribute('aria-hidden', 'false');
+        }
+      });
+
+      loginBtn.addEventListener('click', async () => {
+        const email = /** @type {HTMLInputElement} */(document.getElementById('email')).value.trim();
+        const password = /** @type {HTMLInputElement} */(document.getElementById('password')).value;
+        authErrorEl.style.display = 'none';
+        try {
+          await signInWithEmailAndPassword(auth, email, password);
+        } catch (err) {
+          authErrorEl.textContent = err.message ?? 'Failed to sign in';
+          authErrorEl.style.display = 'block';
+        }
+      });
+
+      logoutBtn.addEventListener('click', async () => {
+        await signOut(auth);
+      });
+
+      // ------------------------------
+      // Projects
+      // ------------------------------
+      const projectName = document.getElementById('projectName');
+      const projectPrice = document.getElementById('projectPrice');
+      const division = document.getElementById('division');
+      const status = document.getElementById('status');
+      const addProjectBtn = document.getElementById('addProjectBtn');
+      const addProjectMsg = document.getElementById('addProjectMsg');
+      const projectsList = document.getElementById('projectsList');
+      const projectsCount = document.getElementById('projectsCount');
+
+      addProjectBtn.addEventListener('click', async () => {
+        const nameVal = projectName.value.trim();
+        const priceVal = Number(projectPrice.value || 0);
+        const divisionVal = division.value.trim();
+        const statusVal = status.value;
+        if (!nameVal) { flash(addProjectMsg, 'Please enter a project name.', true); return; }
+        try {
+          await addDoc(collection(db, 'projects'), {
+            name: nameVal,
+            price: priceVal,
+            division: divisionVal,
+            status: statusVal,
+            createdAt: serverTimestamp(),
+          });
+          projectName.value = '';
+          projectPrice.value = '';
+          division.value = '';
+          status.value = 'ongoing';
+          flash(addProjectMsg, 'Project added.');
+        } catch (e) {
+          flash(addProjectMsg, 'Error adding project.', true);
+          console.error(e);
+        }
+      });
+
+      onSnapshot(query(collection(db, 'projects'), orderBy('createdAt', 'desc')), (snap) => {
+        projectsList.innerHTML = '';
+        let count = 0;
+        snap.forEach((docSnap) => {
+          count += 1;
+          const p = { id: docSnap.id, ...docSnap.data() };
+          const card = document.createElement('div');
+          card.className = 'item';
+          card.innerHTML = `
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+              <h4 class="mono">${escapeHtml(p.name || '')}</h4>
+              <span class="status-badge ${p.status === 'completed' ? 'completed' : 'ongoing'}">${p.status || 'ongoing'}</span>
+            </div>
+            <input class="inline-input" data-k="name" placeholder="Name" value="${escapeAttr(p.name || '')}" />
+            <div style="display:grid; grid-template-columns: repeat(12, 1fr); gap:8px;">
+              <input class="inline-input" style="grid-column: span 4;" data-k="price" type="number" inputmode="decimal" placeholder="Price" value="${escapeAttr(p.price ?? '')}" />
+              <input class="inline-input" style="grid-column: span 8;" data-k="division" placeholder="Division" value="${escapeAttr(p.division || '')}" />
+              <select class="inline-input" style="grid-column: span 6;" data-k="status">
+                <option value="ongoing" ${p.status === 'ongoing' ? 'selected' : ''}>Ongoing</option>
+                <option value="completed" ${p.status === 'completed' ? 'selected' : ''}>Completed</option>
+              </select>
+            </div>
+            <div style="display:flex; gap:8px; margin-top:8px;">
+              <button class="btn" data-action="save">Save</button>
+              <button class="btn ghost" data-action="complete">Mark Completed</button>
+              <button class="btn danger" data-action="delete">Delete</button>
+            </div>
+          `;
+
+          card.addEventListener('click', async (ev) => {
+            const target = ev.target;
+            if (!(target instanceof HTMLElement)) return;
+            const action = target.getAttribute('data-action');
+            if (!action) return;
+            const inputs = /** @type {NodeListOf<HTMLInputElement|HTMLSelectElement>} */(card.querySelectorAll('.inline-input'));
+            const updated = {};
+            inputs.forEach((el) => { const k = el.getAttribute('data-k'); if (!k) return; updated[k] = el.value; });
+            if (updated.price !== undefined) updated.price = Number(updated.price || 0);
+            const ref = doc(db, 'projects', p.id);
+            try {
+              if (action === 'save') {
+                await updateDoc(ref, updated);
+              } else if (action === 'complete') {
+                await updateDoc(ref, { status: 'completed' });
+              } else if (action === 'delete') {
+                await deleteDoc(ref);
+              }
+            } catch (e) { console.error(e); }
+          });
+
+          projectsList.appendChild(card);
+        });
+        projectsCount.textContent = String(count);
+      });
+
+      // ------------------------------
+      // Goals
+      // ------------------------------
+      const goalText = document.getElementById('goalText');
+      const addGoalBtn = document.getElementById('addGoalBtn');
+      const goalsList = document.getElementById('goalsList');
+
+      addGoalBtn.addEventListener('click', async () => {
+        const text = goalText.value.trim();
+        if (!text) return;
+        try {
+          await addDoc(collection(db, 'goals'), { text, createdAt: serverTimestamp() });
+          goalText.value = '';
+        } catch (e) { console.error(e); }
+      });
+
+      onSnapshot(query(collection(db, 'goals'), orderBy('createdAt', 'desc')), (snap) => {
+        goalsList.innerHTML = '';
+        snap.forEach((d) => {
+          const g = { id: d.id, ...d.data() };
+          const li = document.createElement('li');
+          li.style.display = 'flex';
+          li.style.alignItems = 'center';
+          li.style.gap = '10px';
+          li.style.background = '#0e0e12';
+          li.style.border = '1px solid #202028';
+          li.style.borderRadius = '12px';
+          li.style.padding = '10px 12px';
+          li.innerHTML = `
+            <span style="flex:1;">${escapeHtml(g.text || '')}</span>
+            <button class="btn ghost" data-id="${g.id}">Delete</button>
+          `;
+          li.querySelector('button')?.addEventListener('click', async () => {
+            try { await deleteDoc(doc(db, 'goals', g.id)); } catch (e) { console.error(e); }
+          });
+          goalsList.appendChild(li);
+        });
+      });
+
+      // ------------------------------
+      // Developers
+      // ------------------------------
+      const devName = document.getElementById('devName');
+      const devRole = document.getElementById('devRole');
+      const devContact = document.getElementById('devContact');
+      const addDevBtn = document.getElementById('addDevBtn');
+      const devsList = document.getElementById('devsList');
+      const devsCount = document.getElementById('devsCount');
+      const addDevMsg = document.getElementById('addDevMsg');
+
+      addDevBtn.addEventListener('click', async () => {
+        const name = devName.value.trim();
+        const role = devRole.value.trim();
+        const contact = devContact.value.trim();
+        if (!name) { flash(addDevMsg, 'Enter a name', true); return; }
+        try {
+          await addDoc(collection(db, 'developers'), { name, role, contact, createdAt: serverTimestamp() });
+          devName.value = ''; devRole.value = ''; devContact.value = '';
+          flash(addDevMsg, 'Developer added.');
+        } catch (e) { console.error(e); flash(addDevMsg, 'Error adding developer', true); }
+      });
+
+      onSnapshot(query(collection(db, 'developers'), orderBy('createdAt', 'desc')), (snap) => {
+        devsList.innerHTML = '';
+        let count = 0;
+        snap.forEach((d) => {
+          count += 1;
+          const dev = { id: d.id, ...d.data() };
+          const c = document.createElement('div');
+          c.className = 'item';
+          c.innerHTML = `
+            <h4 class="mono">${escapeHtml(dev.name || '')}</h4>
+            <input class="inline-input" data-k="name" placeholder="Name" value="${escapeAttr(dev.name || '')}" />
+            <div style="display:grid; grid-template-columns: repeat(12, 1fr); gap:8px;">
+              <input class="inline-input" style="grid-column: span 6;" data-k="role" placeholder="Role" value="${escapeAttr(dev.role || '')}" />
+              <input class="inline-input" style="grid-column: span 6;" data-k="contact" placeholder="Contact" value="${escapeAttr(dev.contact || '')}" />
+            </div>
+            <div style="display:flex; gap:8px; margin-top:8px;">
+              <button class="btn" data-action="save">Save</button>
+              <button class="btn danger" data-action="delete">Delete</button>
+            </div>
+          `;
+          c.addEventListener('click', async (ev) => {
+            const t = ev.target; if (!(t instanceof HTMLElement)) return;
+            const action = t.getAttribute('data-action'); if (!action) return;
+            const inputs = /** @type {NodeListOf<HTMLInputElement>} */(c.querySelectorAll('.inline-input'));
+            const updated = {}; inputs.forEach((el) => { const k = el.getAttribute('data-k'); if (!k) return; updated[k] = el.value; });
+            try {
+              const ref = doc(db, 'developers', dev.id);
+              if (action === 'save') await updateDoc(ref, updated);
+              else if (action === 'delete') await deleteDoc(ref);
+            } catch (e) { console.error(e); }
+          });
+          devsList.appendChild(c);
+        });
+        devsCount.textContent = String(count);
+      });
+
+      // ------------------------------
+      // Utilities
+      // ------------------------------
+      function flash(el, text, isError = false) {
+        el.textContent = text; el.style.color = isError ? 'var(--danger)' : 'var(--muted)';
+        el.style.opacity = '1';
+        setTimeout(() => { el.style.transition = 'opacity .6s ease'; el.style.opacity = '0'; }, 1400);
+      }
+
+      function escapeHtml(str) {
+        return String(str).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+      }
+      function escapeAttr(str) {
+        return String(str).replaceAll('&', '&amp;').replaceAll('"', '&quot;');
+      }
+    </script>
+  </body>
+  </html>
+
+
