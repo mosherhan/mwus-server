@@ -52,14 +52,49 @@
             --border: #1e1e1e;
         }
 
-        * {
-            box-sizing: border-box;
-        }
+         * {
+             box-sizing: border-box;
+         }
 
-        html,
-        body {
-            height: 100%;
-        }
+         html {
+             scroll-behavior: smooth;
+         }
+
+         html,
+         body {
+             height: 100%;
+         }
+
+         /* Custom Scrollbars */
+         ::-webkit-scrollbar {
+             width: 8px;
+             height: 8px;
+         }
+
+         ::-webkit-scrollbar-track {
+             background: var(--bg);
+             border-radius: 4px;
+         }
+
+         ::-webkit-scrollbar-thumb {
+             background: var(--border);
+             border-radius: 4px;
+             transition: background 0.2s ease;
+         }
+
+         ::-webkit-scrollbar-thumb:hover {
+             background: #2a2a2a;
+         }
+
+         ::-webkit-scrollbar-corner {
+             background: var(--bg);
+         }
+
+         /* Firefox scrollbar */
+         * {
+             scrollbar-width: thin;
+             scrollbar-color: var(--border) var(--bg);
+         }
 
         body {
             margin: 0;
@@ -437,9 +472,67 @@
             min-height: 140px;
         }
 
-        #assignDevs {
-            background: #0f0f0f;
-        }
+         #assignDevs {
+             background: #0f0f0f;
+         }
+
+         /* Custom File Input */
+         .file-input-wrapper {
+             position: relative;
+             display: inline-block;
+             width: 100%;
+         }
+
+         .file-input-wrapper input[type="file"] {
+             position: absolute;
+             left: -9999px;
+             opacity: 0;
+             pointer-events: none;
+         }
+
+         .file-input-button {
+             display: inline-flex;
+             align-items: center;
+             gap: 8px;
+             justify-content: center;
+             background: #181818;
+             border: 1px solid var(--border);
+             color: var(--text);
+             padding: 12px 14px;
+             border-radius: 12px;
+             cursor: pointer;
+             transition: transform 0.12s ease, background 0.2s ease, border-color 0.2s ease;
+             width: 100%;
+             font-size: 14px;
+         }
+
+         .file-input-button:hover {
+             transform: translateY(-1px);
+             background: #1f1f1f;
+             border-color: #2a2a2a;
+         }
+
+         .file-input-button::before {
+             content: "📎";
+             font-size: 16px;
+         }
+
+         .file-input-button.has-file {
+             background: #1d1d1d;
+             border-color: #3a3a46;
+             color: var(--accent);
+         }
+
+         .file-input-button.has-file::before {
+             content: "✅";
+         }
+
+         .file-name {
+             font-size: 12px;
+             color: var(--muted);
+             margin-top: 4px;
+             font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+         }
 
         /*
         ==========================
@@ -608,10 +701,14 @@
                         <label for="progress">Progress</label>
                         <input id="progress" class="input" type="range" min="0" max="100" value="0" />
                     </div>
-                    <div class="col-12 field">
-                        <label for="projectFile">Attachment (optional)</label>
-                        <input id="projectFile" class="input" type="file" />
-                    </div>
+                     <div class="col-12 field">
+                         <label for="projectFile">Attachment (optional)</label>
+                         <div class="file-input-wrapper">
+                             <input id="projectFile" type="file" />
+                             <button type="button" class="file-input-button" id="projectFileBtn">Choose File</button>
+                             <div class="file-name" id="projectFileName"></div>
+                         </div>
+                     </div>
                     <div class="col-12" style="display:flex; gap:10px; align-items:center;">
                         <button id="addProjectBtn" class="btn primary">Add Project</button>
                         <span id="addProjectMsg" class="muted mono" style="font-size:12px;"></span>
@@ -724,11 +821,40 @@
             measurementId: "G-9644QRM5PK"
         };
 
-        // Initialize
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const storage = getStorage(app);
+         // Initialize
+         const app = initializeApp(firebaseConfig);
+         const auth = getAuth(app);
+         const db = getFirestore(app);
+         const storage = getStorage(app);
+
+         // Custom File Input Functionality
+         function setupFileInput(fileInputId, buttonId, fileNameId) {
+             const fileInput = document.getElementById(fileInputId);
+             const button = document.getElementById(buttonId);
+             const fileName = document.getElementById(fileNameId);
+
+             button.addEventListener('click', () => {
+                 fileInput.click();
+             });
+
+             fileInput.addEventListener('change', (e) => {
+                 const file = e.target.files[0];
+                 if (file) {
+                     button.classList.add('has-file');
+                     button.textContent = 'File Selected';
+                     fileName.textContent = file.name;
+                 } else {
+                     button.classList.remove('has-file');
+                     button.textContent = 'Choose File';
+                     fileName.textContent = '';
+                 }
+             });
+         }
+
+         // Initialize file inputs when DOM is ready
+         document.addEventListener('DOMContentLoaded', () => {
+             setupFileInput('projectFile', 'projectFileBtn', 'projectFileName');
+         });
 
         // UI Elements
         const authView = document.getElementById('auth');
@@ -845,8 +971,11 @@
                 budgetInput.value = '';
                 expenseInput.value = '';
                 revenueInput.value = '';
-                projectFileInput.value = '';
-                flash(addProjectMsg, 'Project added.');
+                 projectFileInput.value = '';
+                 document.getElementById('projectFileBtn').classList.remove('has-file');
+                 document.getElementById('projectFileBtn').textContent = 'Choose File';
+                 document.getElementById('projectFileName').textContent = '';
+                 flash(addProjectMsg, 'Project added.');
             } catch (e) {
                 const msg = (e && e.message) ? e.message : 'Error adding project.';
                 flash(addProjectMsg, msg, true);
