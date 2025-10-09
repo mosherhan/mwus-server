@@ -185,6 +185,7 @@
       */
       .items { display: grid; grid-template-columns: repeat(12, 1fr); gap: 12px; }
       .item { grid-column: span 6; background: #101010; border: 1px solid var(--border); border-radius: 14px; padding: 14px; }
+      .items { align-content: start; grid-auto-rows: auto; }
       .item h4 { margin: 4px 0 10px; font-size: 15px; }
 
       .status-badge {
@@ -194,6 +195,11 @@
       .completed { color: #a0f0b5; border-color: #24573a; background: #0f2418; }
 
       .inline-input { width: 100%; background: #0e0e0e; border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; margin-bottom: 8px; }
+      .badge { display:inline-block; padding:4px 8px; border:1px solid var(--border); border-radius:999px; font-size:11px; }
+      .badge.warn { color:#ffd6a0; border-color:#3a2f12; background:#201708; }
+      .badge.urgent { color:#ffb3b3; border-color:#3a1e1e; background:#210e0e; }
+      .progress { height:8px; border-radius:999px; background:#121212; border:1px solid var(--border); overflow:hidden; }
+      .progress > span { display:block; height:100%; background:#2e7df5; }
 
       /*
         ==========================
@@ -287,12 +293,12 @@
               <input id="projectName" class="input" placeholder="Website redesign" />
             </div>
             <div class="col-6 field">
-              <label for="projectPrice">Project Price</label>
+              <label for="projectPrice">Project Price (₹)</label>
               <input id="projectPrice" class="input" type="number" inputmode="decimal" placeholder="20000" />
             </div>
             <div class="col-12 field">
-              <label for="division">Division of Money</label>
-              <input id="division" class="input" placeholder="60% Founder A · 40% Founder B" />
+              <label for="division">Division of Money (₹)</label>
+              <input id="division" class="input" placeholder="12000 · 8000" />
             </div>
             <div class="col-6 field">
               <label for="status">Status</label>
@@ -300,6 +306,35 @@
                 <option value="ongoing">Ongoing</option>
                 <option value="completed">Completed</option>
               </select>
+            </div>
+            <div class="col-6 field">
+              <label for="deadline">Deadline</label>
+              <input id="deadline" class="input" type="date" />
+            </div>
+            <div class="col-4 field">
+              <label for="budget">Budget (₹)</label>
+              <input id="budget" class="input" type="number" inputmode="decimal" placeholder="15000" />
+            </div>
+            <div class="col-4 field">
+              <label for="expense">Expense (₹)</label>
+              <input id="expense" class="input" type="number" inputmode="decimal" placeholder="5000" />
+            </div>
+            <div class="col-4 field">
+              <label for="revenue">Revenue (₹)</label>
+              <input id="revenue" class="input" type="number" inputmode="decimal" placeholder="20000" />
+            </div>
+            <div class="col-8 field">
+              <label for="assignDevs">Assign Developers</label>
+              <select id="assignDevs" class="select" multiple size="3"></select>
+              <span class="muted mono" style="font-size:11px;">Hold Ctrl/Cmd to multi‑select</span>
+            </div>
+            <div class="col-4 field">
+              <label for="progress">Progress</label>
+              <input id="progress" class="input" type="range" min="0" max="100" value="0" />
+            </div>
+            <div class="col-12 field">
+              <label for="projectFile">Attachment (optional)</label>
+              <input id="projectFile" class="input" type="file" />
             </div>
             <div class="col-12" style="display:flex; gap:10px; align-items:center;">
               <button id="addProjectBtn" class="btn primary">Add Project</button>
@@ -313,6 +348,10 @@
           <div style="display:flex; align-items:center; justify-content:space-between;">
             <h3>Ongoing Projects</h3>
             <span class="muted mono" id="projectsCount">0</span>
+          </div>
+          <div style="display:flex; gap:8px; align-items:center; margin-bottom:8px;">
+            <input id="projectSearch" class="input" placeholder="Search projects or filter by status: ongoing/completed" />
+            <button id="clearSearch" class="btn ghost">Clear</button>
           </div>
           <div class="items" id="projectsList"></div>
         </article>
@@ -346,12 +385,38 @@
               <label for="devContact">Contact</label>
               <input id="devContact" class="input" placeholder="@username | email" />
             </div>
+            <div class="col-8 field">
+              <label for="devSkills">Skills</label>
+              <input id="devSkills" class="input" placeholder="React, Node, Design Systems" />
+            </div>
+            <div class="col-4 field">
+              <label for="devNotes">Internal Notes</label>
+              <input id="devNotes" class="input" placeholder="Strong on animations" />
+            </div>
             <div class="col-12" style="display:flex; gap:10px; align-items:center;">
               <button id="addDevBtn" class="btn">Add Developer</button>
               <span id="addDevMsg" class="muted mono" style="font-size:12px;"></span>
             </div>
           </div>
           <div class="items" id="devsList"></div>
+        </article>
+
+        <!-- Analytics -->
+        <article class="card span-4" id="analyticsCard">
+          <h3>Analytics</h3>
+          <div class="mono muted" id="analyticsText" style="font-size:13px; display:grid; gap:6px;"></div>
+        </article>
+
+        <!-- Announcements -->
+        <article class="card span-12" id="notesCard">
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <h3>Announcements / Notes</h3>
+          </div>
+          <div style="display:flex; gap:8px; margin-bottom:10px;">
+            <input id="noteText" class="input" placeholder="Share an update for founders" />
+            <button id="addNoteBtn" class="btn">Post</button>
+          </div>
+          <ul id="notesList" class="mono" style="list-style:none; padding:0; margin:0; display:grid; gap:8px;"></ul>
         </article>
       </section>
     </div>
@@ -363,7 +428,8 @@
       // Firebase modular SDK v9+ via CDN
       import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js';
       import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js';
-      import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, orderBy, updateDoc, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
+      import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, orderBy, updateDoc, deleteDoc, doc, where } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
+      import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js';
 
       // ---- Replace with your Firebase project's config ----
       const firebaseConfig = {
@@ -380,6 +446,7 @@
       const app = initializeApp(firebaseConfig);
       const auth = getAuth(app);
       const db = getFirestore(app);
+      const storage = getStorage(app);
 
       // UI Elements
       const authView = document.getElementById('auth');
@@ -430,25 +497,73 @@
       const addProjectMsg = document.getElementById('addProjectMsg');
       const projectsList = document.getElementById('projectsList');
       const projectsCount = document.getElementById('projectsCount');
+      const assignDevs = document.getElementById('assignDevs');
+      const progressInput = document.getElementById('progress');
+      const deadlineInput = document.getElementById('deadline');
+      const budgetInput = document.getElementById('budget');
+      const expenseInput = document.getElementById('expense');
+      const revenueInput = document.getElementById('revenue');
+      const projectFileInput = document.getElementById('projectFile');
+      const projectSearch = document.getElementById('projectSearch');
+      const clearSearch = document.getElementById('clearSearch');
+
+      // Populate developer multi-select
+      onSnapshot(query(collection(db, 'developers'), orderBy('createdAt', 'desc')), (snap) => {
+        assignDevs.innerHTML = '';
+        snap.forEach((d) => {
+          const dev = { id: d.id, ...d.data() };
+          const opt = document.createElement('option');
+          opt.value = dev.id; opt.textContent = dev.name || 'Unnamed';
+          assignDevs.appendChild(opt);
+        });
+      });
 
       addProjectBtn.addEventListener('click', async () => {
         const nameVal = projectName.value.trim();
         const priceVal = Number(projectPrice.value || 0);
         const divisionVal = division.value.trim();
         const statusVal = status.value;
+        const deadlineVal = deadlineInput.value || null;
+        const progressVal = Number(progressInput.value || 0);
+        const budgetVal = Number(budgetInput.value || 0);
+        const expenseVal = Number(expenseInput.value || 0);
+        const revenueVal = Number(revenueInput.value || 0);
+        const profitVal = revenueVal - expenseVal;
+        const assigned = Array.from(assignDevs.selectedOptions).map(o => o.value);
         if (!nameVal) { flash(addProjectMsg, 'Please enter a project name.', true); return; }
         try {
+          let attachmentURL = '';
+          const file = projectFileInput.files && projectFileInput.files[0];
+          if (file) {
+            const sref = storageRef(storage, `projectFiles/${Date.now()}_${file.name}`);
+            await uploadBytes(sref, file);
+            attachmentURL = await getDownloadURL(sref);
+          }
           await addDoc(collection(db, 'projects'), {
             name: nameVal,
             price: priceVal,
             division: divisionVal,
             status: statusVal,
+            deadline: deadlineVal,
+            progress: progressVal,
+            budget: budgetVal,
+            expense: expenseVal,
+            revenue: revenueVal,
+            profit: profitVal,
+            assignedDevelopers: assigned,
+            attachmentURL,
             createdAt: serverTimestamp(),
           });
           projectName.value = '';
           projectPrice.value = '';
           division.value = '';
           status.value = 'ongoing';
+          deadlineInput.value = '';
+          progressInput.value = '0';
+          budgetInput.value = '';
+          expenseInput.value = '';
+          revenueInput.value = '';
+          projectFileInput.value = '';
           flash(addProjectMsg, 'Project added.');
         } catch (e) {
           const msg = (e && e.message) ? e.message : 'Error adding project.';
@@ -457,32 +572,47 @@
         }
       });
 
-      onSnapshot(query(collection(db, 'projects'), orderBy('createdAt', 'desc')), (snap) => {
+      let latestProjects = [];
+      function renderProjects(list) {
         projectsList.innerHTML = '';
         let count = 0;
-        snap.forEach((docSnap) => {
+        list.forEach((p) => {
           count += 1;
-          const p = { id: docSnap.id, ...docSnap.data() };
           const card = document.createElement('div');
           card.className = 'item';
+          const overdue = p.deadline && new Date(p.deadline) < new Date() && p.status !== 'completed';
+          const progress = Math.max(0, Math.min(100, Number(p.progress || 0)));
           card.innerHTML = `
             <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
               <h4 class="mono">${escapeHtml(p.name || '')}</h4>
               <span class="status-badge ${p.status === 'completed' ? 'completed' : 'ongoing'}">${p.status || 'ongoing'}</span>
             </div>
+            <div class="mono muted" style="font-size:12px; margin-bottom:6px; display:flex; gap:8px; flex-wrap:wrap;">
+              <span>₹${Number(p.price||0).toLocaleString('en-IN')}</span>
+              ${p.deadline ? `<span class="badge ${overdue ? 'urgent' : ''}">Due: ${p.deadline}</span>` : ''}
+              ${p.assignedDevelopers && p.assignedDevelopers.length ? `<span class="badge">Devs: ${p.assignedDevelopers.length}</span>` : ''}
+              ${typeof p.profit === 'number' ? `<span class="badge ${p.profit<0?'urgent':''}">Profit: ₹${Number(p.profit||0).toLocaleString('en-IN')}</span>` : ''}
+            </div>
             <input class="inline-input" data-k="name" placeholder="Name" value="${escapeAttr(p.name || '')}" />
             <div style="display:grid; grid-template-columns: repeat(12, 1fr); gap:8px;">
               <input class="inline-input" style="grid-column: span 4;" data-k="price" type="number" inputmode="decimal" placeholder="Price" value="${escapeAttr(p.price ?? '')}" />
-              <input class="inline-input" style="grid-column: span 8;" data-k="division" placeholder="Division" value="${escapeAttr(p.division || '')}" />
-              <select class="inline-input" style="grid-column: span 6;" data-k="status">
+              <input class="inline-input" style="grid-column: span 8;" data-k="division" placeholder="Division (₹)" value="${escapeAttr(p.division || '')}" />
+              <select class="inline-input" style="grid-column: span 4;" data-k="status">
                 <option value="ongoing" ${p.status === 'ongoing' ? 'selected' : ''}>Ongoing</option>
                 <option value="completed" ${p.status === 'completed' ? 'selected' : ''}>Completed</option>
               </select>
+              <input class="inline-input" style="grid-column: span 4;" data-k="deadline" type="date" value="${escapeAttr(p.deadline || '')}" />
+              <input class="inline-input" style="grid-column: span 4;" data-k="progress" type="number" min="0" max="100" value="${escapeAttr(p.progress ?? 0)}" />
+              <input class="inline-input" style="grid-column: span 4;" data-k="budget" type="number" placeholder="Budget (₹)" value="${escapeAttr(p.budget ?? '')}" />
+              <input class="inline-input" style="grid-column: span 4;" data-k="expense" type="number" placeholder="Expense (₹)" value="${escapeAttr(p.expense ?? '')}" />
+              <input class="inline-input" style="grid-column: span 4;" data-k="revenue" type="number" placeholder="Revenue (₹)" value="${escapeAttr(p.revenue ?? '')}" />
             </div>
-            <div style="display:flex; gap:8px; margin-top:8px;">
+            <div class="progress" style="margin:6px 0 4px;"><span style="width:${progress}%;"></span></div>
+            <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
               <button class="btn" data-action="save">Save</button>
               <button class="btn ghost" data-action="complete">Mark Completed</button>
               <button class="btn danger" data-action="delete">Delete</button>
+              ${p.attachmentURL ? `<a class="btn ghost" href="${p.attachmentURL}" target="_blank" rel="noopener">Attachment</a>` : ''}
             </div>
           `;
 
@@ -492,15 +622,20 @@
             const action = target.getAttribute('data-action');
             if (!action) return;
             const inputs = /** @type {NodeListOf<HTMLInputElement|HTMLSelectElement>} */(card.querySelectorAll('.inline-input'));
-            const updated = {};
-            inputs.forEach((el) => { const k = el.getAttribute('data-k'); if (!k) return; updated[k] = el.value; });
+            const updated = {}; inputs.forEach((el) => { const k = el.getAttribute('data-k'); if (!k) return; updated[k] = el.value; });
             if (updated.price !== undefined) updated.price = Number(updated.price || 0);
+            ['budget','expense','revenue','progress'].forEach(k => { if (updated[k] !== undefined) updated[k] = Number(updated[k] || 0); });
+            if (updated.expense !== undefined || updated.revenue !== undefined) {
+              const expenseV = updated.expense !== undefined ? updated.expense : p.expense || 0;
+              const revenueV = updated.revenue !== undefined ? updated.revenue : p.revenue || 0;
+              updated.profit = revenueV - expenseV;
+            }
             const ref = doc(db, 'projects', p.id);
             try {
               if (action === 'save') {
                 await updateDoc(ref, updated);
               } else if (action === 'complete') {
-                await updateDoc(ref, { status: 'completed' });
+                await updateDoc(ref, { status: 'completed', progress: 100 });
               } else if (action === 'delete') {
                 await deleteDoc(ref);
               }
@@ -510,7 +645,26 @@
           projectsList.appendChild(card);
         });
         projectsCount.textContent = String(count);
+        updateAnalytics(list);
+      }
+
+      onSnapshot(query(collection(db, 'projects'), orderBy('createdAt', 'desc')), (snap) => {
+        projectsList.innerHTML = '';
+        latestProjects = [];
+        snap.forEach((docSnap) => { latestProjects.push({ id: docSnap.id, ...docSnap.data() }); });
+        renderProjects(latestProjects);
       });
+
+      // Search/filter
+      projectSearch.addEventListener('input', () => {
+        const q = projectSearch.value.trim().toLowerCase();
+        if (!q) return renderProjects(latestProjects);
+        const filtered = latestProjects.filter(p => {
+          return (p.name||'').toLowerCase().includes(q) || (p.status||'').toLowerCase().includes(q);
+        });
+        renderProjects(filtered);
+      });
+      clearSearch.addEventListener('click', () => { projectSearch.value = ''; renderProjects(latestProjects); });
 
       // ------------------------------
       // Goals
@@ -518,12 +672,14 @@
       const goalText = document.getElementById('goalText');
       const addGoalBtn = document.getElementById('addGoalBtn');
       const goalsList = document.getElementById('goalsList');
+      // extend goals with status + priority
+      const GOAL_STATUSES = ['pending','in_progress','achieved'];
 
       addGoalBtn.addEventListener('click', async () => {
         const text = goalText.value.trim();
         if (!text) return;
         try {
-          await addDoc(collection(db, 'goals'), { text, createdAt: serverTimestamp() });
+          await addDoc(collection(db, 'goals'), { text, status: 'pending', priority: 2, createdAt: serverTimestamp() });
           goalText.value = '';
         } catch (e) { console.error('addGoal error:', e); }
       });
@@ -542,10 +698,27 @@
           li.style.padding = '10px 12px';
           li.innerHTML = `
             <span style="flex:1;">${escapeHtml(g.text || '')}</span>
-            <button class="btn ghost" data-id="${g.id}">Delete</button>
+            <select class="inline-input" style="width:140px;" data-k="status">
+              ${GOAL_STATUSES.map(s=>`<option value="${s}" ${g.status===s?'selected':''}>${s.replace('_',' ')}</option>`).join('')}
+            </select>
+            <select class="inline-input" style="width:120px;" data-k="priority">
+              <option value="1" ${String(g.priority)==='1'?'selected':''}>Low</option>
+              <option value="2" ${String(g.priority)==='2'?'selected':''}>Medium</option>
+              <option value="3" ${String(g.priority)==='3'?'selected':''}>High</option>
+            </select>
+            <button class="btn ghost" data-action="save">Save</button>
+            <button class="btn ghost" data-action="delete">Delete</button>
           `;
-          li.querySelector('button')?.addEventListener('click', async () => {
-            try { await deleteDoc(doc(db, 'goals', g.id)); } catch (e) { console.error('deleteGoal error:', e); }
+          li.addEventListener('click', async (ev) => {
+            const t = ev.target; if (!(t instanceof HTMLElement)) return;
+            const action = t.getAttribute('data-action');
+            if (!action) return;
+            const statusEl = /** @type {HTMLSelectElement} */(li.querySelector('[data-k="status"]'));
+            const prioEl = /** @type {HTMLSelectElement} */(li.querySelector('[data-k="priority"]'));
+            try {
+              if (action === 'save') await updateDoc(doc(db, 'goals', g.id), { status: statusEl.value, priority: Number(prioEl.value) });
+              else if (action === 'delete') await deleteDoc(doc(db, 'goals', g.id));
+            } catch (e) { console.error('goal action error:', e); }
           });
           goalsList.appendChild(li);
         });
@@ -557,6 +730,8 @@
       const devName = document.getElementById('devName');
       const devRole = document.getElementById('devRole');
       const devContact = document.getElementById('devContact');
+      const devSkills = document.getElementById('devSkills');
+      const devNotes = document.getElementById('devNotes');
       const addDevBtn = document.getElementById('addDevBtn');
       const devsList = document.getElementById('devsList');
       const devsCount = document.getElementById('devsCount');
@@ -566,10 +741,12 @@
         const name = devName.value.trim();
         const role = devRole.value.trim();
         const contact = devContact.value.trim();
+        const skills = devSkills.value.trim();
+        const notes = devNotes.value.trim();
         if (!name) { flash(addDevMsg, 'Enter a name', true); return; }
         try {
-          await addDoc(collection(db, 'developers'), { name, role, contact, createdAt: serverTimestamp() });
-          devName.value = ''; devRole.value = ''; devContact.value = '';
+          await addDoc(collection(db, 'developers'), { name, role, contact, skills, notes, createdAt: serverTimestamp() });
+          devName.value = ''; devRole.value = ''; devContact.value = ''; devSkills.value = ''; devNotes.value='';
           flash(addDevMsg, 'Developer added.');
         } catch (e) { console.error('addDeveloper error:', e); flash(addDevMsg, e && e.message ? e.message : 'Error adding developer', true); }
       });
@@ -589,6 +766,8 @@
               <input class="inline-input" style="grid-column: span 6;" data-k="role" placeholder="Role" value="${escapeAttr(dev.role || '')}" />
               <input class="inline-input" style="grid-column: span 6;" data-k="contact" placeholder="Contact" value="${escapeAttr(dev.contact || '')}" />
             </div>
+            <input class="inline-input" data-k="skills" placeholder="Skills" value="${escapeAttr(dev.skills || '')}" />
+            <input class="inline-input" data-k="notes" placeholder="Notes" value="${escapeAttr(dev.notes || '')}" />
             <div style="display:flex; gap:8px; margin-top:8px;">
               <button class="btn" data-action="save">Save</button>
               <button class="btn danger" data-action="delete">Delete</button>
@@ -625,6 +804,46 @@
       function escapeAttr(str) {
         return String(str).replaceAll('&', '&amp;').replaceAll('"', '&quot;');
       }
+
+      // Simple analytics text block
+      const analyticsText = document.getElementById('analyticsText');
+      function updateAnalytics(list) {
+        const total = list.length;
+        const completed = list.filter(p => p.status === 'completed').length;
+        const ongoing = total - completed;
+        const totalBudget = list.reduce((s,p)=> s + Number(p.budget||0), 0);
+        const totalExpense = list.reduce((s,p)=> s + Number(p.expense||0), 0);
+        const totalRevenue = list.reduce((s,p)=> s + Number(p.revenue||0), 0);
+        const totalProfit = totalRevenue - totalExpense;
+        analyticsText.innerHTML = `
+          <span>Projects: ${total} (Ongoing: ${ongoing}, Completed: ${completed})</span>
+          <span>Budget: ₹${totalBudget.toLocaleString('en-IN')}</span>
+          <span>Expense: ₹${totalExpense.toLocaleString('en-IN')}</span>
+          <span>Revenue: ₹${totalRevenue.toLocaleString('en-IN')}</span>
+          <span>Profit: ₹${totalProfit.toLocaleString('en-IN')}</span>
+        `;
+      }
+
+      // Notes / announcements
+      const noteText = document.getElementById('noteText');
+      const addNoteBtn = document.getElementById('addNoteBtn');
+      const notesList = document.getElementById('notesList');
+      addNoteBtn?.addEventListener('click', async () => {
+        const text = noteText.value.trim(); if (!text) return;
+        try { await addDoc(collection(db, 'notes'), { text, createdAt: serverTimestamp() }); noteText.value=''; } catch(e){ console.error('addNote error:', e); }
+      });
+      onSnapshot(query(collection(db, 'notes'), orderBy('createdAt','desc')), (snap) => {
+        notesList.innerHTML='';
+        snap.forEach(d => {
+          const n = { id:d.id, ...d.data() };
+          const li = document.createElement('li');
+          li.style.display='flex'; li.style.gap='10px'; li.style.alignItems='center';
+          li.style.border='1px solid #202028'; li.style.background='#0e0e12'; li.style.borderRadius='12px'; li.style.padding='10px 12px';
+          li.innerHTML = `<span style="flex:1;">${escapeHtml(n.text||'')}</span><button class="btn ghost" data-action="delete">Delete</button>`;
+          li.addEventListener('click', async (ev)=>{ const t=ev.target; if(!(t instanceof HTMLElement)) return; if(t.getAttribute('data-action')==='delete'){ try{ await deleteDoc(doc(db,'notes', n.id)); }catch(e){ console.error('deleteNote error:', e); } } });
+          notesList.appendChild(li);
+        });
+      });
     </script>
   </body>
   </html>
