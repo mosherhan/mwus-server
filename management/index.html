@@ -72,38 +72,81 @@
         html,
         body {
             height: 100%;
+            scroll-behavior: smooth;
+            scrollbar-gutter: stable;
         }
 
-        /* Custom Scrollbars */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
+         /* Custom Scrollbars */
+         ::-webkit-scrollbar {
+             width: 8px;
+             height: 8px;
+         }
 
-        ::-webkit-scrollbar-track {
-            background: var(--bg);
-            border-radius: 4px;
-        }
+         ::-webkit-scrollbar-track {
+             background: transparent;
+             border-radius: 4px;
+         }
 
-        ::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 4px;
-            transition: background 0.2s ease;
-        }
+         ::-webkit-scrollbar-thumb {
+             background: var(--border);
+             border-radius: 4px;
+             transition: background 0.2s ease;
+         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: #2a2a2a;
-        }
+         ::-webkit-scrollbar-thumb:hover {
+             background: var(--accent);
+         }
 
-        ::-webkit-scrollbar-corner {
-            background: var(--bg);
-        }
+         ::-webkit-scrollbar-corner {
+             background: transparent;
+         }
 
-        /* Firefox scrollbar */
-        * {
-            scrollbar-width: thin;
-            scrollbar-color: var(--border) var(--bg);
-        }
+         /* Firefox scrollbar */
+         * {
+             scrollbar-width: thin;
+             scrollbar-color: var(--border) transparent;
+         }
+
+         /* Scrollable Content Areas */
+         .scrollable-content {
+             max-height: 400px;
+             overflow-y: auto;
+             padding-right: 8px;
+             scrollbar-gutter: stable;
+             scroll-behavior: smooth;
+         }
+
+         .scrollable-content::-webkit-scrollbar {
+             width: 6px;
+         }
+
+         .scrollable-content::-webkit-scrollbar-track {
+             background: transparent;
+             border-radius: 3px;
+         }
+
+         .scrollable-content::-webkit-scrollbar-thumb {
+             background: var(--border);
+             border-radius: 3px;
+             transition: background 0.2s ease;
+         }
+
+         .scrollable-content::-webkit-scrollbar-thumb:hover {
+             background: var(--accent);
+         }
+
+         /* Responsive scrollable heights */
+         @media (max-width: 768px) {
+             .scrollable-content {
+                 max-height: 300px;
+             }
+         }
+
+         @media (max-width: 480px) {
+             .scrollable-content {
+                 max-height: 250px;
+             }
+         }
 
         /* Custom Number Input Scrollbars */
         input[type="number"]::-webkit-outer-spin-button,
@@ -1111,19 +1154,19 @@
                 </div>
             </article>
 
-            <!-- Ongoing Projects -->
-            <article class="card span-12" id="projectsCard">
-                <div style="display:flex; align-items:center; justify-content:space-between;">
-                    <h3>Ongoing Projects</h3>
-                    <span class="muted mono" id="projectsCount">0</span>
-                </div>
-                <div style="display:flex; gap:8px; align-items:center; margin-bottom:8px;">
-                    <input id="projectSearch" class="input"
-                        placeholder="Search projects or filter by status: ongoing/completed" />
-                    <button id="clearSearch" class="btn ghost">Clear</button>
-                </div>
-                <div class="items" id="projectsList"></div>
-            </article>
+             <!-- Ongoing Projects -->
+             <article class="card span-12" id="projectsCard">
+                 <div style="display:flex; align-items:center; justify-content:space-between;">
+                     <h3>Ongoing Projects</h3>
+                     <span class="muted mono" id="projectsCount">0</span>
+                 </div>
+                 <div style="display:flex; gap:8px; align-items:center; margin-bottom:8px;">
+                     <input id="projectSearch" class="input"
+                         placeholder="Search projects or filter by status: ongoing/completed" />
+                     <button id="clearSearch" class="btn ghost">Clear</button>
+                 </div>
+                 <div class="items scrollable-content" id="projectsList"></div>
+             </article>
 
             <!-- Developer Payouts -->
             <article class="card span-8" id="payoutsCard">
@@ -1157,7 +1200,7 @@
                         <span id="addPayoutMsg" class="muted mono" style="font-size:12px;"></span>
                     </div>
                 </div>
-                <div id="payoutsList" style="max-height: 260px; overflow-y:auto;"></div>
+                 <div id="payoutsList" class="scrollable-content"></div>
             </article>
 
             <!-- Client Payments -->
@@ -1188,7 +1231,7 @@
                         <span id="addPaymentMsg" class="muted mono" style="font-size:12px;"></span>
                     </div>
                 </div>
-                <div id="paymentsList" style="max-height: 260px; overflow-y:auto;"></div>
+                 <div id="paymentsList" class="scrollable-content"></div>
             </article>
 
 
@@ -1202,8 +1245,8 @@
                         <button id="addGoalBtn" class="btn" style="width:100%;">Add</button>
                     </div>
                 </div>
-                <ul id="goalsList" class="mono"
-                    style="list-style:none; padding:0; margin:0; display:grid; gap:8px; grid-auto-rows:auto;"></ul>
+                 <ul id="goalsList" class="mono scrollable-content"
+                     style="list-style:none; padding:0; margin:0; display:grid; gap:8px; grid-auto-rows:auto;"></ul>
             </article>
 
             <!-- Developers Info -->
@@ -1238,13 +1281,13 @@
                         <span id="addDevMsg" class="muted mono" style="font-size:12px;"></span>
                     </div>
                 </div>
-                <div class="items" id="devsList"></div>
+                 <div class="items scrollable-content" id="devsList"></div>
             </article>
 
             <!-- Analytics -->
             <article class="card span-4" id="analyticsCard">
                 <h3>Analytics</h3>
-                <div class="mono muted" id="analyticsText" style="font-size:13px; display:grid; gap:6px;"></div>
+                 <div class="mono muted scrollable-content" id="analyticsText" style="font-size:13px; display:grid; gap:6px;"></div>
             </article>
 
 
@@ -1305,10 +1348,10 @@
                     </div>
                 </div>
 
-                <div style="margin-top: 16px;">
-                    <h4 style="margin-bottom: 12px; font-size: 14px;">Upcoming Events</h4>
-                    <div id="eventsList" style="max-height: 300px; overflow-y: auto;"></div>
-                </div>
+                 <div style="margin-top: 16px;">
+                     <h4 style="margin-bottom: 12px; font-size: 14px;">Upcoming Events</h4>
+                     <div id="eventsList" class="scrollable-content"></div>
+                 </div>
             </article>
 
             <!-- Announcements -->
@@ -1320,8 +1363,8 @@
                     <input id="noteText" class="input" placeholder="Share an update for founders" />
                     <button id="addNoteBtn" class="btn">Post</button>
                 </div>
-                <ul id="notesList" class="mono" style="list-style:none; padding:0; margin:0; display:grid; gap:8px;">
-                </ul>
+                 <ul id="notesList" class="mono scrollable-content" style="list-style:none; padding:0; margin:0; display:grid; gap:8px;">
+                 </ul>
             </article>
         </section>
     </div>
