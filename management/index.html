@@ -331,6 +331,175 @@
             --border: #e4e4ea;
         }
 
+        /* Analytics Premium Styling */
+        .kpi-card {
+            background: linear-gradient(135deg, var(--panel) 0%, var(--panel-2) 100%);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+            border-color: var(--accent);
+        }
+
+        .kpi-card:hover::before {
+            opacity: 1;
+        }
+
+        .kpi-card[data-metric="revenue"]:hover {
+            background: linear-gradient(135deg, rgba(79, 139, 255, 0.05) 0%, rgba(106, 106, 252, 0.05) 100%);
+        }
+
+        .kpi-card[data-metric="growth"]:hover {
+            background: linear-gradient(135deg, rgba(42, 167, 123, 0.05) 0%, rgba(64, 224, 160, 0.05) 100%);
+        }
+
+        .kpi-card[data-metric="projects"]:hover {
+            background: linear-gradient(135deg, rgba(255, 209, 102, 0.05) 0%, rgba(255, 107, 107, 0.05) 100%);
+        }
+
+        .kpi-card[data-metric="efficiency"]:hover {
+            background: linear-gradient(135deg, rgba(160, 201, 255, 0.05) 0%, rgba(184, 182, 255, 0.05) 100%);
+        }
+
+        .kpi-icon {
+            font-size: 24px;
+            margin-bottom: 12px;
+            opacity: 0.8;
+        }
+
+        .kpi-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .kpi-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        .kpi-label {
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .kpi-change {
+            font-size: 11px;
+            color: var(--ok);
+            font-weight: 600;
+        }
+
+        .chart-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(79, 139, 255, 0.02) 0%, rgba(106, 106, 252, 0.02) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .chart-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent);
+        }
+
+        .chart-card:hover::before {
+            opacity: 1;
+        }
+
+        .chart-header {
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .chart-container {
+            position: relative;
+            z-index: 1;
+            height: 200px;
+        }
+
+        .analytics-summary {
+            background: linear-gradient(135deg, var(--panel) 0%, var(--panel-2) 100%);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .analytics-summary:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .kpi-card {
+                padding: 16px;
+            }
+
+            .kpi-value {
+                font-size: 24px;
+            }
+
+            .chart-card {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .logout-btn:hover {
             transform: translateY(-1px);
             background: #1a1a1f;
@@ -1086,9 +1255,12 @@
                 <span class="muted mono" style="font-size: 12px;">internal</span>
             </div>
             <div style="display:inline-flex; align-items:center; gap:10px;">
-                <input id="globalSearch" class="input mono" placeholder="Search projects, developers, tasks, finance" style="width:280px; max-width:42vw;" />
+                <input id="globalSearch" class="input mono" placeholder="Search projects, developers, tasks, finance"
+                    style="width:280px; max-width:42vw;" />
                 <button id="themeToggle" class="logout-btn" title="Toggle theme">🌓</button>
-                <button id="notifBtn" class="logout-btn" title="Notifications" style="position:relative;">🔔<span id="notifBadge" style="display:none; position:absolute; top:6px; right:6px; width:8px; height:8px; background: var(--accent); border-radius:50%;"></span></button>
+                <button id="notifBtn" class="logout-btn" title="Notifications" style="position:relative;">🔔<span
+                        id="notifBadge"
+                        style="display:none; position:absolute; top:6px; right:6px; width:8px; height:8px; background: var(--accent); border-radius:50%;"></span></button>
                 <button id="logoutBtn" class="logout-btn">Logout</button>
             </div>
         </header>
@@ -1304,16 +1476,119 @@
                 <div class="items scrollable-content" id="devsList"></div>
             </article>
 
-            <!-- Analytics -->
-            <article class="card span-4" id="analyticsCard">
-                <h3>Analytics</h3>
-                <div style="display:grid; gap:10px;">
-                    <canvas id="chartRevenue" height="140"></canvas>
-                    <canvas id="chartProjects" height="120"></canvas>
-                    <canvas id="chartExpenses" height="120"></canvas>
+            <!-- Analytics & Insights -->
+            <article class="card span-12" id="analyticsCard">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:24px;">
+                    <div>
+                        <h3 style="margin:0; font-size:24px; font-weight:700;">Analytics & Insights</h3>
+                        <p class="muted mono" style="font-size:12px; margin:4px 0 0;">Real-time business intelligence
+                        </p>
+                    </div>
+                    <div style="display:flex; gap:8px;">
+                        <select id="analyticsPeriod" class="select" style="width:120px; font-size:12px;">
+                            <option value="month">This Month</option>
+                            <option value="quarter">This Quarter</option>
+                            <option value="year">This Year</option>
+                        </select>
+                        <select id="analyticsView" class="select" style="width:100px; font-size:12px;">
+                            <option value="overview">Overview</option>
+                            <option value="finance">Finance</option>
+                            <option value="projects">Projects</option>
+                            <option value="team">Team</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="mono muted scrollable-content" id="analyticsText"
-                    style="font-size:13px; display:grid; gap:6px;"></div>
+
+                <!-- KPI Metrics Row -->
+                <div class="kpi-grid"
+                    style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:16px; margin-bottom:32px;">
+                    <div class="kpi-card" data-metric="revenue">
+                        <div class="kpi-content">
+                            <div class="kpi-value" id="kpiRevenue">₹0</div>
+                            <div class="kpi-label">Total Revenue</div>
+                            <div class="kpi-change" id="kpiRevenueChange">+0%</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card" data-metric="growth">
+                        <div class="kpi-content">
+                            <div class="kpi-value" id="kpiGrowth">0%</div>
+                            <div class="kpi-label">Monthly Growth</div>
+                            <div class="kpi-change" id="kpiGrowthChange">vs last month</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card" data-metric="projects">
+                        <div class="kpi-content">
+                            <div class="kpi-value" id="kpiProjects">0</div>
+                            <div class="kpi-label">Active Projects</div>
+                            <div class="kpi-change" id="kpiProjectsChange">0 completed</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card" data-metric="efficiency">
+                        <div class="kpi-content">
+                            <div class="kpi-value" id="kpiEfficiency">0%</div>
+                            <div class="kpi-label">Team Efficiency</div>
+                            <div class="kpi-change" id="kpiEfficiencyChange">avg completion</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Grid -->
+                <div class="charts-grid"
+                    style="display:grid; grid-template-columns:repeat(auto-fit, minmax(400px, 1fr)); gap:24px;">
+                    <!-- Revenue Trend -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h4 style="margin:0; font-size:16px; font-weight:600;">Revenue Trend</h4>
+                            <p class="muted mono" style="font-size:11px; margin:2px 0 0;">Monthly revenue progression
+                            </p>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="chartRevenue" height="200"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Project Performance -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h4 style="margin:0; font-size:16px; font-weight:600;">Project Performance</h4>
+                            <p class="muted mono" style="font-size:11px; margin:2px 0 0;">Active vs completed projects
+                            </p>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="chartProjects" height="200"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Expense Breakdown -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h4 style="margin:0; font-size:16px; font-weight:600;">Expense Breakdown</h4>
+                            <p class="muted mono" style="font-size:11px; margin:2px 0 0;">Cost distribution analysis</p>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="chartExpenses" height="200"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Developer Productivity -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h4 style="margin:0; font-size:16px; font-weight:600;">Developer Productivity</h4>
+                            <p class="muted mono" style="font-size:11px; margin:2px 0 0;">Task completion rates</p>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="chartProductivity" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary Stats -->
+                <div class="analytics-summary"
+                    style="margin-top:24px; padding:20px; background:var(--panel-2); border-radius:12px; border:1px solid var(--border);">
+                    <div class="mono muted scrollable-content" id="analyticsText"
+                        style="font-size:13px; display:grid; gap:8px; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));">
+                    </div>
+                </div>
             </article>
 
 
@@ -1766,9 +2041,9 @@
         });
 
         // Theme toggle + persist
-        function initTheme(){ const t = localStorage.getItem('theme'); if (t==='light') document.body.classList.add('light'); }
+        function initTheme() { const t = localStorage.getItem('theme'); if (t === 'light') document.body.classList.add('light'); }
         initTheme();
-        themeToggle?.addEventListener('click', ()=>{ const isLight = document.body.classList.toggle('light'); localStorage.setItem('theme', isLight? 'light':'dark'); });
+        themeToggle?.addEventListener('click', () => { const isLight = document.body.classList.toggle('light'); localStorage.setItem('theme', isLight ? 'light' : 'dark'); });
 
         // Notifications (unread badge)
         onSnapshot(query(collection(db, 'notifications'), orderBy('createdAt', 'desc')), (snap) => {
@@ -2076,11 +2351,24 @@
         });
 
         // Global search (projects + developers + tasks basic)
-        function performGlobalSearch(q){ q = (q||'').trim().toLowerCase(); if(!q){ renderProjects(latestProjects); return; }
-            const filtered = latestProjects.filter(p => (p.name||'').toLowerCase().includes(q) || (p.status||'').toLowerCase().includes(q));
+        function performGlobalSearch(q) {
+            q = (q || '').trim().toLowerCase(); if (!q) { renderProjects(latestProjects); return; }
+            const filtered = latestProjects.filter(p => (p.name || '').toLowerCase().includes(q) || (p.status || '').toLowerCase().includes(q));
             renderProjects(filtered);
         }
-        globalSearch?.addEventListener('input', ()=> performGlobalSearch(globalSearch.value));
+        globalSearch?.addEventListener('input', () => performGlobalSearch(globalSearch.value));
+
+        // Analytics filters
+        const analyticsPeriod = document.getElementById('analyticsPeriod');
+        const analyticsView = document.getElementById('analyticsView');
+
+        analyticsPeriod?.addEventListener('change', () => {
+            refreshCharts();
+        });
+
+        analyticsView?.addEventListener('change', () => {
+            refreshCharts();
+        });
 
         // ------------------------------
         // Goals
@@ -2256,23 +2544,294 @@
         `;
         }
 
-        // Charts (Chart.js)
-        let chartRevenue, chartProjects, chartExpenses;
+        // Charts (Chart.js) - Premium Analytics
+        let chartRevenue, chartProjects, chartExpenses, chartProductivity;
+
         function refreshCharts() {
             try {
                 const ctxR = /** @type {HTMLCanvasElement} */(document.getElementById('chartRevenue'))?.getContext('2d');
                 const ctxP = /** @type {HTMLCanvasElement} */(document.getElementById('chartProjects'))?.getContext('2d');
                 const ctxE = /** @type {HTMLCanvasElement} */(document.getElementById('chartExpenses'))?.getContext('2d');
+                const ctxProd = /** @type {HTMLCanvasElement} */(document.getElementById('chartProductivity'))?.getContext('2d');
                 if (!ctxR || !window.Chart) return;
+
+                // Revenue Trend (Line Chart)
                 const byMonth = {};
-                latestProjects.forEach(p => { const d = p.createdAt?.toDate?.() || new Date(); const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`; byMonth[key] = (byMonth[key] || 0) + Number(p.revenue || 0); });
-                const labels = Object.keys(byMonth).sort(); const dataRev = labels.map(k => byMonth[k]);
-                chartRevenue?.destroy(); chartRevenue = new window.Chart(ctxR, { type: 'line', data: { labels, datasets: [{ label: 'Revenue (₹)', data: dataRev, borderColor: '#7aa7ff', backgroundColor: 'rgba(122,167,255,0.2)', tension: .3 }] }, options: { plugins: { legend: { display: false } }, scales: { y: { ticks: { callback: v => `₹${Number(v).toLocaleString('en-IN')}` } } } } });
-                const completed = latestProjects.filter(p => p.status === 'completed').length; const ongoing = latestProjects.length - completed;
-                chartProjects?.destroy(); chartProjects = new window.Chart(ctxP, { type: 'bar', data: { labels: ['Ongoing', 'Completed'], datasets: [{ data: [ongoing, completed], backgroundColor: ['#a0c9ff', '#64e0a0'] }] }, options: { plugins: { legend: { display: false } } } });
+                latestProjects.forEach(p => {
+                    const d = p.createdAt?.toDate?.() || new Date();
+                    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+                    byMonth[key] = (byMonth[key] || 0) + Number(p.revenue || 0);
+                });
+                const labels = Object.keys(byMonth).sort().slice(-6); // Last 6 months
+                const dataRev = labels.map(k => byMonth[k]);
+
+                chartRevenue?.destroy();
+                chartRevenue = new window.Chart(ctxR, {
+                    type: 'line',
+                    data: {
+                        labels,
+                        datasets: [{
+                            label: 'Revenue (₹)',
+                            data: dataRev,
+                            borderColor: '#4f8bff',
+                            backgroundColor: 'rgba(79, 139, 255, 0.1)',
+                            borderWidth: 3,
+                            tension: 0.4,
+                            pointBackgroundColor: '#4f8bff',
+                            pointBorderColor: '#ffffff',
+                            pointBorderWidth: 2,
+                            pointRadius: 6,
+                            pointHoverRadius: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                backgroundColor: 'rgba(0,0,0,0.8)',
+                                titleColor: '#ffffff',
+                                bodyColor: '#ffffff',
+                                borderColor: '#4f8bff',
+                                borderWidth: 1,
+                                cornerRadius: 8,
+                                displayColors: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { color: 'rgba(255,255,255,0.1)', drawBorder: false },
+                                ticks: {
+                                    callback: v => `₹${Number(v).toLocaleString('en-IN')}`,
+                                    color: 'var(--muted)',
+                                    font: { size: 11 }
+                                }
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: { color: 'var(--muted)', font: { size: 11 } }
+                            }
+                        },
+                        elements: {
+                            point: {
+                                hoverBackgroundColor: '#4f8bff'
+                            }
+                        }
+                    }
+                });
+
+                // Project Performance (Bar Chart)
+                const completed = latestProjects.filter(p => p.status === 'completed').length;
+                const ongoing = latestProjects.length - completed;
+
+                chartProjects?.destroy();
+                chartProjects = new window.Chart(ctxP, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Ongoing', 'Completed'],
+                        datasets: [{
+                            data: [ongoing, completed],
+                            backgroundColor: ['rgba(79, 139, 255, 0.8)', 'rgba(42, 167, 123, 0.8)'],
+                            borderColor: ['#4f8bff', '#2aa77b'],
+                            borderWidth: 2,
+                            borderRadius: 8,
+                            borderSkipped: false
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                backgroundColor: 'rgba(0,0,0,0.8)',
+                                titleColor: '#ffffff',
+                                bodyColor: '#ffffff',
+                                borderColor: '#4f8bff',
+                                borderWidth: 1,
+                                cornerRadius: 8,
+                                displayColors: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { color: 'rgba(255,255,255,0.1)', drawBorder: false },
+                                ticks: { color: 'var(--muted)', font: { size: 11 } }
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: { color: 'var(--muted)', font: { size: 11 } }
+                            }
+                        }
+                    }
+                });
+
+                // Expense Breakdown (Doughnut Chart)
                 const totalExpense = latestProjects.reduce((s, p) => s + Number(p.expense || 0), 0);
-                chartExpenses?.destroy(); chartExpenses = new window.Chart(ctxE, { type: 'doughnut', data: { labels: ['Expenses'], datasets: [{ data: [totalExpense], backgroundColor: ['#ffd166'] }] }, options: { plugins: { legend: { display: false } } } });
+                const totalRevenue = latestProjects.reduce((s, p) => s + Number(p.revenue || 0), 0);
+                const profit = totalRevenue - totalExpense;
+
+                chartExpenses?.destroy();
+                chartExpenses = new window.Chart(ctxE, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Revenue', 'Expenses', 'Profit'],
+                        datasets: [{
+                            data: [totalRevenue, totalExpense, Math.max(0, profit)],
+                            backgroundColor: ['rgba(42, 167, 123, 0.8)', 'rgba(255, 107, 107, 0.8)', 'rgba(79, 139, 255, 0.8)'],
+                            borderColor: ['#2aa77b', '#ff6b6b', '#4f8bff'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'bottom',
+                                labels: {
+                                    color: 'var(--muted)',
+                                    font: { size: 11 },
+                                    padding: 15,
+                                    usePointStyle: true
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0,0,0,0.8)',
+                                titleColor: '#ffffff',
+                                bodyColor: '#ffffff',
+                                borderColor: '#4f8bff',
+                                borderWidth: 1,
+                                cornerRadius: 8,
+                                callbacks: {
+                                    label: function (context) {
+                                        return context.label + ': ₹' + Number(context.parsed).toLocaleString('en-IN');
+                                    }
+                                }
+                            }
+                        },
+                        cutout: '60%'
+                    }
+                });
+
+                // Developer Productivity (Horizontal Bar Chart)
+                const devProductivity = latestProjects.reduce((acc, p) => {
+                    if (p.assignedDevelopers) {
+                        p.assignedDevelopers.forEach(devId => {
+                            acc[devId] = (acc[devId] || 0) + (p.progress || 0);
+                        });
+                    }
+                    return acc;
+                }, {});
+
+                const devLabels = Object.keys(devProductivity).slice(0, 5); // Top 5
+                const devData = devLabels.map(id => devProductivity[id] / (devLabels.length || 1));
+
+                chartProductivity?.destroy();
+                chartProductivity = new window.Chart(ctxProd, {
+                    type: 'bar',
+                    data: {
+                        labels: devLabels.length ? devLabels.map(id => `Dev ${id.slice(-4)}`) : ['No Data'],
+                        datasets: [{
+                            data: devData.length ? devData : [0],
+                            backgroundColor: 'rgba(160, 201, 255, 0.8)',
+                            borderColor: '#a0c9ff',
+                            borderWidth: 2,
+                            borderRadius: 8,
+                            borderSkipped: false
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                backgroundColor: 'rgba(0,0,0,0.8)',
+                                titleColor: '#ffffff',
+                                bodyColor: '#ffffff',
+                                borderColor: '#4f8bff',
+                                borderWidth: 1,
+                                cornerRadius: 8,
+                                displayColors: false
+                            }
+                        },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                max: 100,
+                                grid: { color: 'rgba(255,255,255,0.1)', drawBorder: false },
+                                ticks: {
+                                    color: 'var(--muted)',
+                                    font: { size: 11 },
+                                    callback: function (value) { return value + '%'; }
+                                }
+                            },
+                            y: {
+                                grid: { display: false },
+                                ticks: { color: 'var(--muted)', font: { size: 11 } }
+                            }
+                        }
+                    }
+                });
+
+                // Update KPI Cards
+                updateKPICards();
+
             } catch (e) { console.error('charts error', e); }
+        }
+
+        function updateKPICards() {
+            const totalRevenue = latestProjects.reduce((s, p) => s + Number(p.revenue || 0), 0);
+            const totalExpense = latestProjects.reduce((s, p) => s + Number(p.expense || 0), 0);
+            const completed = latestProjects.filter(p => p.status === 'completed').length;
+            const ongoing = latestProjects.length - completed;
+            const avgProgress = latestProjects.length > 0 ? latestProjects.reduce((s, p) => s + Number(p.progress || 0), 0) / latestProjects.length : 0;
+
+            // Calculate growth (simplified)
+            const currentMonth = new Date().getMonth();
+            const currentYear = new Date().getFullYear();
+            const currentMonthRevenue = latestProjects
+                .filter(p => {
+                    const d = p.createdAt?.toDate?.() || new Date();
+                    return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
+                })
+                .reduce((s, p) => s + Number(p.revenue || 0), 0);
+
+            const lastMonthRevenue = latestProjects
+                .filter(p => {
+                    const d = p.createdAt?.toDate?.() || new Date();
+                    const lastMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+                    const lastYear = currentMonth === 0 ? currentYear - 1 : currentYear;
+                    return d.getMonth() === lastMonth && d.getFullYear() === lastYear;
+                })
+                .reduce((s, p) => s + Number(p.revenue || 0), 0);
+
+            const growth = lastMonthRevenue > 0 ? ((currentMonthRevenue - lastMonthRevenue) / lastMonthRevenue * 100) : 0;
+
+            // Update KPI elements
+            const kpiRevenue = document.getElementById('kpiRevenue');
+            const kpiRevenueChange = document.getElementById('kpiRevenueChange');
+            const kpiGrowth = document.getElementById('kpiGrowth');
+            const kpiGrowthChange = document.getElementById('kpiGrowthChange');
+            const kpiProjects = document.getElementById('kpiProjects');
+            const kpiProjectsChange = document.getElementById('kpiProjectsChange');
+            const kpiEfficiency = document.getElementById('kpiEfficiency');
+            const kpiEfficiencyChange = document.getElementById('kpiEfficiencyChange');
+
+            if (kpiRevenue) kpiRevenue.textContent = `₹${totalRevenue.toLocaleString('en-IN')}`;
+            if (kpiRevenueChange) kpiRevenueChange.textContent = `₹${totalExpense.toLocaleString('en-IN')} expenses`;
+            if (kpiGrowth) kpiGrowth.textContent = `${growth >= 0 ? '+' : ''}${growth.toFixed(1)}%`;
+            if (kpiGrowthChange) kpiGrowthChange.textContent = 'vs last month';
+            if (kpiProjects) kpiProjects.textContent = String(ongoing);
+            if (kpiProjectsChange) kpiProjectsChange.textContent = `${completed} completed`;
+            if (kpiEfficiency) kpiEfficiency.textContent = `${avgProgress.toFixed(0)}%`;
+            if (kpiEfficiencyChange) kpiEfficiencyChange.textContent = 'avg completion';
         }
 
         // Notes / announcements
