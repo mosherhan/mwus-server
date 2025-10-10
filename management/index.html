@@ -500,6 +500,103 @@
             }
         }
 
+        /* Developer Income Flow Styling */
+        .dev-income-item {
+            background: var(--panel-2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .dev-income-item:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .dev-income-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .dev-income-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        .dev-income-amounts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .dev-income-stat {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .dev-income-label {
+            font-size: 11px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .dev-income-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .dev-income-progress {
+            margin-top: 8px;
+        }
+
+        .dev-income-progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--panel-3);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .dev-income-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .dev-income-progress-text {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 4px;
+            text-align: center;
+        }
+
+        /* Icon styling for theme compatibility */
+        svg {
+            color: currentColor;
+        }
+
+        .logout-btn svg {
+            opacity: 0.8;
+            transition: opacity 0.2s ease;
+        }
+
+        .logout-btn:hover svg {
+            opacity: 1;
+        }
+
+        .btn svg {
+            vertical-align: middle;
+        }
+
         .logout-btn:hover {
             transform: translateY(-1px);
             background: #1a1a1f;
@@ -1257,10 +1354,19 @@
             <div style="display:inline-flex; align-items:center; gap:10px;">
                 <input id="globalSearch" class="input mono" placeholder="Search projects, developers, tasks, finance"
                     style="width:280px; max-width:42vw;" />
-                <button id="themeToggle" class="logout-btn" title="Toggle theme">🌓</button>
-                <button id="notifBtn" class="logout-btn" title="Notifications" style="position:relative;">🔔<span
-                        id="notifBadge"
-                        style="display:none; position:absolute; top:6px; right:6px; width:8px; height:8px; background: var(--accent); border-radius:50%;"></span></button>
+                <button id="themeToggle" class="logout-btn" title="Toggle theme">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"/>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                    </svg>
+                </button>
+                <button id="notifBtn" class="logout-btn" title="Notifications" style="position:relative;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                    </svg>
+                    <span id="notifBadge" style="display:none; position:absolute; top:6px; right:6px; width:8px; height:8px; background: var(--accent); border-radius:50%;"></span>
+                </button>
                 <button id="logoutBtn" class="logout-btn">Logout</button>
             </div>
         </header>
@@ -1340,7 +1446,13 @@
                         </div>
                     </div>
                     <div class="col-12" style="display:flex; gap:10px; align-items:center;">
-                        <button id="addProjectBtn" class="btn primary">Add Project</button>
+                        <button id="addProjectBtn" class="btn primary">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;">
+                                <line x1="12" y1="5" x2="12" y2="19"/>
+                                <line x1="5" y1="12" x2="19" y2="12"/>
+                            </svg>
+                            Add Project
+                        </button>
                         <span id="addProjectMsg" class="muted mono" style="font-size:12px;"></span>
                     </div>
                 </div>
@@ -1469,11 +1581,23 @@
                         <input id="devNotes" class="input" placeholder="Strong on animations" />
                     </div>
                     <div class="col-12" style="display:flex; gap:10px; align-items:center;">
-                        <button id="addDevBtn" class="btn">Add Developer</button>
+                        <button id="addDevBtn" class="btn">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;">
+                                <line x1="12" y1="5" x2="12" y2="19"/>
+                                <line x1="5" y1="12" x2="19" y2="12"/>
+                            </svg>
+                            Add Developer
+                        </button>
                         <span id="addDevMsg" class="muted mono" style="font-size:12px;"></span>
                     </div>
                 </div>
                 <div class="items scrollable-content" id="devsList"></div>
+            </article>
+
+            <!-- Developer Income Flow -->
+            <article class="card span-4" id="devIncomeCard">
+                <h3>Developer Income Flow</h3>
+                <div class="scrollable-content" id="devIncomeList" style="max-height:400px; display:grid; gap:12px;"></div>
             </article>
 
             <!-- Analytics & Insights -->
@@ -1503,6 +1627,12 @@
                 <div class="kpi-grid"
                     style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:16px; margin-bottom:32px;">
                     <div class="kpi-card" data-metric="revenue">
+                        <div class="kpi-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="1" x2="12" y2="23"/>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                            </svg>
+                        </div>
                         <div class="kpi-content">
                             <div class="kpi-value" id="kpiRevenue">₹0</div>
                             <div class="kpi-label">Total Revenue</div>
@@ -1510,6 +1640,12 @@
                         </div>
                     </div>
                     <div class="kpi-card" data-metric="growth">
+                        <div class="kpi-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                                <polyline points="17 6 23 6 23 12"/>
+                            </svg>
+                        </div>
                         <div class="kpi-content">
                             <div class="kpi-value" id="kpiGrowth">0%</div>
                             <div class="kpi-label">Monthly Growth</div>
@@ -1517,6 +1653,11 @@
                         </div>
                     </div>
                     <div class="kpi-card" data-metric="projects">
+                        <div class="kpi-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 3h18v18H3zM8 8h8v8H8z"/>
+                            </svg>
+                        </div>
                         <div class="kpi-content">
                             <div class="kpi-value" id="kpiProjects">0</div>
                             <div class="kpi-label">Active Projects</div>
@@ -1524,6 +1665,11 @@
                         </div>
                     </div>
                     <div class="kpi-card" data-metric="efficiency">
+                        <div class="kpi-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                            </svg>
+                        </div>
                         <div class="kpi-content">
                             <div class="kpi-value" id="kpiEfficiency">0%</div>
                             <div class="kpi-label">Team Efficiency</div>
@@ -1595,16 +1741,27 @@
             <!-- Calendar / Meetings -->
             <article class="card span-12" id="calendarCard">
                 <div style="display:flex; align-items:center; justify-content:space-between;">
-                    <h3>Calendar & Meetings</h3>
-                    <span class="muted mono" id="eventsCount">0</span>
+                    <div>
+                        <h3 style="margin:0; font-size:20px; font-weight:600;">Calendar & Meetings</h3>
+                        <p class="muted mono" style="font-size:12px; margin:4px 0 0;">Schedule and track events</p>
+                    </div>
+                    <span class="muted mono" id="eventsCount">0 events</span>
                 </div>
 
                 <div class="row" style="margin-bottom: 16px;">
                     <div class="col-6">
                         <div class="calendar-nav">
-                            <button class="calendar-nav-btn" id="prevMonth">←</button>
+                            <button class="calendar-nav-btn" id="prevMonth">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="15 18 9 12 15 6"/>
+                                </svg>
+                            </button>
                             <span class="calendar-title" id="currentMonth">January 2024</span>
-                            <button class="calendar-nav-btn" id="nextMonth">→</button>
+                            <button class="calendar-nav-btn" id="nextMonth">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="9 18 15 12 9 6"/>
+                                </svg>
+                            </button>
                         </div>
                         <div class="calendar-grid" id="calendarGrid">
                             <div class="calendar-header">Sun</div>
@@ -1642,7 +1799,13 @@
                                     placeholder="Meeting agenda, preparation notes..." rows="3"></textarea>
                             </div>
                             <div class="col-12" style="display:flex; gap:10px; align-items:center;">
-                                <button id="addEventBtn" class="btn primary">Add Event</button>
+                                <button id="addEventBtn" class="btn primary">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;">
+                                        <line x1="12" y1="5" x2="12" y2="19"/>
+                                        <line x1="5" y1="12" x2="19" y2="12"/>
+                                    </svg>
+                                    Add Event
+                                </button>
                                 <span id="addEventMsg" class="muted mono" style="font-size:12px;"></span>
                             </div>
                         </div>
@@ -1672,8 +1835,11 @@
             <!-- Tasks Management -->
             <article class="card span-12" id="tasksCard">
                 <div style="display:flex; align-items:center; justify-content:space-between;">
-                    <h3>Tasks</h3>
-                    <span class="muted mono" id="tasksCount">0</span>
+                    <div>
+                        <h3 style="margin:0; font-size:20px; font-weight:600;">Tasks</h3>
+                        <p class="muted mono" style="font-size:12px; margin:4px 0 0;">Manage team tasks and assignments</p>
+                    </div>
+                    <span class="muted mono" id="tasksCount">0 tasks</span>
                 </div>
                 <div class="row" style="margin-bottom: 10px;">
                     <div class="col-4 field">
@@ -1701,7 +1867,13 @@
                         <input id="taskDesc" class="input" placeholder="Short details" />
                     </div>
                     <div class="col-12" style="display:flex; gap:10px; align-items:center;">
-                        <button id="addTaskBtn" class="btn">Add Task</button>
+                        <button id="addTaskBtn" class="btn">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;">
+                                <line x1="12" y1="5" x2="12" y2="19"/>
+                                <line x1="5" y1="12" x2="19" y2="12"/>
+                            </svg>
+                            Add Task
+                        </button>
                         <span id="addTaskMsg" class="muted mono" style="font-size:12px;"></span>
                     </div>
                 </div>
@@ -1711,7 +1883,10 @@
             <!-- Finance Overview -->
             <article class="card span-12" id="financeOverviewCard">
                 <div style="display:flex; align-items:center; justify-content:space-between;">
-                    <h3>Finance Overview</h3>
+                    <div>
+                        <h3 style="margin:0; font-size:20px; font-weight:600;">Finance Overview</h3>
+                        <p class="muted mono" style="font-size:12px; margin:4px 0 0;">Transaction history and financial insights</p>
+                    </div>
                     <div style="display:flex; gap:8px;">
                         <select id="financeFilterMonth" class="select" style="width:140px;"></select>
                         <select id="financeFilterCategory" class="select" style="width:160px;">
@@ -1719,8 +1894,24 @@
                             <option value="income">Income</option>
                             <option value="salaries">Salaries</option>
                         </select>
-                        <button id="exportCSV" class="btn ghost">Export CSV</button>
-                        <button id="exportPDF" class="btn ghost">Export PDF</button>
+                        <button id="exportCSV" class="btn ghost">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            CSV
+                        </button>
+                        <button id="exportPDF" class="btn ghost">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
+                                <polyline points="10 9 9 9 8 9"/>
+                            </svg>
+                            PDF
+                        </button>
                     </div>
                 </div>
                 <div id="financeHistory" class="items scrollable-content"></div>
@@ -1728,13 +1919,24 @@
 
             <!-- Team Chat -->
             <article class="card span-12" id="chatCard">
-                <h3>Team Chat</h3>
+                <div style="display:flex; align-items:center; justify-content:space-between;">
+                    <div>
+                        <h3 style="margin:0; font-size:20px; font-weight:600;">Team Chat</h3>
+                        <p class="muted mono" style="font-size:12px; margin:4px 0 0;">Internal communication hub</p>
+                    </div>
+                </div>
                 <div id="chatMessages" class="scrollable-content"
                     style="max-height:300px; display:grid; gap:8px; padding-right:8px;"></div>
                 <div class="" style="margin-top:8px; align-items:end;">
                     <div class="col-10 field"><label for="chatInput">Message</label><input id="chatInput" class="input"
                             placeholder="Type a message..." /></div>
-                    <div class="col-2"><button id="sendChatBtn" class="btn" style="width:100%;">Send</button></div>
+                    <div class="col-2"><button id="sendChatBtn" class="btn" style="width:100%;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;">
+                            <line x1="22" y1="2" x2="11" y2="13"/>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                        </svg>
+                        Send
+                    </button></div>
                 </div>
             </article>
         </section>
@@ -2370,9 +2572,68 @@
             refreshCharts();
         });
 
-        // ------------------------------
-        // Goals
-        // ------------------------------
+        // Developer Income Flow
+        const devIncomeList = document.getElementById('devIncomeList');
+        
+        function renderDeveloperIncome() {
+            if (!devIncomeList) return;
+            
+            // Get developer payments data from Firebase
+            const devPaymentsRef = collection(db, 'developer_payments');
+            onSnapshot(devPaymentsRef, (snapshot) => {
+                const devPayments = [];
+                snapshot.forEach(doc => {
+                    devPayments.push({ id: doc.id, ...doc.data() });
+                });
+                
+                if (devPayments.length === 0) {
+                    devIncomeList.innerHTML = '<div class="muted mono" style="text-align:center; padding:20px; font-size:12px;">No developer payments recorded</div>';
+                    return;
+                }
+                
+                devIncomeList.innerHTML = devPayments.map(dev => {
+                    const totalIncome = Number(dev.total_income || 0);
+                    const amountPaid = Number(dev.amount_paid || 0);
+                    const pendingAmount = totalIncome - amountPaid;
+                    const progressPercent = totalIncome > 0 ? (amountPaid / totalIncome * 100) : 0;
+                    
+                    return `
+                        <div class="dev-income-item">
+                            <div class="dev-income-header">
+                                <div class="dev-income-name">${escapeHtml(dev.name || 'Unknown Developer')}</div>
+                            </div>
+                            <div class="dev-income-amounts">
+                                <div class="dev-income-stat">
+                                    <div class="dev-income-label">Total Income</div>
+                                    <div class="dev-income-value">₹${totalIncome.toLocaleString('en-IN')}</div>
+                                </div>
+                                <div class="dev-income-stat">
+                                    <div class="dev-income-label">Amount Paid</div>
+                                    <div class="dev-income-value">₹${amountPaid.toLocaleString('en-IN')}</div>
+                                </div>
+                                <div class="dev-income-stat">
+                                    <div class="dev-income-label">Pending</div>
+                                    <div class="dev-income-value">₹${pendingAmount.toLocaleString('en-IN')}</div>
+                                </div>
+                                <div class="dev-income-stat">
+                                    <div class="dev-income-label">Progress</div>
+                                    <div class="dev-income-value">${progressPercent.toFixed(1)}%</div>
+                                </div>
+                            </div>
+                            <div class="dev-income-progress">
+                                <div class="dev-income-progress-bar">
+                                    <div class="dev-income-progress-fill" style="width: ${progressPercent}%"></div>
+                                </div>
+                                <div class="dev-income-progress-text">Payment Progress</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            });
+        }
+        
+        // Initialize developer income flow
+        renderDeveloperIncome();
         const goalText = document.getElementById('goalText');
         const addGoalBtn = document.getElementById('addGoalBtn');
         const goalsList = document.getElementById('goalsList');
