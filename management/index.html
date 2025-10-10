@@ -76,77 +76,77 @@
             scrollbar-gutter: stable;
         }
 
-         /* Custom Scrollbars */
-         ::-webkit-scrollbar {
-             width: 8px;
-             height: 8px;
-         }
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
 
-         ::-webkit-scrollbar-track {
-             background: transparent;
-             border-radius: 4px;
-         }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+            border-radius: 4px;
+        }
 
-         ::-webkit-scrollbar-thumb {
-             background: var(--border);
-             border-radius: 4px;
-             transition: background 0.2s ease;
-         }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+            transition: background 0.2s ease;
+        }
 
-         ::-webkit-scrollbar-thumb:hover {
-             background: var(--accent);
-         }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
+        }
 
-         ::-webkit-scrollbar-corner {
-             background: transparent;
-         }
+        ::-webkit-scrollbar-corner {
+            background: transparent;
+        }
 
-         /* Firefox scrollbar */
-         * {
-             scrollbar-width: thin;
-             scrollbar-color: var(--border) transparent;
-         }
+        /* Firefox scrollbar */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
+        }
 
-         /* Scrollable Content Areas */
-         .scrollable-content {
-             max-height: 400px;
-             overflow-y: auto;
-             padding-right: 8px;
-             scrollbar-gutter: stable;
-             scroll-behavior: smooth;
-         }
+        /* Scrollable Content Areas */
+        .scrollable-content {
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 8px;
+            scrollbar-gutter: stable;
+            scroll-behavior: smooth;
+        }
 
-         .scrollable-content::-webkit-scrollbar {
-             width: 6px;
-         }
+        .scrollable-content::-webkit-scrollbar {
+            width: 6px;
+        }
 
-         .scrollable-content::-webkit-scrollbar-track {
-             background: transparent;
-             border-radius: 3px;
-         }
+        .scrollable-content::-webkit-scrollbar-track {
+            background: transparent;
+            border-radius: 3px;
+        }
 
-         .scrollable-content::-webkit-scrollbar-thumb {
-             background: var(--border);
-             border-radius: 3px;
-             transition: background 0.2s ease;
-         }
+        .scrollable-content::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+            transition: background 0.2s ease;
+        }
 
-         .scrollable-content::-webkit-scrollbar-thumb:hover {
-             background: var(--accent);
-         }
+        .scrollable-content::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
+        }
 
-         /* Responsive scrollable heights */
-         @media (max-width: 768px) {
-             .scrollable-content {
-                 max-height: 300px;
-             }
-         }
+        /* Responsive scrollable heights */
+        @media (max-width: 768px) {
+            .scrollable-content {
+                max-height: 300px;
+            }
+        }
 
-         @media (max-width: 480px) {
-             .scrollable-content {
-                 max-height: 250px;
-             }
-         }
+        @media (max-width: 480px) {
+            .scrollable-content {
+                max-height: 250px;
+            }
+        }
 
         /* Custom Number Input Scrollbars */
         input[type="number"]::-webkit-outer-spin-button,
@@ -312,6 +312,23 @@
             border: 1px solid #24242a;
             transition: transform .12s ease, background .2s ease, box-shadow .2s ease;
             cursor: pointer;
+        }
+
+        /* Light theme tokens */
+        body.light {
+            --bg: #fafafa;
+            --panel: #ffffff;
+            --panel-2: #f7f7f7;
+            --panel-3: #f1f1f1;
+            --text: #111111;
+            --muted: #60636b;
+            --accent: #4f8bff;
+            --accent-2: #6a6afc;
+            --ok: #2aa77b;
+            --warn: #e5a93b;
+            --danger: #d14d4d;
+            --ring: rgba(79, 139, 255, 0.18);
+            --border: #e4e4ea;
         }
 
         .logout-btn:hover {
@@ -543,19 +560,19 @@
             background: #210e0e;
         }
 
-         .progress {
-             height: 24px;
-             border-radius: 16px;
-             background: linear-gradient(180deg, #0d0d0d, #1a1a1a);
-             border: 2px solid #2a2a2a;
-             overflow: hidden;
-             position: relative;
-             box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.6), 0 4px 12px rgba(0, 0, 0, 0.3);
-             margin: 14px 0 12px;
-         }
+        .progress {
+            height: 24px;
+            border-radius: 16px;
+            background: linear-gradient(180deg, #0d0d0d, #1a1a1a);
+            border: 2px solid #2a2a2a;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.6), 0 4px 12px rgba(0, 0, 0, 0.3);
+            margin: 14px 0 12px;
+        }
 
-         .progress>span {
-             display: block;
+        .progress>span {
+            display: block;
             height: 100%;
             background: linear-gradient(135deg, #0b3d9e 0%, #0067b8 25%, #0047a0 50%, #00a3d4 75%, #46c8fa 100%);
             border-radius: 14px;
@@ -600,8 +617,8 @@
             }
         }
 
-         .progress .progress-label {
-             position: absolute;
+        .progress .progress-label {
+            position: absolute;
             top: 50%;
             left: 10px;
             transform: translateY(-50%);
@@ -616,19 +633,19 @@
             padding: 0;
             mix-blend-mode: normal;
             filter: none;
-         }
+        }
 
-         .progress .progress-bg {
-             position: absolute;
-             top: 0;
-             left: 0;
-             right: 0;
-             bottom: 0;
-             background: linear-gradient(90deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
-             border-radius: 14px;
-             opacity: 0.4;
-             z-index: 0;
-         }
+        .progress .progress-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
+            border-radius: 14px;
+            opacity: 0.4;
+            z-index: 0;
+        }
 
         .progress .progress-dots {
             position: absolute;
@@ -1068,7 +1085,10 @@
                 <div class="brand-title">Management Dashboard</div>
                 <span class="muted mono" style="font-size: 12px;">internal</span>
             </div>
-            <div>
+            <div style="display:inline-flex; align-items:center; gap:10px;">
+                <input id="globalSearch" class="input mono" placeholder="Search projects, developers, tasks, finance" style="width:280px; max-width:42vw;" />
+                <button id="themeToggle" class="logout-btn" title="Toggle theme">🌓</button>
+                <button id="notifBtn" class="logout-btn" title="Notifications" style="position:relative;">🔔<span id="notifBadge" style="display:none; position:absolute; top:6px; right:6px; width:8px; height:8px; background: var(--accent); border-radius:50%;"></span></button>
                 <button id="logoutBtn" class="logout-btn">Logout</button>
             </div>
         </header>
@@ -1154,19 +1174,19 @@
                 </div>
             </article>
 
-             <!-- Ongoing Projects -->
-             <article class="card span-12" id="projectsCard">
-                 <div style="display:flex; align-items:center; justify-content:space-between;">
-                     <h3>Ongoing Projects</h3>
-                     <span class="muted mono" id="projectsCount">0</span>
-                 </div>
-                 <div style="display:flex; gap:8px; align-items:center; margin-bottom:8px;">
-                     <input id="projectSearch" class="input"
-                         placeholder="Search projects or filter by status: ongoing/completed" />
-                     <button id="clearSearch" class="btn ghost">Clear</button>
-                 </div>
-                 <div class="items scrollable-content" id="projectsList"></div>
-             </article>
+            <!-- Ongoing Projects -->
+            <article class="card span-12" id="projectsCard">
+                <div style="display:flex; align-items:center; justify-content:space-between;">
+                    <h3>Ongoing Projects</h3>
+                    <span class="muted mono" id="projectsCount">0</span>
+                </div>
+                <div style="display:flex; gap:8px; align-items:center; margin-bottom:8px;">
+                    <input id="projectSearch" class="input"
+                        placeholder="Search projects or filter by status: ongoing/completed" />
+                    <button id="clearSearch" class="btn ghost">Clear</button>
+                </div>
+                <div class="items scrollable-content" id="projectsList"></div>
+            </article>
 
             <!-- Developer Payouts -->
             <article class="card span-8" id="payoutsCard">
@@ -1200,7 +1220,7 @@
                         <span id="addPayoutMsg" class="muted mono" style="font-size:12px;"></span>
                     </div>
                 </div>
-                 <div id="payoutsList" class="scrollable-content"></div>
+                <div id="payoutsList" class="scrollable-content"></div>
             </article>
 
             <!-- Client Payments -->
@@ -1231,7 +1251,7 @@
                         <span id="addPaymentMsg" class="muted mono" style="font-size:12px;"></span>
                     </div>
                 </div>
-                 <div id="paymentsList" class="scrollable-content"></div>
+                <div id="paymentsList" class="scrollable-content"></div>
             </article>
 
 
@@ -1245,8 +1265,8 @@
                         <button id="addGoalBtn" class="btn" style="width:100%;">Add</button>
                     </div>
                 </div>
-                 <ul id="goalsList" class="mono scrollable-content"
-                     style="list-style:none; padding:0; margin:0; display:grid; gap:8px; grid-auto-rows:auto;"></ul>
+                <ul id="goalsList" class="mono scrollable-content"
+                    style="list-style:none; padding:0; margin:0; display:grid; gap:8px; grid-auto-rows:auto;"></ul>
             </article>
 
             <!-- Developers Info -->
@@ -1281,13 +1301,19 @@
                         <span id="addDevMsg" class="muted mono" style="font-size:12px;"></span>
                     </div>
                 </div>
-                 <div class="items scrollable-content" id="devsList"></div>
+                <div class="items scrollable-content" id="devsList"></div>
             </article>
 
             <!-- Analytics -->
             <article class="card span-4" id="analyticsCard">
                 <h3>Analytics</h3>
-                 <div class="mono muted scrollable-content" id="analyticsText" style="font-size:13px; display:grid; gap:6px;"></div>
+                <div style="display:grid; gap:10px;">
+                    <canvas id="chartRevenue" height="140"></canvas>
+                    <canvas id="chartProjects" height="120"></canvas>
+                    <canvas id="chartExpenses" height="120"></canvas>
+                </div>
+                <div class="mono muted scrollable-content" id="analyticsText"
+                    style="font-size:13px; display:grid; gap:6px;"></div>
             </article>
 
 
@@ -1348,10 +1374,10 @@
                     </div>
                 </div>
 
-                 <div style="margin-top: 16px;">
-                     <h4 style="margin-bottom: 12px; font-size: 14px;">Upcoming Events</h4>
-                     <div id="eventsList" class="scrollable-content"></div>
-                 </div>
+                <div style="margin-top: 16px;">
+                    <h4 style="margin-bottom: 12px; font-size: 14px;">Upcoming Events</h4>
+                    <div id="eventsList" class="scrollable-content"></div>
+                </div>
             </article>
 
             <!-- Announcements -->
@@ -1363,11 +1389,88 @@
                     <input id="noteText" class="input" placeholder="Share an update for founders" />
                     <button id="addNoteBtn" class="btn">Post</button>
                 </div>
-                 <ul id="notesList" class="mono scrollable-content" style="list-style:none; padding:0; margin:0; display:grid; gap:8px;">
-                 </ul>
+                <ul id="notesList" class="mono scrollable-content"
+                    style="list-style:none; padding:0; margin:0; display:grid; gap:8px;">
+                </ul>
+            </article>
+
+            <!-- Tasks Management -->
+            <article class="card span-12" id="tasksCard">
+                <div style="display:flex; align-items:center; justify-content:space-between;">
+                    <h3>Tasks</h3>
+                    <span class="muted mono" id="tasksCount">0</span>
+                </div>
+                <div class="row" style="margin-bottom: 10px;">
+                    <div class="col-4 field">
+                        <label for="taskTitle">Title</label>
+                        <input id="taskTitle" class="input" placeholder="Design review" />
+                    </div>
+                    <div class="col-4 field">
+                        <label for="taskAssignee">Assign to</label>
+                        <select id="taskAssignee" class="select"></select>
+                    </div>
+                    <div class="col-2 field">
+                        <label for="taskDeadline">Deadline</label>
+                        <input id="taskDeadline" class="input" type="date" />
+                    </div>
+                    <div class="col-2 field">
+                        <label for="taskPriority">Priority</label>
+                        <select id="taskPriority" class="select">
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                    <div class="col-12 field">
+                        <label for="taskDesc">Description</label>
+                        <input id="taskDesc" class="input" placeholder="Short details" />
+                    </div>
+                    <div class="col-12" style="display:flex; gap:10px; align-items:center;">
+                        <button id="addTaskBtn" class="btn">Add Task</button>
+                        <span id="addTaskMsg" class="muted mono" style="font-size:12px;"></span>
+                    </div>
+                </div>
+                <div id="tasksList" class="items scrollable-content"></div>
+            </article>
+
+            <!-- Finance Overview -->
+            <article class="card span-12" id="financeOverviewCard">
+                <div style="display:flex; align-items:center; justify-content:space-between;">
+                    <h3>Finance Overview</h3>
+                    <div style="display:flex; gap:8px;">
+                        <select id="financeFilterMonth" class="select" style="width:140px;"></select>
+                        <select id="financeFilterCategory" class="select" style="width:160px;">
+                            <option value="all">All Categories</option>
+                            <option value="income">Income</option>
+                            <option value="salaries">Salaries</option>
+                        </select>
+                        <button id="exportCSV" class="btn ghost">Export CSV</button>
+                        <button id="exportPDF" class="btn ghost">Export PDF</button>
+                    </div>
+                </div>
+                <div id="financeHistory" class="items scrollable-content"></div>
+            </article>
+
+            <!-- Team Chat -->
+            <article class="card span-12" id="chatCard">
+                <h3>Team Chat</h3>
+                <div id="chatMessages" class="scrollable-content"
+                    style="max-height:300px; display:grid; gap:8px; padding-right:8px;"></div>
+                <div class="" style="margin-top:8px; align-items:end;">
+                    <div class="col-10 field"><label for="chatInput">Message</label><input id="chatInput" class="input"
+                            placeholder="Type a message..." /></div>
+                    <div class="col-2"><button id="sendChatBtn" class="btn" style="width:100%;">Send</button></div>
+                </div>
             </article>
         </section>
     </div>
+
+    <!-- ==========================
+         External Libraries
+         ========================== -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
     <!-- ==========================
          Firebase + App Logic
@@ -1378,6 +1481,7 @@
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js';
         import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, orderBy, updateDoc, deleteDoc, doc, where } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
         import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js';
+        import { getDatabase, ref as dbRef, push as dbPush, onChildAdded } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js';
 
         // ---- Replace with your Firebase project's config ----
         const firebaseConfig = {
@@ -1395,6 +1499,7 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
         const storage = getStorage(app);
+        const rtdb = getDatabase(app);
 
         // Custom File Input Functionality
         function setupFileInput(fileInputId, buttonId, fileNameId) {
@@ -1621,6 +1726,13 @@
         const loginBtn = document.getElementById('loginBtn');
         const logoutBtn = document.getElementById('logoutBtn');
         const authErrorEl = document.getElementById('authError');
+        const notifBtn = document.getElementById('notifBtn');
+        const notifBadge = document.getElementById('notifBadge');
+        const themeToggle = document.getElementById('themeToggle');
+        const globalSearch = document.getElementById('globalSearch');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendChatBtn = document.getElementById('sendChatBtn');
 
         // Auth state
         onAuthStateChanged(auth, (user) => {
@@ -1651,6 +1763,17 @@
 
         logoutBtn.addEventListener('click', async () => {
             await signOut(auth);
+        });
+
+        // Theme toggle + persist
+        function initTheme(){ const t = localStorage.getItem('theme'); if (t==='light') document.body.classList.add('light'); }
+        initTheme();
+        themeToggle?.addEventListener('click', ()=>{ const isLight = document.body.classList.toggle('light'); localStorage.setItem('theme', isLight? 'light':'dark'); });
+
+        // Notifications (unread badge)
+        onSnapshot(query(collection(db, 'notifications'), orderBy('createdAt', 'desc')), (snap) => {
+            let unread = 0; snap.forEach(d => { if (!d.data().read) unread++; });
+            if (notifBadge) notifBadge.style.display = unread > 0 ? 'block' : 'none';
         });
 
         // ------------------------------
@@ -1714,6 +1837,66 @@
                 opt.value = dev.id; opt.textContent = dev.name || 'Unnamed';
                 payoutDeveloper.appendChild(opt);
             });
+        });
+
+        // ------------------------------
+        // Tasks
+        // ------------------------------
+        const taskTitle = document.getElementById('taskTitle');
+        const taskAssignee = document.getElementById('taskAssignee');
+        const taskDeadline = document.getElementById('taskDeadline');
+        const taskPriority = document.getElementById('taskPriority');
+        const taskDesc = document.getElementById('taskDesc');
+        const addTaskBtn = document.getElementById('addTaskBtn');
+        const addTaskMsg = document.getElementById('addTaskMsg');
+        const tasksList = document.getElementById('tasksList');
+        const tasksCount = document.getElementById('tasksCount');
+
+        // Populate assignees
+        onSnapshot(query(collection(db, 'developers'), orderBy('createdAt', 'desc')), (snap) => {
+            if (!taskAssignee) return; taskAssignee.innerHTML = '';
+            snap.forEach(d => { const dev = { id: d.id, ...d.data() }; const opt = document.createElement('option'); opt.value = dev.id; opt.textContent = dev.name || 'Unnamed'; taskAssignee.appendChild(opt); });
+        });
+
+        addTaskBtn?.addEventListener('click', async () => {
+            const title = taskTitle?.value.trim(); if (!title) { flash(addTaskMsg, 'Enter a title', true); return; }
+            try {
+                await addDoc(collection(db, 'tasks'), { title, assignee: taskAssignee?.value || null, deadline: taskDeadline?.value || null, priority: taskPriority?.value || 'medium', description: taskDesc?.value.trim() || '', status: 'in_progress', progress: 0, createdAt: serverTimestamp() });
+                if (taskTitle) taskTitle.value = ''; if (taskDeadline) taskDeadline.value = ''; if (taskDesc) taskDesc.value = ''; flash(addTaskMsg, 'Task added.');
+            } catch (e) { console.error('addTask', e); flash(addTaskMsg, 'Error adding task', true); }
+        });
+
+        onSnapshot(query(collection(db, 'tasks'), orderBy('createdAt', 'desc')), (snap) => {
+            if (!tasksList) return; tasksList.innerHTML = ''; let count = 0; snap.forEach(d => {
+                count++; const t = { id: d.id, ...d.data() };
+                const el = document.createElement('div'); el.className = 'item';
+                el.innerHTML = `
+                    <h4 class=\"mono\">${escapeHtml(t.title || '')}</h4>
+                    <div class=\"mono muted\" style=\"font-size:12px; margin-bottom:6px;\">${t.deadline || ''} · ${t.priority || ''}</div>
+                    <input class=\"inline-input\" data-k=\"description\" placeholder=\"Description\" value=\"${escapeAttr(t.description || '')}\" />
+                    <div style=\"display:grid; grid-template-columns: repeat(12,1fr); gap:8px;\">
+                        <select class=\"inline-input\" style=\"grid-column: span 4;\" data-k=\"status\">
+                            <option value=\"in_progress\" ${t.status === 'in_progress' ? 'selected' : ''}>In Progress</option>
+                            <option value=\"completed\" ${t.status === 'completed' ? 'selected' : ''}>Completed</option>
+                        </select>
+                        <input class=\"inline-input\" style=\"grid-column: span 4;\" data-k=\"progress\" type=\"number\" min=\"0\" max=\"100\" value=\"${escapeAttr(t.progress ?? 0)}\" />
+                        <input class=\"inline-input\" style=\"grid-column: span 4;\" data-k=\"deadline\" type=\"date\" value=\"${escapeAttr(t.deadline || '')}\" />
+                    </div>
+                    <div style=\"display:flex; gap:8px; margin-top:8px;\">
+                        <button class=\"btn\" data-action=\"save\">Save</button>
+                        <button class=\"btn danger\" data-action=\"delete\">Delete</button>
+                    </div>
+                `;
+                el.addEventListener('click', async (ev) => {
+                    const tgt = ev.target; if (!(tgt instanceof HTMLElement)) return; const act = tgt.getAttribute('data-action'); if (!act) return;
+                    const inputs = /** @type {NodeListOf<HTMLInputElement|HTMLSelectElement>} */(el.querySelectorAll('.inline-input'));
+                    const updated = {}; inputs.forEach((inp) => { const k = inp.getAttribute('data-k'); if (!k) return; updated[k] = inp.value; });
+                    if (updated.progress !== undefined) updated.progress = Number(updated.progress || 0);
+                    try { const ref = doc(db, 'tasks', t.id); if (act === 'save') await updateDoc(ref, updated); else if (act === 'delete') { confirmAction('Delete task?', async () => { try { await deleteDoc(ref); } catch (e) { console.error(e); } }); } } catch (e) { console.error('task action', e); }
+                });
+                tasksList.appendChild(el);
+            });
+            if (tasksCount) tasksCount.textContent = String(count);
         });
 
         addProjectBtn.addEventListener('click', async () => {
@@ -1873,6 +2056,7 @@
             // trigger refresh lists
             refreshPayouts();
             refreshPayments();
+            refreshCharts();
         });
 
         // Search/filter
@@ -1890,6 +2074,13 @@
                 renderProjects(latestProjects);
             });
         });
+
+        // Global search (projects + developers + tasks basic)
+        function performGlobalSearch(q){ q = (q||'').trim().toLowerCase(); if(!q){ renderProjects(latestProjects); return; }
+            const filtered = latestProjects.filter(p => (p.name||'').toLowerCase().includes(q) || (p.status||'').toLowerCase().includes(q));
+            renderProjects(filtered);
+        }
+        globalSearch?.addEventListener('input', ()=> performGlobalSearch(globalSearch.value));
 
         // ------------------------------
         // Goals
@@ -2065,6 +2256,25 @@
         `;
         }
 
+        // Charts (Chart.js)
+        let chartRevenue, chartProjects, chartExpenses;
+        function refreshCharts() {
+            try {
+                const ctxR = /** @type {HTMLCanvasElement} */(document.getElementById('chartRevenue'))?.getContext('2d');
+                const ctxP = /** @type {HTMLCanvasElement} */(document.getElementById('chartProjects'))?.getContext('2d');
+                const ctxE = /** @type {HTMLCanvasElement} */(document.getElementById('chartExpenses'))?.getContext('2d');
+                if (!ctxR || !window.Chart) return;
+                const byMonth = {};
+                latestProjects.forEach(p => { const d = p.createdAt?.toDate?.() || new Date(); const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`; byMonth[key] = (byMonth[key] || 0) + Number(p.revenue || 0); });
+                const labels = Object.keys(byMonth).sort(); const dataRev = labels.map(k => byMonth[k]);
+                chartRevenue?.destroy(); chartRevenue = new window.Chart(ctxR, { type: 'line', data: { labels, datasets: [{ label: 'Revenue (₹)', data: dataRev, borderColor: '#7aa7ff', backgroundColor: 'rgba(122,167,255,0.2)', tension: .3 }] }, options: { plugins: { legend: { display: false } }, scales: { y: { ticks: { callback: v => `₹${Number(v).toLocaleString('en-IN')}` } } } } });
+                const completed = latestProjects.filter(p => p.status === 'completed').length; const ongoing = latestProjects.length - completed;
+                chartProjects?.destroy(); chartProjects = new window.Chart(ctxP, { type: 'bar', data: { labels: ['Ongoing', 'Completed'], datasets: [{ data: [ongoing, completed], backgroundColor: ['#a0c9ff', '#64e0a0'] }] }, options: { plugins: { legend: { display: false } } } });
+                const totalExpense = latestProjects.reduce((s, p) => s + Number(p.expense || 0), 0);
+                chartExpenses?.destroy(); chartExpenses = new window.Chart(ctxE, { type: 'doughnut', data: { labels: ['Expenses'], datasets: [{ data: [totalExpense], backgroundColor: ['#ffd166'] }] }, options: { plugins: { legend: { display: false } } } });
+            } catch (e) { console.error('charts error', e); }
+        }
+
         // Notes / announcements
         const noteText = document.getElementById('noteText');
         const addNoteBtn = document.getElementById('addNoteBtn');
@@ -2092,6 +2302,48 @@
                 });
                 notesList.appendChild(li);
             });
+        });
+
+        // ------------------------------
+        // Chat (Realtime Database)
+        // ------------------------------
+        const chatRef = dbRef(rtdb, 'chat');
+        sendChatBtn?.addEventListener('click', async () => {
+            const text = chatInput?.value.trim(); if (!text) return; const user = auth.currentUser?.email || 'anon';
+            try { await dbPush(chatRef, { text, user, ts: Date.now() }); if (chatInput) chatInput.value = ''; } catch (e) { console.error('chat send', e); }
+        });
+        onChildAdded(chatRef, (snap) => { if (!chatMessages) return; const m = snap.val(); const div = document.createElement('div'); div.className = 'event-item'; const time = new Date(m.ts || Date.now()).toLocaleString('en-IN'); div.innerHTML = `<div class="event-time">${escapeHtml(m.user || '')}</div><div class="event-title">${escapeHtml(m.text || '')}</div><div class="event-notes">${time}</div>`; chatMessages.appendChild(div); chatMessages.scrollTop = chatMessages.scrollHeight; });
+
+        // ------------------------------
+        // Finance Overview (filters + export)
+        // ------------------------------
+        const financeHistory = document.getElementById('financeHistory');
+        const financeFilterMonth = document.getElementById('financeFilterMonth');
+        const financeFilterCategory = document.getElementById('financeFilterCategory');
+        const exportCSV = document.getElementById('exportCSV');
+        const exportPDF = document.getElementById('exportPDF');
+
+        function monthOptions() { const now = new Date(); const opts = []; for (let i = 0; i < 12; i++) { const d = new Date(now.getFullYear(), now.getMonth() - i, 1); const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`; const label = d.toLocaleString('en-IN', { month: 'long', year: 'numeric' }); opts.push({ key, label }); } return opts; }
+        if (financeFilterMonth) { monthOptions().forEach(o => { const opt = document.createElement('option'); opt.value = o.key; opt.textContent = o.label; financeFilterMonth.appendChild(opt); }); }
+
+        let financeRecords = [];
+        function renderFinance() { if (!financeHistory) return; financeHistory.innerHTML = ''; const m = financeFilterMonth?.value; const cat = financeFilterCategory?.value || 'all'; const list = financeRecords.filter(r => (m ? (r.month === m) : true) && (cat === 'all' || r.category === cat)); list.forEach(r => { const div = document.createElement('div'); div.className = 'event-item'; div.innerHTML = `<div class="event-time">${r.date}</div><div class="event-title">₹${Number(r.amount).toLocaleString('en-IN')} · ${r.category}</div><div class="event-notes">${escapeHtml(r.note || '')}</div>`; financeHistory.appendChild(div); }); }
+        financeFilterMonth?.addEventListener('change', renderFinance); financeFilterCategory?.addEventListener('change', renderFinance);
+
+        function captureFinanceFromSnapshots() { financeRecords = []; renderFinance(); }
+        captureFinanceFromSnapshots();
+
+        exportCSV?.addEventListener('click', () => {
+            const rows = [['Date', 'Amount', 'Category', 'Note']].concat(financeRecords.map(r => [r.date, r.amount, r.category, r.note || '']));
+            const csv = rows.map(r => r.map(v => `"${String(v).replaceAll('"', '""')}"`).join(',')).join('\n');
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'finance.csv'; a.click();
+        });
+        exportPDF?.addEventListener('click', () => {
+            if (!window.jspdf) return; const { jsPDF } = window.jspdf; const docPdf = new jsPDF();
+            docPdf.text('Finance Overview', 14, 16);
+            financeRecords.slice(0, 30).forEach((r, i) => { docPdf.text(`${r.date}  ₹${Number(r.amount).toLocaleString('en-IN')}  ${r.category}  ${r.note || ''}`, 14, 26 + i * 6); });
+            docPdf.save('finance.pdf');
         });
 
         // ------------------------------
