@@ -1309,6 +1309,188 @@
                 padding: 8px 12px;
                 font-size: 11px;
             }
+
+            /* Mobile header fixes */
+            .topbar {
+                flex-direction: column;
+                gap: 12px;
+                align-items: stretch;
+                padding: 16px;
+            }
+
+            .topbar .brand {
+                justify-content: center;
+                text-align: center;
+            }
+
+            .topbar > div:last-child {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            #globalSearch {
+                width: 100% !important;
+                max-width: none !important;
+                margin-bottom: 8px;
+            }
+
+            /* Analytics mobile fixes */
+            .analytics-summary {
+                padding: 16px;
+                margin-top: 16px;
+            }
+
+            #analyticsText {
+                grid-template-columns: 1fr !important;
+                gap: 6px;
+            }
+
+            /* Finance overview mobile fixes */
+            .finance-overview-header {
+                flex-direction: column;
+                gap: 12px;
+                align-items: stretch;
+            }
+
+            .finance-overview-header > div:last-child {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .finance-overview-header select,
+            .finance-overview-header button {
+                width: 100%;
+            }
+
+            /* Chart container mobile fixes */
+            .chart-container {
+                height: 180px;
+            }
+
+            /* Card header mobile fixes */
+            .card > div:first-child {
+                flex-direction: column;
+                gap: 8px;
+                align-items: stretch;
+            }
+
+            .card > div:first-child > div:last-child {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            /* KPI grid mobile fixes */
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .kpi-card {
+                padding: 16px;
+            }
+
+            .kpi-value {
+                font-size: 24px;
+            }
+
+            .chart-card {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 16px 12px 24px;
+            }
+
+            .card {
+                padding: 12px;
+                margin-bottom: 12px;
+            }
+
+            /* Extra small mobile header */
+            .topbar {
+                padding: 12px;
+                gap: 8px;
+            }
+
+            .topbar .brand-title {
+                font-size: 16px;
+            }
+
+            .topbar .brand span {
+                font-size: 10px;
+            }
+
+            /* Single column KPI grid */
+            .kpi-grid {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .kpi-card {
+                padding: 12px;
+            }
+
+            .kpi-value {
+                font-size: 20px;
+            }
+
+            .kpi-icon {
+                font-size: 20px;
+                margin-bottom: 8px;
+            }
+
+            /* Chart adjustments */
+            .chart-container {
+                height: 160px;
+            }
+
+            .chart-card {
+                padding: 16px;
+            }
+
+            /* Button adjustments */
+            .btn {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+
+            .logout-btn {
+                padding: 8px 10px;
+            }
+
+            /* Input adjustments */
+            .input, .select, .textarea {
+                font-size: 14px;
+                padding: 8px 10px;
+            }
+
+            /* Analytics text single column */
+            #analyticsText {
+                font-size: 12px;
+            }
+
+            /* Finance overview buttons stack */
+            .finance-overview-header > div:last-child {
+                gap: 6px;
+            }
+
+            .finance-overview-header button {
+                padding: 6px 8px;
+                font-size: 11px;
+            }
+
+            .finance-overview-header button svg {
+                width: 10px;
+                height: 10px;
+            }
         }
     </style>
 </head>
@@ -1882,7 +2064,7 @@
 
             <!-- Finance Overview -->
             <article class="card span-12" id="financeOverviewCard">
-                <div style="display:flex; align-items:center; justify-content:space-between;">
+                <div class="finance-overview-header" style="display:flex; align-items:center; justify-content:space-between;">
                     <div>
                         <h3 style="margin:0; font-size:20px; font-weight:600;">Finance Overview</h3>
                         <p class="muted mono" style="font-size:12px; margin:4px 0 0;">Transaction history and financial insights</p>
