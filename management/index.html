@@ -36,6 +36,9 @@
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&display=swap"
         rel="stylesheet">
 
+    <!-- Chart.js for Analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.js"></script>
+
     <style>
         /*
         ==========================
@@ -1366,6 +1369,8 @@
             /* Chart container mobile fixes */
             .chart-container {
                 height: 180px;
+                width: 100%;
+                overflow: hidden;
             }
 
             /* Card header mobile fixes */
@@ -2716,6 +2721,7 @@
             refreshPayouts();
             refreshPayments();
             refreshCharts();
+            captureFinanceFromSnapshots();
         });
 
         // Search/filter
@@ -2996,7 +3002,7 @@
                 const ctxP = /** @type {HTMLCanvasElement} */(document.getElementById('chartProjects'))?.getContext('2d');
                 const ctxE = /** @type {HTMLCanvasElement} */(document.getElementById('chartExpenses'))?.getContext('2d');
                 const ctxProd = /** @type {HTMLCanvasElement} */(document.getElementById('chartProductivity'))?.getContext('2d');
-                if (!ctxR || !window.Chart) return;
+                if (!ctxR || !Chart) return;
 
                 // Revenue Trend (Line Chart)
                 const byMonth = {};
@@ -3009,7 +3015,7 @@
                 const dataRev = labels.map(k => byMonth[k]);
 
                 chartRevenue?.destroy();
-                chartRevenue = new window.Chart(ctxR, {
+                chartRevenue = new Chart(ctxR, {
                     type: 'line',
                     data: {
                         labels,
@@ -3070,7 +3076,7 @@
                 const ongoing = latestProjects.length - completed;
 
                 chartProjects?.destroy();
-                chartProjects = new window.Chart(ctxP, {
+                chartProjects = new Chart(ctxP, {
                     type: 'bar',
                     data: {
                         labels: ['Ongoing', 'Completed'],
@@ -3118,7 +3124,7 @@
                 const profit = totalRevenue - totalExpense;
 
                 chartExpenses?.destroy();
-                chartExpenses = new window.Chart(ctxE, {
+                chartExpenses = new Chart(ctxE, {
                     type: 'doughnut',
                     data: {
                         labels: ['Revenue', 'Expenses', 'Profit'],
@@ -3175,7 +3181,7 @@
                 const devData = devLabels.map(id => devProductivity[id] / (devLabels.length || 1));
 
                 chartProductivity?.destroy();
-                chartProductivity = new window.Chart(ctxProd, {
+                chartProductivity = new Chart(ctxProd, {
                     type: 'bar',
                     data: {
                         labels: devLabels.length ? devLabels.map(id => `Dev ${id.slice(-4)}`) : ['No Data'],
@@ -3310,6 +3316,30 @@
         // Chat (Realtime Database)
         // ------------------------------
         const chatRef = dbRef(rtdb, 'chat');
+        
+        // Load existing messages on page load
+        function loadExistingMessages() {
+            if (!chatMessages) return;
+            chatMessages.innerHTML = '';
+            get(chatRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const messages = snapshot.val();
+                    const messageArray = Object.values(messages).sort((a, b) => (a.ts || 0) - (b.ts || 0));
+                    messageArray.forEach(m => {
+                        const div = document.createElement('div');
+                        div.className = 'event-item';
+                        const time = new Date(m.ts || Date.now()).toLocaleString('en-IN');
+                        div.innerHTML = `<div class="event-time">${escapeHtml(m.user || '')}</div><div class="event-title">${escapeHtml(m.text || '')}</div><div class="event-notes">${time}</div>`;
+                        chatMessages.appendChild(div);
+                    });
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            }).catch(e => console.error('load messages error:', e));
+        }
+        
+        // Load existing messages
+        loadExistingMessages();
+        
         sendChatBtn?.addEventListener('click', async () => {
             const text = chatInput?.value.trim(); if (!text) return; const user = auth.currentUser?.email || 'anon';
             try { await dbPush(chatRef, { text, user, ts: Date.now() }); if (chatInput) chatInput.value = ''; } catch (e) { console.error('chat send', e); }
@@ -3332,7 +3362,31 @@
         function renderFinance() { if (!financeHistory) return; financeHistory.innerHTML = ''; const m = financeFilterMonth?.value; const cat = financeFilterCategory?.value || 'all'; const list = financeRecords.filter(r => (m ? (r.month === m) : true) && (cat === 'all' || r.category === cat)); list.forEach(r => { const div = document.createElement('div'); div.className = 'event-item'; div.innerHTML = `<div class="event-time">${r.date}</div><div class="event-title">₹${Number(r.amount).toLocaleString('en-IN')} · ${r.category}</div><div class="event-notes">${escapeHtml(r.note || '')}</div>`; financeHistory.appendChild(div); }); }
         financeFilterMonth?.addEventListener('change', renderFinance); financeFilterCategory?.addEventListener('change', renderFinance);
 
-        function captureFinanceFromSnapshots() { financeRecords = []; renderFinance(); }
+        function captureFinanceFromSnapshots() { 
+            financeRecords = []; 
+            // Fetch finance data from projects
+            latestProjects.forEach(project => {
+                if (project.revenue && project.revenue > 0) {
+                    financeRecords.push({
+                        date: project.createdAt?.toDate?.()?.toLocaleDateString('en-IN') || new Date().toLocaleDateString('en-IN'),
+                        amount: project.revenue,
+                        category: 'income',
+                        note: `Revenue from ${project.name}`,
+                        month: project.createdAt?.toDate?.() ? `${project.createdAt.toDate().getFullYear()}-${String(project.createdAt.toDate().getMonth() + 1).padStart(2, '0')}` : ''
+                    });
+                }
+                if (project.expense && project.expense > 0) {
+                    financeRecords.push({
+                        date: project.createdAt?.toDate?.()?.toLocaleDateString('en-IN') || new Date().toLocaleDateString('en-IN'),
+                        amount: project.expense,
+                        category: 'expense',
+                        note: `Expense for ${project.name}`,
+                        month: project.createdAt?.toDate?.() ? `${project.createdAt.toDate().getFullYear()}-${String(project.createdAt.toDate().getMonth() + 1).padStart(2, '0')}` : ''
+                    });
+                }
+            });
+            renderFinance(); 
+        }
         captureFinanceFromSnapshots();
 
         exportCSV?.addEventListener('click', () => {
