@@ -2145,7 +2145,7 @@
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js';
         import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, orderBy, updateDoc, deleteDoc, doc, where } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
         import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js';
-        import { getDatabase, ref as dbRef, push as dbPush, onChildAdded } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js';
+        import { getDatabase, ref as dbRef, push as dbPush, onChildAdded, get } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js';
 
         // ---- Replace with your Firebase project's config ----
         const firebaseConfig = {
@@ -3365,29 +3365,30 @@
         function captureFinanceFromSnapshots() { 
             financeRecords = []; 
             // Fetch finance data from projects
-            latestProjects.forEach(project => {
-                if (project.revenue && project.revenue > 0) {
-                    financeRecords.push({
-                        date: project.createdAt?.toDate?.()?.toLocaleDateString('en-IN') || new Date().toLocaleDateString('en-IN'),
-                        amount: project.revenue,
-                        category: 'income',
-                        note: `Revenue from ${project.name}`,
-                        month: project.createdAt?.toDate?.() ? `${project.createdAt.toDate().getFullYear()}-${String(project.createdAt.toDate().getMonth() + 1).padStart(2, '0')}` : ''
-                    });
-                }
-                if (project.expense && project.expense > 0) {
-                    financeRecords.push({
-                        date: project.createdAt?.toDate?.()?.toLocaleDateString('en-IN') || new Date().toLocaleDateString('en-IN'),
-                        amount: project.expense,
-                        category: 'expense',
-                        note: `Expense for ${project.name}`,
-                        month: project.createdAt?.toDate?.() ? `${project.createdAt.toDate().getFullYear()}-${String(project.createdAt.toDate().getMonth() + 1).padStart(2, '0')}` : ''
-                    });
-                }
-            });
+            if (latestProjects && latestProjects.length > 0) {
+                latestProjects.forEach(project => {
+                    if (project.revenue && project.revenue > 0) {
+                        financeRecords.push({
+                            date: project.createdAt?.toDate?.()?.toLocaleDateString('en-IN') || new Date().toLocaleDateString('en-IN'),
+                            amount: project.revenue,
+                            category: 'income',
+                            note: `Revenue from ${project.name}`,
+                            month: project.createdAt?.toDate?.() ? `${project.createdAt.toDate().getFullYear()}-${String(project.createdAt.toDate().getMonth() + 1).padStart(2, '0')}` : ''
+                        });
+                    }
+                    if (project.expense && project.expense > 0) {
+                        financeRecords.push({
+                            date: project.createdAt?.toDate?.()?.toLocaleDateString('en-IN') || new Date().toLocaleDateString('en-IN'),
+                            amount: project.expense,
+                            category: 'expense',
+                            note: `Expense for ${project.name}`,
+                            month: project.createdAt?.toDate?.() ? `${project.createdAt.toDate().getFullYear()}-${String(project.createdAt.toDate().getMonth() + 1).padStart(2, '0')}` : ''
+                        });
+                    }
+                });
+            }
             renderFinance(); 
         }
-        captureFinanceFromSnapshots();
 
         exportCSV?.addEventListener('click', () => {
             const rows = [['Date', 'Amount', 'Category', 'Note']].concat(financeRecords.map(r => [r.date, r.amount, r.category, r.note || '']));
