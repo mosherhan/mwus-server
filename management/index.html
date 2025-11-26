@@ -37,7 +37,7 @@
         rel="stylesheet">
 
     <!-- Chart.js for Analytics -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
     <style>
         /*
@@ -1392,8 +1392,17 @@
             }
 
             .charts-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr !important;
                 gap: 16px;
+            }
+
+            .chart-card {
+                min-width: 100%;
+                width: 100%;
+            }
+
+            .chart-container {
+                min-height: 200px;
             }
 
             .kpi-card {
@@ -1582,10 +1591,6 @@
                                 placeholder="20000" />
                         </div>
                     </div>
-                    <div class="col-12 field">
-                        <label for="division">Division of Money (₹)</label>
-                        <input id="division" class="input" placeholder="12000 · 8000" />
-                    </div>
                     <div class="col-6 field">
                         <label for="status">Status</label>
                         <select id="status" class="select">
@@ -1597,23 +1602,19 @@
                         <label for="deadline">Deadline</label>
                         <input id="deadline" class="input" type="date" />
                     </div>
-                    <div class="col-4 field">
-                        <label for="budget">Budget (₹)</label>
+                    <div class="col-6 field">
+                        <label for="developerPayment">Developer Payment (₹)</label>
                         <div class="number-input-wrapper">
-                            <input id="budget" class="input" type="number" inputmode="decimal" placeholder="15000" />
+                            <input id="developerPayment" class="input" type="number" inputmode="decimal" placeholder="12000" />
                         </div>
+                        <span class="muted mono" style="font-size:11px;">Payment to developers</span>
                     </div>
-                    <div class="col-4 field">
-                        <label for="expense">Expense (₹)</label>
+                    <div class="col-6 field">
+                        <label for="companyPayment">Company Revenue (₹)</label>
                         <div class="number-input-wrapper">
-                            <input id="expense" class="input" type="number" inputmode="decimal" placeholder="5000" />
+                            <input id="companyPayment" class="input" type="number" inputmode="decimal" placeholder="8000" />
                         </div>
-                    </div>
-                    <div class="col-4 field">
-                        <label for="revenue">Revenue (₹)</label>
-                        <div class="number-input-wrapper">
-                            <input id="revenue" class="input" type="number" inputmode="decimal" placeholder="20000" />
-                        </div>
+                        <span class="muted mono" style="font-size:11px;">Company profit</span>
                     </div>
                     <div class="col-12 field">
                         <label for="assignDevs">Assign Developers</label>
@@ -1867,7 +1868,29 @@
 
                 <!-- Charts Grid -->
                 <div class="charts-grid"
-                    style="display:grid; grid-template-columns:repeat(auto-fit, minmax(400px, 1fr)); gap:24px;">
+                    style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:24px;">
+                    
+                    <!-- Revenue Trend -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h4 style="margin:0; font-size:16px; font-weight:600;">Revenue Trend</h4>
+                            <p class="muted mono" style="font-size:11px; margin:2px 0 0;">Monthly revenue analysis</p>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="chartRevenue" height="200"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Project Performance -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h4 style="margin:0; font-size:16px; font-weight:600;">Project Performance</h4>
+                            <p class="muted mono" style="font-size:11px; margin:2px 0 0;">Ongoing vs completed</p>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="chartProjects" height="200"></canvas>
+                        </div>
+                    </div>
                     
                     <!-- Expense Breakdown -->
                     <div class="chart-card">
@@ -1877,6 +1900,17 @@
                         </div>
                         <div class="chart-container">
                             <canvas id="chartExpenses" height="200"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Developer Productivity -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h4 style="margin:0; font-size:16px; font-weight:600;">Developer Productivity</h4>
+                            <p class="muted mono" style="font-size:11px; margin:2px 0 0;">Top performers</p>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="chartProductivity" height="200"></canvas>
                         </div>
                     </div>
 
@@ -2033,41 +2067,133 @@
                 <div id="tasksList" class="items scrollable-content"></div>
             </article>
 
-            <!-- Finance Overview -->
-            <article class="card span-12" id="financeOverviewCard">
-                <div class="finance-overview-header" style="display:flex; align-items:center; justify-content:space-between;">
+            <!-- Invoice Generation -->
+            <article class="card span-6" id="invoiceCard">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:24px;">
                     <div>
-                        <h3 style="margin:0; font-size:20px; font-weight:600;">Finance Overview</h3>
-                        <p class="muted mono" style="font-size:12px; margin:4px 0 0;">Transaction history and financial insights</p>
+                        <h3 style="margin:0; font-size:20px; font-weight:600;">Invoice Generation</h3>
+                        <p class="muted mono" style="font-size:12px; margin:4px 0 0;">Generate invoices for clients</p>
                     </div>
-                    <div style="display:flex; gap:8px;">
-                        <select id="financeFilterMonth" class="select" style="width:140px;"></select>
-                        <select id="financeFilterCategory" class="select" style="width:160px;">
-                            <option value="all">All Categories</option>
-                            <option value="income">Income</option>
-                            <option value="salaries">Salaries</option>
-                        </select>
-                        <button id="exportCSV" class="btn ghost">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                <polyline points="7 10 12 15 17 10"/>
-                                <line x1="12" y1="15" x2="12" y2="3"/>
-                            </svg>
-                            CSV
-                        </button>
-                        <button id="exportPDF" class="btn ghost">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;">
+                </div>
+                <div class="row">
+                    <div class="col-12 field">
+                        <label for="invoiceProject">Project</label>
+                        <select id="invoiceProject" class="select"></select>
+                    </div>
+                    <div class="col-6 field">
+                        <label for="invoiceNumber">Invoice Number</label>
+                        <input id="invoiceNumber" class="input" placeholder="INV-2024-001" />
+                    </div>
+                    <div class="col-6 field">
+                        <label for="invoiceDate">Invoice Date</label>
+                        <input id="invoiceDate" class="input" type="date" />
+                    </div>
+                    <div class="col-12 field">
+                        <label for="invoiceClientName">Client Name</label>
+                        <input id="invoiceClientName" class="input" placeholder="Client Company Name" />
+                    </div>
+                    <div class="col-12 field">
+                        <label for="invoiceClientAddress">Client Address</label>
+                        <textarea id="invoiceClientAddress" class="input" rows="3" placeholder="Client address"></textarea>
+                    </div>
+                    <div class="col-12 field">
+                        <label for="invoiceItems">Items (one per line, format: Description|Quantity|Rate)</label>
+                        <textarea id="invoiceItems" class="input" rows="4" placeholder="Web Development|1|50000&#10;Maintenance|1|10000"></textarea>
+                    </div>
+                    <div class="col-12 field">
+                        <label for="invoiceNotes">Notes</label>
+                        <textarea id="invoiceNotes" class="input" rows="2" placeholder="Payment terms, notes, etc."></textarea>
+                    </div>
+                    <div class="col-12" style="display:flex; gap:10px; align-items:center;">
+                        <button id="generateInvoiceBtn" class="btn primary">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;">
                                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                                 <polyline points="14 2 14 8 20 8"/>
                                 <line x1="16" y1="13" x2="8" y2="13"/>
                                 <line x1="16" y1="17" x2="8" y2="17"/>
-                                <polyline points="10 9 9 9 8 9"/>
                             </svg>
-                            PDF
+                            Generate Invoice
                         </button>
+                        <span id="invoiceMsg" class="muted mono" style="font-size:12px;"></span>
                     </div>
                 </div>
-                <div id="financeHistory" class="items scrollable-content"></div>
+            </article>
+
+            <!-- Compliance Documents -->
+            <article class="card span-6" id="complianceCard">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:24px;">
+                    <div>
+                        <h3 style="margin:0; font-size:20px; font-weight:600;">Compliance Documents</h3>
+                        <p class="muted mono" style="font-size:12px; margin:4px 0 0;">Generate compliance documents</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 field">
+                        <label>Document Type</label>
+                        <select id="complianceType" class="select">
+                            <option value="developer">Developer Agreement</option>
+                            <option value="proposal">Project Proposal (Client)</option>
+                        </select>
+                    </div>
+                    <div id="complianceDeveloperFields">
+                        <div class="col-8 field">
+                            <label for="devDocDeveloper">Developer</label>
+                            <select id="devDocDeveloper" class="select"></select>
+                        </div>
+                        <div class="col-8 field">
+                            <label for="devDocStartDate">Start Date</label>
+                            <input id="devDocStartDate" class="input" type="date" />
+                        </div>
+                        <div class="col-12 field">
+                            <label for="devDocEndDate">End Date</label>
+                            <input id="devDocEndDate" class="input" type="date" />
+                        </div>
+                        <div class="col-12 field">
+                            <label for="devDocPayment">Payment Terms (₹)</label>
+                            <input id="devDocPayment" class="input" type="number" placeholder="50000" />
+                        </div>
+                        <div class="col-12 field">
+                            <label for="devDocResponsibilities">Responsibilities</label>
+                            <textarea id="devDocResponsibilities" class="input" rows="4" placeholder="List of responsibilities"></textarea>
+                        </div>
+                    </div>
+                    <div id="complianceProposalFields" style="display:none;">
+                        <div class="col-12 field">
+                            <label for="proposalProject">Project</label>
+                            <select id="proposalProject" class="select"></select>
+                        </div>
+                        <div class="col-12 field">
+                            <label for="proposalClientName">Client Name</label>
+                            <input id="proposalClientName" class="input" placeholder="Client Company Name" />
+                        </div>
+                        <div class="col-12 field">
+                            <label for="proposalDescription">Project Description</label>
+                            <textarea id="proposalDescription" class="input" rows="4" placeholder="Detailed project description"></textarea>
+                        </div>
+                        <div class="col-6 field">
+                            <label for="proposalBudget">Project Budget (₹)</label>
+                            <input id="proposalBudget" class="input" type="number" placeholder="100000" />
+                        </div>
+                        <div class="col-6 field">
+                            <label for="proposalTimeline">Timeline (days)</label>
+                            <input id="proposalTimeline" class="input" type="number" placeholder="30" />
+                        </div>
+                        <div class="col-12 field">
+                            <label for="proposalDeliverables">Deliverables</label>
+                            <textarea id="proposalDeliverables" class="input" rows="3" placeholder="List of deliverables"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12" style="display:flex; gap:10px; align-items:center;">
+                        <button id="generateComplianceBtn" class="btn primary">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                            </svg>
+                            Generate Document
+                        </button>
+                        <span id="complianceMsg" class="muted mono" style="font-size:12px;"></span>
+                    </div>
+                </div>
             </article>
 
             <!-- Team Chat -->
@@ -2098,7 +2224,6 @@
     <!-- ==========================
          External Libraries
          ========================== -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
@@ -2411,7 +2536,6 @@
         // ------------------------------
         const projectName = document.getElementById('projectName');
         const projectPrice = document.getElementById('projectPrice');
-        const division = document.getElementById('division');
         const status = document.getElementById('status');
         const addProjectBtn = document.getElementById('addProjectBtn');
         const addProjectMsg = document.getElementById('addProjectMsg');
@@ -2420,9 +2544,8 @@
         const assignDevs = document.getElementById('assignDevs');
         const progressInput = document.getElementById('progress');
         const deadlineInput = document.getElementById('deadline');
-        const budgetInput = document.getElementById('budget');
-        const expenseInput = document.getElementById('expense');
-        const revenueInput = document.getElementById('revenue');
+        const developerPaymentInput = document.getElementById('developerPayment');
+        const companyPaymentInput = document.getElementById('companyPayment');
         const projectFileInput = document.getElementById('projectFile');
         const projectSearch = document.getElementById('projectSearch');
         const clearSearch = document.getElementById('clearSearch');
@@ -2532,14 +2655,15 @@
         addProjectBtn.addEventListener('click', async () => {
             const nameVal = projectName.value.trim();
             const priceVal = Number(projectPrice.value || 0);
-            const divisionVal = division.value.trim();
             const statusVal = status.value;
             const deadlineVal = deadlineInput.value || null;
             const progressVal = Number(progressInput.value || 0);
-            const budgetVal = Number(budgetInput.value || 0);
-            const expenseVal = Number(expenseInput.value || 0);
-            const revenueVal = Number(revenueInput.value || 0);
-            const profitVal = revenueVal - expenseVal;
+            const developerPaymentVal = Number(developerPaymentInput.value || 0);
+            const companyPaymentVal = Number(companyPaymentInput.value || 0);
+            // Developer payment = expense, Company payment = revenue (profit)
+            const expenseVal = developerPaymentVal;
+            const revenueVal = companyPaymentVal;
+            const profitVal = revenueVal; // Company revenue is the profit
             const assigned = Array.from(assignDevs.selectedOptions).map(o => o.value);
             if (!nameVal) { flash(addProjectMsg, 'Please enter a project name.', true); return; }
             try {
@@ -2553,11 +2677,11 @@
                 await addDoc(collection(db, 'projects'), {
                     name: nameVal,
                     price: priceVal,
-                    division: divisionVal,
                     status: statusVal,
                     deadline: deadlineVal,
                     progress: progressVal,
-                    budget: budgetVal,
+                    developerPayment: developerPaymentVal,
+                    companyPayment: companyPaymentVal,
                     expense: expenseVal,
                     revenue: revenueVal,
                     profit: profitVal,
@@ -2567,13 +2691,11 @@
                 });
                 projectName.value = '';
                 projectPrice.value = '';
-                division.value = '';
                 status.value = 'ongoing';
                 deadlineInput.value = '';
                 progressInput.value = '0';
-                budgetInput.value = '';
-                expenseInput.value = '';
-                revenueInput.value = '';
+                developerPaymentInput.value = '';
+                companyPaymentInput.value = '';
                 projectFileInput.value = '';
                 document.getElementById('projectFileBtn').classList.remove('has-file');
                 document.getElementById('projectFileBtn').textContent = 'Choose File';
@@ -2610,16 +2732,14 @@
             <input class="inline-input" data-k="name" placeholder="Name" value="${escapeAttr(p.name || '')}" />
             <div style="display:grid; grid-template-columns: repeat(12, 1fr); gap:8px;">
               <input class="inline-input" style="grid-column: span 4;" data-k="price" type="number" inputmode="decimal" placeholder="Price" value="${escapeAttr(p.price ?? '')}" />
-              <input class="inline-input" style="grid-column: span 8;" data-k="division" placeholder="Division (₹)" value="${escapeAttr(p.division || '')}" />
               <select class="inline-input" style="grid-column: span 4;" data-k="status">
                 <option value="ongoing" ${p.status === 'ongoing' ? 'selected' : ''}>Ongoing</option>
                 <option value="completed" ${p.status === 'completed' ? 'selected' : ''}>Completed</option>
               </select>
               <input class="inline-input" style="grid-column: span 4;" data-k="deadline" type="date" value="${escapeAttr(p.deadline || '')}" />
               <input class="inline-input" style="grid-column: span 4;" data-k="progress" type="number" min="0" max="100" value="${escapeAttr(p.progress ?? 0)}" />
-              <input class="inline-input" style="grid-column: span 4;" data-k="budget" type="number" placeholder="Budget (₹)" value="${escapeAttr(p.budget ?? '')}" />
-              <input class="inline-input" style="grid-column: span 4;" data-k="expense" type="number" placeholder="Expense (₹)" value="${escapeAttr(p.expense ?? '')}" />
-              <input class="inline-input" style="grid-column: span 4;" data-k="revenue" type="number" placeholder="Revenue (₹)" value="${escapeAttr(p.revenue ?? '')}" />
+              <input class="inline-input" style="grid-column: span 4;" data-k="developerPayment" type="number" placeholder="Developer Payment (₹)" value="${escapeAttr(p.developerPayment ?? p.expense ?? '')}" />
+              <input class="inline-input" style="grid-column: span 4;" data-k="companyPayment" type="number" placeholder="Company Revenue (₹)" value="${escapeAttr(p.companyPayment ?? p.revenue ?? '')}" />
             </div>
              <div class="progress">
                  <div class="progress-bg"></div>
@@ -2643,11 +2763,18 @@
                     const inputs = /** @type {NodeListOf<HTMLInputElement|HTMLSelectElement>} */(card.querySelectorAll('.inline-input'));
                     const updated = {}; inputs.forEach((el) => { const k = el.getAttribute('data-k'); if (!k) return; updated[k] = el.value; });
                     if (updated.price !== undefined) updated.price = Number(updated.price || 0);
-                    ['budget', 'expense', 'revenue', 'progress'].forEach(k => { if (updated[k] !== undefined) updated[k] = Number(updated[k] || 0); });
-                    if (updated.expense !== undefined || updated.revenue !== undefined) {
-                        const expenseV = updated.expense !== undefined ? updated.expense : p.expense || 0;
-                        const revenueV = updated.revenue !== undefined ? updated.revenue : p.revenue || 0;
-                        updated.profit = revenueV - expenseV;
+                    ['developerPayment', 'companyPayment', 'expense', 'revenue', 'progress'].forEach(k => { if (updated[k] !== undefined) updated[k] = Number(updated[k] || 0); });
+                    // Sync developerPayment/companyPayment with expense/revenue for backward compatibility
+                    if (updated.developerPayment !== undefined) {
+                        updated.expense = updated.developerPayment;
+                    }
+                    if (updated.companyPayment !== undefined) {
+                        updated.revenue = updated.companyPayment;
+                        updated.profit = updated.companyPayment; // Company revenue is profit
+                    } else if (updated.expense !== undefined || updated.revenue !== undefined) {
+                        const expenseV = updated.expense !== undefined ? updated.expense : ((p.developerPayment ?? p.expense) || 0);
+                        const revenueV = updated.revenue !== undefined ? updated.revenue : ((p.companyPayment ?? p.revenue) || 0);
+                        updated.profit = revenueV; // Company revenue is profit
                     }
                     const ref = doc(db, 'projects', p.id);
                     try {
@@ -2667,6 +2794,7 @@
             });
             projectsCount.textContent = String(count);
             updateAnalytics(list);
+            refreshCharts(); // Update charts when projects change
         }
 
         onSnapshot(query(collection(db, 'projects'), orderBy('createdAt', 'desc')), (snap) => {
@@ -2726,64 +2854,169 @@
             refreshCharts();
         });
 
-        // Developer Income Flow
+        // Developer Income Flow - Wired to Developer Payments
         const devIncomeList = document.getElementById('devIncomeList');
         
         function renderDeveloperIncome() {
             if (!devIncomeList) return;
             
-            // Get developer payments data from Firebase
-            const devPaymentsRef = collection(db, 'developer_payments');
-            onSnapshot(devPaymentsRef, (snapshot) => {
-                const devPayments = [];
-                snapshot.forEach(doc => {
-                    devPayments.push({ id: doc.id, ...doc.data() });
-                });
-                
-                if (devPayments.length === 0) {
-                    devIncomeList.innerHTML = '<div class="muted mono" style="text-align:center; padding:20px; font-size:12px;">No developer payments recorded</div>';
-                    return;
-                }
-                
-                devIncomeList.innerHTML = devPayments.map(dev => {
-                    const totalIncome = Number(dev.total_income || 0);
-                    const amountPaid = Number(dev.amount_paid || 0);
-                    const pendingAmount = totalIncome - amountPaid;
-                    const progressPercent = totalIncome > 0 ? (amountPaid / totalIncome * 100) : 0;
+            // Aggregate developer payments from all project payouts
+            const devPaymentsMap = new Map();
+            
+            // Get all projects and their payouts
+            latestProjects.forEach(project => {
+                onSnapshot(query(collection(db, `projects/${project.id}/payouts`), orderBy('date', 'desc')), (snap) => {
+                    snap.forEach((docSnap) => {
+                        const payout = { id: docSnap.id, ...docSnap.data() };
+                        const devId = payout.developerId;
+                        const devName = payout.developerName || 'Unknown Developer';
+                        const amount = Number(payout.amount || 0);
+                        
+                        if (!devPaymentsMap.has(devId)) {
+                            devPaymentsMap.set(devId, {
+                                id: devId,
+                                name: devName,
+                                totalPaid: 0,
+                                totalEarned: 0
+                            });
+                        }
+                        
+                        const devData = devPaymentsMap.get(devId);
+                        devData.totalPaid += amount;
+                    });
                     
-                    return `
-                        <div class="dev-income-item">
-                            <div class="dev-income-header">
-                                <div class="dev-income-name">${escapeHtml(dev.name || 'Unknown Developer')}</div>
+                    // Also calculate total earned from project developer payments
+                    latestProjects.forEach(p => {
+                        const devPayment = Number((p.developerPayment ?? p.expense) || 0);
+                        if (p.assignedDevelopers && p.assignedDevelopers.length > 0) {
+                            const perDevPayment = devPayment / p.assignedDevelopers.length;
+                            p.assignedDevelopers.forEach(devId => {
+                                if (!devPaymentsMap.has(devId)) {
+                                    const dev = latestDevelopers.find(d => d.id === devId);
+                                    devPaymentsMap.set(devId, {
+                                        id: devId,
+                                        name: dev?.name || 'Unknown Developer',
+                                        totalPaid: 0,
+                                        totalEarned: 0
+                                    });
+                                }
+                                devPaymentsMap.get(devId).totalEarned += perDevPayment;
+                            });
+                        }
+                    });
+                    
+                    updateDevIncomeDisplay(Array.from(devPaymentsMap.values()));
+                });
+            });
+            
+            // Also listen to project changes to recalculate
+            if (latestProjects.length > 0) {
+                updateDevIncomeFromProjects();
+            }
+        }
+        
+        function updateDevIncomeFromProjects() {
+            if (!devIncomeList) return;
+            
+            const devPaymentsMap = new Map();
+            
+            // Calculate total earned from project developer payments
+            latestProjects.forEach(p => {
+                const devPayment = Number((p.developerPayment ?? p.expense) || 0);
+                if (p.assignedDevelopers && p.assignedDevelopers.length > 0) {
+                    const perDevPayment = devPayment / p.assignedDevelopers.length;
+                    p.assignedDevelopers.forEach(devId => {
+                        if (!devPaymentsMap.has(devId)) {
+                            const dev = latestDevelopers.find(d => d.id === devId);
+                            devPaymentsMap.set(devId, {
+                                id: devId,
+                                name: (dev?.name) || 'Unknown Developer',
+                                totalPaid: 0,
+                                totalEarned: perDevPayment
+                            });
+                        } else {
+                            devPaymentsMap.get(devId).totalEarned += perDevPayment;
+                        }
+                    });
+                }
+            });
+            
+            // Get paid amounts from payouts
+            latestProjects.forEach(project => {
+                onSnapshot(query(collection(db, `projects/${project.id}/payouts`), orderBy('date', 'desc')), (snap) => {
+                    snap.forEach((docSnap) => {
+                        const payout = { id: docSnap.id, ...docSnap.data() };
+                        const devId = payout.developerId;
+                        const amount = Number(payout.amount || 0);
+                        
+                        if (!devPaymentsMap.has(devId)) {
+                            const dev = latestDevelopers.find(d => d.id === devId);
+                            devPaymentsMap.set(devId, {
+                                id: devId,
+                                name: (dev?.name) || (payout.developerName) || 'Unknown Developer',
+                                totalPaid: amount,
+                                totalEarned: 0
+                            });
+                        } else {
+                            devPaymentsMap.get(devId).totalPaid += amount;
+                        }
+                    });
+                    
+                    updateDevIncomeDisplay(Array.from(devPaymentsMap.values()));
+                }, { onlyOnce: true });
+            });
+            
+            if (devPaymentsMap.size === 0) {
+                updateDevIncomeDisplay([]);
+            }
+        }
+        
+        function updateDevIncomeDisplay(devPayments) {
+            if (!devIncomeList) return;
+            
+            if (devPayments.length === 0) {
+                devIncomeList.innerHTML = '<div class="muted mono" style="text-align:center; padding:20px; font-size:12px;">No developer payments recorded</div>';
+                return;
+            }
+            
+            devIncomeList.innerHTML = devPayments.map(dev => {
+                const totalEarned = Number(dev.totalEarned || 0);
+                const totalPaid = Number(dev.totalPaid || 0);
+                const pendingAmount = totalEarned - totalPaid;
+                const progressPercent = totalEarned > 0 ? (totalPaid / totalEarned * 100) : 0;
+                
+                return `
+                    <div class="dev-income-item">
+                        <div class="dev-income-header">
+                            <div class="dev-income-name">${escapeHtml(dev.name || 'Unknown Developer')}</div>
+                        </div>
+                        <div class="dev-income-amounts">
+                            <div class="dev-income-stat">
+                                <div class="dev-income-label">Total Earned</div>
+                                <div class="dev-income-value">₹${totalEarned.toLocaleString('en-IN')}</div>
                             </div>
-                            <div class="dev-income-amounts">
-                                <div class="dev-income-stat">
-                                    <div class="dev-income-label">Total Income</div>
-                                    <div class="dev-income-value">₹${totalIncome.toLocaleString('en-IN')}</div>
-                                </div>
-                                <div class="dev-income-stat">
-                                    <div class="dev-income-label">Amount Paid</div>
-                                    <div class="dev-income-value">₹${amountPaid.toLocaleString('en-IN')}</div>
-                                </div>
-                                <div class="dev-income-stat">
-                                    <div class="dev-income-label">Pending</div>
-                                    <div class="dev-income-value">₹${pendingAmount.toLocaleString('en-IN')}</div>
-                                </div>
-                                <div class="dev-income-stat">
-                                    <div class="dev-income-label">Progress</div>
-                                    <div class="dev-income-value">${progressPercent.toFixed(1)}%</div>
-                                </div>
+                            <div class="dev-income-stat">
+                                <div class="dev-income-label">Amount Paid</div>
+                                <div class="dev-income-value">₹${totalPaid.toLocaleString('en-IN')}</div>
                             </div>
-                            <div class="dev-income-progress">
-                                <div class="dev-income-progress-bar">
-                                    <div class="dev-income-progress-fill" style="width: ${progressPercent}%"></div>
-                                </div>
-                                <div class="dev-income-progress-text">Payment Progress</div>
+                            <div class="dev-income-stat">
+                                <div class="dev-income-label">Pending</div>
+                                <div class="dev-income-value">₹${pendingAmount.toLocaleString('en-IN')}</div>
+                            </div>
+                            <div class="dev-income-stat">
+                                <div class="dev-income-label">Progress</div>
+                                <div class="dev-income-value">${progressPercent.toFixed(1)}%</div>
                             </div>
                         </div>
-                    `;
-                }).join('');
-            });
+                        <div class="dev-income-progress">
+                            <div class="dev-income-progress-bar">
+                                <div class="dev-income-progress-fill" style="width: ${Math.min(progressPercent, 100)}%"></div>
+                            </div>
+                            <div class="dev-income-progress-text">Payment Progress</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
         
         // Initialize developer income flow
@@ -2876,8 +3109,10 @@
             } catch (e) { console.error('addDeveloper error:', e); flash(addDevMsg, e && e.message ? e.message : 'Error adding developer', true); }
         });
 
+        let latestDevelopers = [];
         onSnapshot(query(collection(db, 'developers'), orderBy('createdAt', 'desc')), (snap) => {
             devsList.innerHTML = '';
+            latestDevelopers = [];
             let count = 0;
             snap.forEach((d) => {
                 count += 1;
@@ -2916,6 +3151,8 @@
                 devsList.appendChild(c);
             });
             devsCount.textContent = String(count);
+            // Update developer income flow when developers change
+            if (devIncomeList) updateDevIncomeFromProjects();
         });
 
         // ------------------------------
@@ -2943,18 +3180,20 @@
         // Simple analytics text block
         const analyticsText = document.getElementById('analyticsText');
         function updateAnalytics(list) {
+            if (!analyticsText) return;
             const total = list.length;
             const completed = list.filter(p => p.status === 'completed').length;
             const ongoing = total - completed;
-            const totalBudget = list.reduce((s, p) => s + Number(p.budget || 0), 0);
-            const totalExpense = list.reduce((s, p) => s + Number(p.expense || 0), 0);
-            const totalRevenue = list.reduce((s, p) => s + Number(p.revenue || 0), 0);
-            const totalProfit = totalRevenue - totalExpense;
+            const totalDeveloperPayment = list.reduce((s, p) => s + Number((p.developerPayment ?? p.expense) || 0), 0);
+            const totalCompanyPayment = list.reduce((s, p) => s + Number((p.companyPayment ?? p.revenue) || 0), 0);
+            const totalExpense = totalDeveloperPayment;
+            const totalRevenue = totalCompanyPayment;
+            const totalProfit = totalRevenue; // Company revenue is profit
             analyticsText.innerHTML = `
           <span>Projects: ${total} (Ongoing: ${ongoing}, Completed: ${completed})</span>
-          <span>Budget: ₹${totalBudget.toLocaleString('en-IN')}</span>
-          <span>Expense: ₹${totalExpense.toLocaleString('en-IN')}</span>
-          <span>Revenue: ₹${totalRevenue.toLocaleString('en-IN')}</span>
+          <span>Developer Payments: ₹${totalDeveloperPayment.toLocaleString('en-IN')}</span>
+          <span>Company Revenue: ₹${totalCompanyPayment.toLocaleString('en-IN')}</span>
+          <span>Total Project Value: ₹${(totalDeveloperPayment + totalCompanyPayment).toLocaleString('en-IN')}</span>
           <span>Profit: ₹${totalProfit.toLocaleString('en-IN')}</span>
         `;
         }
@@ -2964,24 +3203,28 @@
 
         function refreshCharts() {
             try {
+                if (!Chart || typeof Chart === 'undefined') {
+                    console.warn('Chart.js not loaded');
+                    return;
+                }
                 const ctxR = /** @type {HTMLCanvasElement} */(document.getElementById('chartRevenue'))?.getContext('2d');
                 const ctxP = /** @type {HTMLCanvasElement} */(document.getElementById('chartProjects'))?.getContext('2d');
                 const ctxE = /** @type {HTMLCanvasElement} */(document.getElementById('chartExpenses'))?.getContext('2d');
                 const ctxProd = /** @type {HTMLCanvasElement} */(document.getElementById('chartProductivity'))?.getContext('2d');
-                if (!ctxR || !Chart) return;
-
+                
                 // Revenue Trend (Line Chart)
-                const byMonth = {};
-                latestProjects.forEach(p => {
-                    const d = p.createdAt?.toDate?.() || new Date();
-                    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-                    byMonth[key] = (byMonth[key] || 0) + Number(p.revenue || 0);
-                });
-                const labels = Object.keys(byMonth).sort().slice(-6); // Last 6 months
-                const dataRev = labels.map(k => byMonth[k]);
+                if (ctxR) {
+                    const byMonth = {};
+                    latestProjects.forEach(p => {
+                        const d = p.createdAt?.toDate?.() || new Date();
+                        const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+                        byMonth[key] = (byMonth[key] || 0) + Number((p.companyPayment ?? p.revenue) || 0);
+                    });
+                    const labels = Object.keys(byMonth).sort().slice(-6); // Last 6 months
+                    const dataRev = labels.map(k => byMonth[k]);
 
-                chartRevenue?.destroy();
-                chartRevenue = new Chart(ctxR, {
+                    chartRevenue?.destroy();
+                    chartRevenue = new Chart(ctxR, {
                     type: 'line',
                     data: {
                         labels,
@@ -3035,14 +3278,16 @@
                             }
                         }
                     }
-                });
+                    });
+                }
 
                 // Project Performance (Bar Chart)
-                const completed = latestProjects.filter(p => p.status === 'completed').length;
-                const ongoing = latestProjects.length - completed;
+                if (ctxP) {
+                    const completed = latestProjects.filter(p => p.status === 'completed').length;
+                    const ongoing = latestProjects.length - completed;
 
-                chartProjects?.destroy();
-                chartProjects = new Chart(ctxP, {
+                    chartProjects?.destroy();
+                    chartProjects = new Chart(ctxP, {
                     type: 'bar',
                     data: {
                         labels: ['Ongoing', 'Completed'],
@@ -3082,15 +3327,17 @@
                             }
                         }
                     }
-                });
+                    });
+                }
 
                 // Expense Breakdown (Doughnut Chart)
-                const totalExpense = latestProjects.reduce((s, p) => s + Number(p.expense || 0), 0);
-                const totalRevenue = latestProjects.reduce((s, p) => s + Number(p.revenue || 0), 0);
-                const profit = totalRevenue - totalExpense;
+                if (ctxE) {
+                    const totalExpense = latestProjects.reduce((s, p) => s + Number((p.developerPayment ?? p.expense) || 0), 0);
+                    const totalRevenue = latestProjects.reduce((s, p) => s + Number((p.companyPayment ?? p.revenue) || 0), 0);
+                    const profit = totalRevenue; // Company revenue is profit
 
-                chartExpenses?.destroy();
-                chartExpenses = new Chart(ctxE, {
+                    chartExpenses?.destroy();
+                    chartExpenses = new Chart(ctxE, {
                     type: 'doughnut',
                     data: {
                         labels: ['Revenue', 'Expenses', 'Profit'],
@@ -3131,23 +3378,25 @@
                         },
                         cutout: '60%'
                     }
-                });
+                    });
+                }
 
                 // Developer Productivity (Horizontal Bar Chart)
-                const devProductivity = latestProjects.reduce((acc, p) => {
-                    if (p.assignedDevelopers) {
-                        p.assignedDevelopers.forEach(devId => {
-                            acc[devId] = (acc[devId] || 0) + (p.progress || 0);
-                        });
-                    }
-                    return acc;
-                }, {});
+                if (ctxProd) {
+                    const devProductivity = latestProjects.reduce((acc, p) => {
+                        if (p.assignedDevelopers) {
+                            p.assignedDevelopers.forEach(devId => {
+                                acc[devId] = (acc[devId] || 0) + (p.progress || 0);
+                            });
+                        }
+                        return acc;
+                    }, {});
 
-                const devLabels = Object.keys(devProductivity).slice(0, 5); // Top 5
-                const devData = devLabels.map(id => devProductivity[id] / (devLabels.length || 1));
+                    const devLabels = Object.keys(devProductivity).slice(0, 5); // Top 5
+                    const devData = devLabels.map(id => devProductivity[id] / (devLabels.length || 1));
 
-                chartProductivity?.destroy();
-                chartProductivity = new Chart(ctxProd, {
+                    chartProductivity?.destroy();
+                    chartProductivity = new Chart(ctxProd, {
                     type: 'bar',
                     data: {
                         labels: devLabels.length ? devLabels.map(id => `Dev ${id.slice(-4)}`) : ['No Data'],
@@ -3193,7 +3442,8 @@
                             }
                         }
                     }
-                });
+                    });
+                }
 
                 // Update KPI Cards
                 updateKPICards();
@@ -3202,8 +3452,8 @@
         }
 
         function updateKPICards() {
-            const totalRevenue = latestProjects.reduce((s, p) => s + Number(p.revenue || 0), 0);
-            const totalExpense = latestProjects.reduce((s, p) => s + Number(p.expense || 0), 0);
+            const totalRevenue = latestProjects.reduce((s, p) => s + Number((p.companyPayment ?? p.revenue) || 0), 0);
+            const totalExpense = latestProjects.reduce((s, p) => s + Number((p.developerPayment ?? p.expense) || 0), 0);
             const completed = latestProjects.filter(p => p.status === 'completed').length;
             const ongoing = latestProjects.length - completed;
             const avgProgress = latestProjects.length > 0 ? latestProjects.reduce((s, p) => s + Number(p.progress || 0), 0) / latestProjects.length : 0;
@@ -3216,7 +3466,7 @@
                     const d = p.createdAt?.toDate?.() || new Date();
                     return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
                 })
-                .reduce((s, p) => s + Number(p.revenue || 0), 0);
+                .reduce((s, p) => s + Number((p.companyPayment ?? p.revenue) || 0), 0);
 
             const lastMonthRevenue = latestProjects
                 .filter(p => {
@@ -3225,7 +3475,7 @@
                     const lastYear = currentMonth === 0 ? currentYear - 1 : currentYear;
                     return d.getMonth() === lastMonth && d.getFullYear() === lastYear;
                 })
-                .reduce((s, p) => s + Number(p.revenue || 0), 0);
+                .reduce((s, p) => s + Number((p.companyPayment ?? p.revenue) || 0), 0);
 
             const growth = lastMonthRevenue > 0 ? ((currentMonthRevenue - lastMonthRevenue) / lastMonthRevenue * 100) : 0;
 
@@ -3240,7 +3490,7 @@
             const kpiEfficiencyChange = document.getElementById('kpiEfficiencyChange');
 
             if (kpiRevenue) kpiRevenue.textContent = `₹${totalRevenue.toLocaleString('en-IN')}`;
-            if (kpiRevenueChange) kpiRevenueChange.textContent = `₹${totalExpense.toLocaleString('en-IN')} expenses`;
+            if (kpiRevenueChange) kpiRevenueChange.textContent = `₹${totalExpense.toLocaleString('en-IN')} dev payments`;
             if (kpiGrowth) kpiGrowth.textContent = `${growth >= 0 ? '+' : ''}${growth.toFixed(1)}%`;
             if (kpiGrowthChange) kpiGrowthChange.textContent = 'vs last month';
             if (kpiProjects) kpiProjects.textContent = String(ongoing);
@@ -3471,6 +3721,325 @@
                 paymentAmount.value = ''; paymentDate.value = ''; paymentNote.value = '';
                 flash(addPaymentMsg, 'Payment added.');
             } catch (e) { console.error('addPayment error', e); flash(addPaymentMsg, 'Error adding payment', true); }
+        });
+
+        // ------------------------------
+        // Invoice Generation
+        // ------------------------------
+        const invoiceProject = document.getElementById('invoiceProject');
+        const invoiceNumber = document.getElementById('invoiceNumber');
+        const invoiceDate = document.getElementById('invoiceDate');
+        const invoiceClientName = document.getElementById('invoiceClientName');
+        const invoiceClientAddress = document.getElementById('invoiceClientAddress');
+        const invoiceItems = document.getElementById('invoiceItems');
+        const invoiceNotes = document.getElementById('invoiceNotes');
+        const generateInvoiceBtn = document.getElementById('generateInvoiceBtn');
+        const invoiceMsg = document.getElementById('invoiceMsg');
+
+        // Populate invoice project select
+        onSnapshot(query(collection(db, 'projects'), orderBy('createdAt', 'desc')), (snap) => {
+            if (invoiceProject) {
+                invoiceProject.innerHTML = '<option value="">Select Project</option>';
+                snap.forEach((docSnap) => {
+                    const p = { id: docSnap.id, ...docSnap.data() };
+                    const opt = document.createElement('option');
+                    opt.value = p.id;
+                    opt.textContent = p.name || 'Untitled';
+                    invoiceProject.appendChild(opt);
+                });
+            }
+        });
+
+        invoiceProject?.addEventListener('change', () => {
+            const pid = invoiceProject.value;
+            if (pid && latestProjects.length > 0) {
+                const project = latestProjects.find(p => p.id === pid);
+                if (project) {
+                    if (!invoiceClientName.value) invoiceClientName.value = project.name || '';
+                    if (!invoiceNumber.value) {
+                        const date = new Date();
+                        invoiceNumber.value = `INV-${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(Math.floor(Math.random() * 1000)).padStart(3, '0')}`;
+                    }
+                    if (!invoiceDate.value) {
+                        invoiceDate.value = new Date().toISOString().split('T')[0];
+                    }
+                }
+            }
+        });
+
+        generateInvoiceBtn?.addEventListener('click', () => {
+            const projectId = invoiceProject.value;
+            const invNumber = invoiceNumber.value.trim();
+            const invDate = invoiceDate.value;
+            const clientName = invoiceClientName.value.trim();
+            const clientAddress = invoiceClientAddress.value.trim();
+            const itemsText = invoiceItems.value.trim();
+            const notes = invoiceNotes.value.trim();
+
+            if (!projectId || !invNumber || !clientName) {
+                flash(invoiceMsg, 'Please fill in required fields (Project, Invoice Number, Client Name)', true);
+                return;
+            }
+
+            // Parse items
+            const items = itemsText.split('\n').filter(line => line.trim()).map(line => {
+                const parts = line.split('|').map(p => p.trim());
+                return {
+                    description: parts[0] || '',
+                    quantity: Number(parts[1] || 1),
+                    rate: Number(parts[2] || 0),
+                    amount: Number(parts[1] || 1) * Number(parts[2] || 0)
+                };
+            });
+
+            const subtotal = items.reduce((sum, item) => sum + item.amount, 0);
+            const tax = subtotal * 0.18; // 18% GST
+            const total = subtotal + tax;
+
+            // Generate PDF using jsPDF
+            if (typeof window.jsPDF !== 'undefined') {
+                const { jsPDF } = window.jsPDF;
+                const doc = new jsPDF();
+                
+                // Header
+                doc.setFontSize(20);
+                doc.text('INVOICE', 105, 20, { align: 'center' });
+                
+                // Invoice details
+                doc.setFontSize(10);
+                doc.text(`Invoice Number: ${invNumber}`, 20, 35);
+                doc.text(`Date: ${invDate}`, 20, 42);
+                
+                // Client details
+                doc.text('Bill To:', 20, 55);
+                doc.text(clientName, 20, 62);
+                if (clientAddress) {
+                    const addressLines = clientAddress.split('\n');
+                    addressLines.forEach((line, i) => {
+                        doc.text(line, 20, 69 + (i * 7));
+                    });
+                }
+                
+                // Items table
+                let yPos = 90;
+                doc.text('Description', 20, yPos);
+                doc.text('Qty', 120, yPos);
+                doc.text('Rate', 140, yPos);
+                doc.text('Amount', 170, yPos);
+                yPos += 7;
+                doc.line(20, yPos, 190, yPos);
+                yPos += 5;
+                
+                items.forEach(item => {
+                    doc.text(item.description.substring(0, 40), 20, yPos);
+                    doc.text(String(item.quantity), 120, yPos);
+                    doc.text(`₹${item.rate.toLocaleString('en-IN')}`, 140, yPos);
+                    doc.text(`₹${item.amount.toLocaleString('en-IN')}`, 170, yPos);
+                    yPos += 7;
+                });
+                
+                yPos += 5;
+                doc.line(20, yPos, 190, yPos);
+                yPos += 7;
+                
+                // Totals
+                doc.text('Subtotal:', 140, yPos);
+                doc.text(`₹${subtotal.toLocaleString('en-IN')}`, 170, yPos);
+                yPos += 7;
+                doc.text('GST (18%):', 140, yPos);
+                doc.text(`₹${tax.toLocaleString('en-IN')}`, 170, yPos);
+                yPos += 7;
+                doc.setFontSize(12);
+                doc.setFont(undefined, 'bold');
+                doc.text('Total:', 140, yPos);
+                doc.text(`₹${total.toLocaleString('en-IN')}`, 170, yPos);
+                
+                if (notes) {
+                    yPos += 15;
+                    doc.setFontSize(10);
+                    doc.setFont(undefined, 'normal');
+                    doc.text('Notes:', 20, yPos);
+                    const noteLines = notes.split('\n');
+                    noteLines.forEach((line, i) => {
+                        doc.text(line, 20, yPos + 7 + (i * 7));
+                    });
+                }
+                
+                // Save PDF
+                doc.save(`Invoice-${invNumber}.pdf`);
+                flash(invoiceMsg, 'Invoice generated successfully!');
+            } else {
+                flash(invoiceMsg, 'jsPDF library not loaded', true);
+            }
+        });
+
+        // ------------------------------
+        // Compliance Documents
+        // ------------------------------
+        const complianceType = document.getElementById('complianceType');
+        const devDocDeveloper = document.getElementById('devDocDeveloper');
+        const devDocStartDate = document.getElementById('devDocStartDate');
+        const devDocEndDate = document.getElementById('devDocEndDate');
+        const devDocPayment = document.getElementById('devDocPayment');
+        const devDocResponsibilities = document.getElementById('devDocResponsibilities');
+        const complianceDeveloperFields = document.getElementById('complianceDeveloperFields');
+        const complianceProposalFields = document.getElementById('complianceProposalFields');
+        const proposalProject = document.getElementById('proposalProject');
+        const proposalClientName = document.getElementById('proposalClientName');
+        const proposalDescription = document.getElementById('proposalDescription');
+        const proposalBudget = document.getElementById('proposalBudget');
+        const proposalTimeline = document.getElementById('proposalTimeline');
+        const proposalDeliverables = document.getElementById('proposalDeliverables');
+        const generateComplianceBtn = document.getElementById('generateComplianceBtn');
+        const complianceMsg = document.getElementById('complianceMsg');
+
+        // Populate developer select
+        onSnapshot(query(collection(db, 'developers'), orderBy('createdAt', 'desc')), (snap) => {
+            if (devDocDeveloper) {
+                devDocDeveloper.innerHTML = '<option value="">Select Developer</option>';
+                snap.forEach((docSnap) => {
+                    const d = { id: docSnap.id, ...docSnap.data() };
+                    const opt = document.createElement('option');
+                    opt.value = d.id;
+                    opt.textContent = d.name || 'Unknown';
+                    devDocDeveloper.appendChild(opt);
+                });
+            }
+        });
+
+        // Populate proposal project select
+        onSnapshot(query(collection(db, 'projects'), orderBy('createdAt', 'desc')), (snap) => {
+            if (proposalProject) {
+                proposalProject.innerHTML = '<option value="">Select Project</option>';
+                snap.forEach((docSnap) => {
+                    const p = { id: docSnap.id, ...docSnap.data() };
+                    const opt = document.createElement('option');
+                    opt.value = p.id;
+                    opt.textContent = p.name || 'Untitled';
+                    proposalProject.appendChild(opt);
+                });
+            }
+        });
+
+        complianceType?.addEventListener('change', () => {
+            const type = complianceType.value;
+            if (type === 'developer') {
+                complianceDeveloperFields.style.display = 'block';
+                complianceProposalFields.style.display = 'none';
+            } else if (type === 'proposal') {
+                complianceDeveloperFields.style.display = 'none';
+                complianceProposalFields.style.display = 'block';
+            }
+        });
+
+        proposalProject?.addEventListener('change', () => {
+            const pid = proposalProject.value;
+            if (pid && latestProjects.length > 0) {
+                const project = latestProjects.find(p => p.id === pid);
+                if (project) {
+                    if (!proposalClientName.value) proposalClientName.value = project.name || '';
+                    if (!proposalDescription.value) proposalDescription.value = `Project: ${project.name}`;
+                    if (!proposalBudget.value) {
+                        const total = (Number((project.developerPayment ?? project.expense) || 0) + Number((project.companyPayment ?? project.revenue) || 0));
+                        proposalBudget.value = total;
+                    }
+                }
+            }
+        });
+
+        generateComplianceBtn?.addEventListener('click', () => {
+            const type = complianceType.value;
+            
+            if (type === 'developer') {
+                const devId = devDocDeveloper.value;
+                const startDate = devDocStartDate.value;
+                const endDate = devDocEndDate.value;
+                const payment = devDocPayment.value;
+                const responsibilities = devDocResponsibilities.value.trim();
+
+                if (!devId || !startDate || !endDate || !payment) {
+                    flash(complianceMsg, 'Please fill in all required fields', true);
+                    return;
+                }
+
+                const dev = latestDevelopers.find(d => d.id === devId);
+                const devName = dev?.name || 'Unknown Developer';
+
+                if (typeof window.jsPDF !== 'undefined') {
+                    const { jsPDF } = window.jsPDF;
+                    const doc = new jsPDF();
+                    
+                    doc.setFontSize(18);
+                    doc.text('DEVELOPER AGREEMENT', 105, 20, { align: 'center' });
+                    
+                    doc.setFontSize(10);
+                    let yPos = 35;
+                    doc.text(`This agreement is made between MakeWithUs and ${devName}`, 20, yPos);
+                    yPos += 10;
+                    doc.text(`Start Date: ${startDate}`, 20, yPos);
+                    yPos += 7;
+                    doc.text(`End Date: ${endDate}`, 20, yPos);
+                    yPos += 7;
+                    doc.text(`Payment Terms: ₹${Number(payment).toLocaleString('en-IN')}`, 20, yPos);
+                    yPos += 10;
+                    doc.text('Responsibilities:', 20, yPos);
+                    yPos += 7;
+                    const respLines = responsibilities.split('\n');
+                    respLines.forEach((line, i) => {
+                        doc.text(`• ${line}`, 25, yPos + (i * 7));
+                    });
+                    
+                    doc.save(`Developer-Agreement-${devName}-${startDate}.pdf`);
+                    flash(complianceMsg, 'Developer agreement generated!');
+                } else {
+                    flash(complianceMsg, 'jsPDF library not loaded', true);
+                }
+            } else if (type === 'proposal') {
+                const projectId = proposalProject.value;
+                const clientName = proposalClientName.value.trim();
+                const description = proposalDescription.value.trim();
+                const budget = proposalBudget.value;
+                const timeline = proposalTimeline.value;
+                const deliverables = proposalDeliverables.value.trim();
+
+                if (!projectId || !clientName || !description || !budget || !timeline) {
+                    flash(complianceMsg, 'Please fill in all required fields', true);
+                    return;
+                }
+
+                if (typeof window.jsPDF !== 'undefined') {
+                    const { jsPDF } = window.jsPDF;
+                    const doc = new jsPDF();
+                    
+                    doc.setFontSize(18);
+                    doc.text('PROJECT PROPOSAL', 105, 20, { align: 'center' });
+                    
+                    doc.setFontSize(10);
+                    let yPos = 35;
+                    doc.text(`Client: ${clientName}`, 20, yPos);
+                    yPos += 10;
+                    doc.text('Project Description:', 20, yPos);
+                    yPos += 7;
+                    const descLines = doc.splitTextToSize(description, 170);
+                    doc.text(descLines, 20, yPos);
+                    yPos += descLines.length * 7 + 5;
+                    doc.text(`Budget: ₹${Number(budget).toLocaleString('en-IN')}`, 20, yPos);
+                    yPos += 7;
+                    doc.text(`Timeline: ${timeline} days`, 20, yPos);
+                    yPos += 10;
+                    doc.text('Deliverables:', 20, yPos);
+                    yPos += 7;
+                    const delivLines = deliverables.split('\n');
+                    delivLines.forEach((line, i) => {
+                        doc.text(`• ${line}`, 25, yPos + (i * 7));
+                    });
+                    
+                    doc.save(`Project-Proposal-${clientName}-${new Date().toISOString().split('T')[0]}.pdf`);
+                    flash(complianceMsg, 'Project proposal generated!');
+                } else {
+                    flash(complianceMsg, 'jsPDF library not loaded', true);
+                }
+            }
         });
     </script>
 </body>
