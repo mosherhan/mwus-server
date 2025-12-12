@@ -2202,9 +2202,41 @@
     <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
-    <!-- ==========================
-         Firebase + App Logic
-         ========================== -->
+    <!-- Edit Project Modal -->
+    <div id="editProjectModal"
+        style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); z-index:10000; align-items:center; justify-content:center; backdrop-filter:blur(4px);">
+        <div class="card" style="width:100%; max-width:500px; max-height:90vh; overflow-y:auto; margin:20px;">
+            <h3>Edit Project</h3>
+            <div class="field">
+                <label>Project Name</label>
+                <input id="editPrjName" class="input" />
+            </div>
+            <div class="field">
+                <label>Price (₹)</label>
+                <input id="editPrjPrice" type="number" class="input" />
+            </div>
+            <div class="field">
+                <label>Description</label>
+                <textarea id="editPrjDesc" class="textarea"></textarea>
+            </div>
+            <div class="field">
+                <label>Status</label>
+                <select id="editPrjStatus" class="select">
+                    <option value="YET_TO_START">Yet to Start</option>
+                    <option value="IN_PROGRESS">In Progress</option>
+                    <option value="ADMIN_REVIEW">Admin Review</option>
+                    <option value="DONE">Done</option>
+                    <option value="DEPLOYED">Deployed</option>
+                </select>
+            </div>
+            <div style="display:flex; justify-content:flex-end; gap:12px; margin-top:20px;">
+                <button id="cancelEditPrj" class="btn ghost">Cancel</button>
+                <button id="saveEditPrj" class="btn primary">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase Init & Main Logic -->
     <script type="module">
         import { mount } from './kanban/board.js';
         import { mountNavbar } from './components/navbar.js';
@@ -2246,6 +2278,53 @@
         mountNavbar(document.getElementById('nav-mount'));
         mountNotifications(document.getElementById('notifBtn'), {
             db, collection, query, where, onSnapshot, orderBy, updateDoc, doc
+        });
+
+        // Edit Project Logic
+        let editingProjectId = null;
+        const editModal = document.getElementById('editProjectModal');
+        const editName = document.getElementById('editPrjName');
+        const editPrice = document.getElementById('editPrjPrice');
+        const editDesc = document.getElementById('editPrjDesc');
+        const editStatus = document.getElementById('editPrjStatus');
+
+        document.addEventListener('edit-project', (e) => {
+            const p = e.detail;
+            editingProjectId = p.id;
+            editName.value = p.title || '';
+            editPrice.value = p.price || 0;
+            editDesc.value = p.description || '';
+            editStatus.value = p.status || 'IN_PROGRESS';
+            editModal.style.display = 'flex';
+        });
+
+        document.getElementById('cancelEditPrj')?.addEventListener('click', () => {
+            editModal.style.display = 'none';
+        });
+
+        document.getElementById('saveEditPrj')?.addEventListener('click', async () => {
+            if (!editingProjectId) return;
+            const btn = document.getElementById('saveEditPrj');
+            btn.textContent = 'Saving...';
+            try {
+                // Map Kanban Status back to System Status
+                const newStatus = editStatus.value;
+                const systemStatus = ['DONE', 'DEPLOYED'].includes(newStatus) ? 'completed' : 'ongoing';
+
+                await updateDoc(doc(db, 'projects', editingProjectId), {
+                    name: editName.value.trim(),
+                    price: Number(editPrice.value),
+                    description: editDesc.value.trim(),
+                    kanbanStatus: newStatus,
+                    status: systemStatus
+                });
+                editModal.style.display = 'none';
+            } catch (err) {
+                console.error('Update failed', err);
+                alert('Failed to update project: ' + err.message);
+            } finally {
+                btn.textContent = 'Save Changes';
+            }
         });
 
         // Custom File Input Functionality
