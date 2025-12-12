@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Kanban Tests</title>
+    <style>
+        body {
+            font-family: monospace;
+            background: #111;
+            color: #eee;
+            padding: 20px;
+        }
+
+        .pass {
+            color: #64e0a0;
+        }
+
+        .fail {
+            color: #ff6b6b;
+        }
+
+        .test-case {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Kanban Subsystem Tests (with Mock Firebase)</h1>
+    <div id="results">Running tests...</div>
+
+    <!-- Hidden fixture area -->
+    <div id="kanban-root" style="display:none;"></div>
+
+    <script type="module">
+        import { createCard } from './card.js';
+        import { createColumn } from './column.js';
+        import { API } from './api.js';
+        import { mount } from './board.js';
+
+        const output = document.getElementById('results');
+        let passes = 0;
+        let fails = 0;
+
+        function assert(condition, message) {
+            const div = document.createElement('div');
+            div.className = condition ? 'test-case pass' : 'test-case fail';
+            div.textContent = (condition ? '✓ ' : '✗ ') + message;
+            output.appendChild(div);
+            if (condition) passes++; else fails++;
+        }
+
+        // Mock Firebase Dependencies
+        const mockDb = { name: 'MockDB' };
+        const mockSnap = [
+            { id: 'p1', data: () => ({ name: 'P1', status: 'ongoing', assignedDevelopers: [] }) },
+            { id: 'p2', data: () => ({ name: 'P2', status: 'completed', assignedDevelopers: ['dev1'] }) }
+        ];
+
+        const mockDeps = {
+            db: mockDb,
+            collection: (db, name) => ({ db, name }),
+            query: (ref) => ref,
+            orderBy: (field) => ({ field }),
+            onSnapshot: (query, cb) => {
+                // Simulate async data
+                setTimeout(() => cb(mockSnap), 50);
+                return () => { }; // unsubscribe
+            },
+            doc: (db, col, id) => ({ path: `${col}/${id}` }),
+            updateDoc: async (ref, data) => {
+                console.log('Mock Update:', ref, data);
+                return true;
+            }
+        };
+
+        async function runTests() {
+            output.innerHTML = '';
+
+            // Test 1: API Initialization & Subscription
+            try {
+                API.init(mockDeps);
+                await new Promise(resolve => {
+                    API.subscribe((projects) => {
+                        assert(projects.length === 2, 'API subscription received transformed projects');
+                        assert(projects[0].status === 'IN_PROGRESS', 'Status mapped correctly (ongoing -> IN_PROGRESS)');
+                        assert(projects[1].status === 'DONE', 'Status mapped correctly (completed -> DONE)');
+                        resolve();
+                    });
+                });
+            } catch (e) {
+                assert(false, 'API Init/Sub crash: ' + e.message);
+            }
+
+            // Test 2: Board Mounting
+            try {
+                const root = document.getElementById('kanban-root');
+                mount(root, mockDeps);
+                // Allow render tick
+                await new Promise(r => setTimeout(r, 100));
+
+                assert(root.querySelector('.kanban-board'), 'Board mounted');
+                assert(root.querySelectorAll('.kanban-column').length === 5, 'Columns rendered');
+            } catch (e) {
+                assert(false, 'Board mount crash: ' + e.message);
+            }
+
+            // Summary
+            const summary = document.createElement('h3');
+            summary.textContent = `Tests Complete: ${passes} Passed, ${fails} Failed`;
+            summary.style.color = fails === 0 ? 'var(--ok)' : 'var(--danger)';
+            output.prepend(summary);
+        }
+
+        runTests();
+    </script>
+</body>
+
+</html>
