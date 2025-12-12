@@ -8,7 +8,8 @@ const NAV_ITEMS = [
     { label: 'Kanban', target: 'kanbanContainer' },
     { label: 'Projects', target: 'projectsCard' },
     { label: 'Tasks', target: 'tasksCard' },
-    { label: 'Calendar', target: 'calendarCard' }
+    { label: 'Calendar', target: 'calendarCard' },
+    { label: 'Compliance', target: 'invoiceResourcesCard' }
 ];
 
 export function mountNavbar(mountPoint) {
