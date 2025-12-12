@@ -47,6 +47,9 @@ export function mount(rootElement, firebaseDeps) {
 }
 
 function renderBoard(root) {
+  // Check if search was focused before re-render
+  const wasFocused = document.activeElement && document.activeElement.id === 'kanban-search-input';
+  
   root.innerHTML = '';
   
   // Header / Controls
@@ -104,9 +107,12 @@ function renderBoard(root) {
 
   // Re-attach listeners
   const searchInput = document.getElementById('kanban-search-input');
-  searchInput.focus();
-  // Restore cursor position trick (simple version)
-  searchInput.setSelectionRange(searchInput.value.length, searchInput.value.length);
+  
+  if (wasFocused && searchInput) {
+      searchInput.focus();
+      // Restore cursor position trick (simple version)
+      searchInput.setSelectionRange(searchInput.value.length, searchInput.value.length);
+  }
   
   searchInput.addEventListener('input', (e) => {
     currentFilters.search = e.target.value;

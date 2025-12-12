@@ -42,6 +42,9 @@
     <!-- Kanban Board Styles -->
     <link rel="stylesheet" href="kanban/style.css">
 
+    <!-- Component Styles -->
+    <link rel="stylesheet" href="components/navbar.css">
+
     <style>
         /*
         ==========================
@@ -789,6 +792,49 @@
             font-size: 11px;
             letter-spacing: .02em;
             border: 1px solid #2c2c35;
+        }
+
+        /* Responsive Grid Logic */
+        @media (max-width: 768px) {
+            .container {
+                padding: 80px 16px 32px;
+                /* increasing top padding for fixed navbar */
+            }
+
+            .row,
+            .grid,
+            .items {
+                display: flex !important;
+                flex-direction: column;
+            }
+
+            .col-6,
+            .col-4,
+            .col-12,
+            .span-4,
+            .span-6,
+            .span-8,
+            .span-12,
+            .item {
+                width: 100% !important;
+                grid-column: span 12 !important;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            .topbar {
+                flex-direction: column;
+                gap: 12px;
+                align-items: stretch;
+            }
+
+            #nav-mount {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 4px;
+            }
         }
 
         .ongoing {
@@ -1552,9 +1598,10 @@
                 <div class="brand-title">Management Dashboard</div>
                 <span class="muted mono" style="font-size: 12px;">internal</span>
             </div>
-            <div style="display:inline-flex; align-items:center; gap:10px;">
-                <input id="globalSearch" class="input mono" placeholder="Search projects, developers, tasks, finance"
-                    style="width:280px; max-width:42vw;" />
+            <div style="display:inline-flex; align-items:center; gap:10px; flex: 1;">
+                <!-- Navbar Mount Point -->
+                <div id="nav-mount" style="flex:1; display:flex; justify-content:center; padding: 0 12px;"></div>
+
                 <button id="themeToggle" class="logout-btn" title="Toggle theme">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                         stroke-linecap="round" stroke-linejoin="round">
@@ -1570,7 +1617,7 @@
                         <path d="M13.73 21a2 2 0 0 1-3.46 0" />
                     </svg>
                     <span id="notifBadge"
-                        style="display:none; position:absolute; top:6px; right:6px; width:8px; height:8px; background: var(--accent); border-radius:50%;"></span>
+                        style="display:none; position:absolute; top:4px; right:4px; width:8px; height:8px; background: var(--accent); border-radius:50%;"></span>
                 </button>
                 <button id="logoutBtn" class="logout-btn">Logout</button>
             </div>
@@ -1804,7 +1851,6 @@
                 </div>
             </article>
 
-            <!-- Analytics & Insights -->
             <article class="card span-12" id="analyticsCard">
                 <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:24px;">
                     <div>
@@ -1814,10 +1860,12 @@
                     </div>
                     <div style="display:flex; gap:8px;">
                         <select id="analyticsPeriod" class="select" style="width:120px; font-size:12px;">
-                            <option value="month">This Month</option>
-                            <option value="quarter">This Quarter</option>
+                            <option value="all">All Time</option>
                             <option value="year">This Year</option>
+                            <option value="6months">Last 6 Months</option>
+                            <option value="month">This Month</option>
                         </select>
+                        <!-- Validated: analyticsView (future use) -->
                         <select id="analyticsView" class="select" style="width:100px; font-size:12px;">
                             <option value="overview">Overview</option>
                             <option value="finance">Finance</option>
@@ -2119,6 +2167,10 @@
          ========================== -->
     <script type="module">
         import { mount } from './kanban/board.js';
+        import { mountNavbar } from './components/navbar.js';
+        import { mountNotifications } from './components/notifications.js';
+        import { renderAnalytics } from './modules/analytics.js';
+
         // Firebase modular SDK v9+ via CDN
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js';
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js';
@@ -2149,6 +2201,12 @@
 
         const storage = getStorage(app);
         const rtdb = getDatabase(app);
+
+        // Initialize Components
+        mountNavbar(document.getElementById('nav-mount'));
+        mountNotifications(document.getElementById('notifBtn'), {
+            db, collection, query, where, onSnapshot, orderBy, updateDoc, doc
+        });
 
         // Custom File Input Functionality
         function setupFileInput(fileInputId, buttonId, fileNameId) {
@@ -3004,13 +3062,35 @@
         });
 
         let latestDevelopers = [];
+        let developersMap = {}; // Map ID -> Developer Object
+
+        function updateDeveloperDropdowns() {
+            // Update Payout Developer Dropdown
+            const payoutSelect = document.getElementById('payoutDeveloper');
+            if (payoutSelect) {
+                const currentVal = payoutSelect.value;
+                payoutSelect.innerHTML = '<option value="" disabled selected>Select Developer</option>';
+                latestDevelopers.forEach(dev => {
+                    const opt = document.createElement('option');
+                    opt.value = dev.id;
+                    opt.textContent = dev.name;
+                    payoutSelect.appendChild(opt);
+                });
+                if (currentVal) payoutSelect.value = currentVal;
+            }
+        }
+
         onSnapshot(query(collection(db, 'developers'), orderBy('createdAt', 'desc')), (snap) => {
             devsList.innerHTML = '';
             latestDevelopers = [];
+            developersMap = {};
             let count = 0;
             snap.forEach((d) => {
                 count += 1;
                 const dev = { id: d.id, ...d.data() };
+                latestDevelopers.push(dev);
+                developersMap[dev.id] = dev;
+
                 const c = document.createElement('div');
                 c.className = 'item';
                 c.innerHTML = `
@@ -3045,8 +3125,10 @@
                 devsList.appendChild(c);
             });
             devsCount.textContent = String(count);
+            updateDeveloperDropdowns();
             // Update developer income flow when developers change
             if (devIncomeList) updateDevIncomeFromProjects();
+            refreshCharts(); // Refresh charts to update names if needed
         });
 
         // ------------------------------
@@ -3093,309 +3175,24 @@
         }
 
         // Charts (Chart.js) - Premium Analytics
-        let chartRevenue, chartProjects, chartExpenses, chartProductivity;
-
+        // Refactored to module
         function refreshCharts() {
-            try {
-                if (!Chart || typeof Chart === 'undefined') {
-                    console.warn('Chart.js not loaded');
-                    return;
-                }
-                const ctxR = /** @type {HTMLCanvasElement} */(document.getElementById('chartRevenue'))?.getContext('2d');
-                const ctxP = /** @type {HTMLCanvasElement} */(document.getElementById('chartProjects'))?.getContext('2d');
-                const ctxE = /** @type {HTMLCanvasElement} */(document.getElementById('chartExpenses'))?.getContext('2d');
-                const ctxProd = /** @type {HTMLCanvasElement} */(document.getElementById('chartProductivity'))?.getContext('2d');
+            if (!latestProjects) return;
+            // Get contexts from DOM
+            const ctxR = document.getElementById('chartRevenue')?.getContext('2d');
+            const ctxP = document.getElementById('chartProjects')?.getContext('2d');
+            const ctxE = document.getElementById('chartExpenses')?.getContext('2d');
+            const ctxProd = document.getElementById('chartProductivity')?.getContext('2d');
 
-                // Revenue Trend (Line Chart)
-                if (ctxR) {
-                    const byMonth = {};
-                    latestProjects.forEach(p => {
-                        const d = p.createdAt?.toDate?.() || new Date();
-                        const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-                        byMonth[key] = (byMonth[key] || 0) + Number((p.companyPayment ?? p.revenue) || 0);
-                    });
-                    const labels = Object.keys(byMonth).sort().slice(-6); // Last 6 months
-                    const dataRev = labels.map(k => byMonth[k]);
-
-                    chartRevenue?.destroy();
-                    chartRevenue = new Chart(ctxR, {
-                        type: 'line',
-                        data: {
-                            labels,
-                            datasets: [{
-                                label: 'Revenue (₹)',
-                                data: dataRev,
-                                borderColor: '#4f8bff',
-                                backgroundColor: 'rgba(79, 139, 255, 0.1)',
-                                borderWidth: 3,
-                                tension: 0.4,
-                                pointBackgroundColor: '#4f8bff',
-                                pointBorderColor: '#ffffff',
-                                pointBorderWidth: 2,
-                                pointRadius: 6,
-                                pointHoverRadius: 8
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
-                                legend: { display: false },
-                                tooltip: {
-                                    backgroundColor: 'rgba(0,0,0,0.8)',
-                                    titleColor: '#ffffff',
-                                    bodyColor: '#ffffff',
-                                    borderColor: '#4f8bff',
-                                    borderWidth: 1,
-                                    cornerRadius: 8,
-                                    displayColors: false
-                                }
-                            },
-                            scales: {
-                                y: {
-                                    beginAtZero: true,
-                                    grid: { color: 'rgba(255,255,255,0.1)', drawBorder: false },
-                                    ticks: {
-                                        callback: v => `₹${Number(v).toLocaleString('en-IN')}`,
-                                        color: 'var(--muted)',
-                                        font: { size: 11 }
-                                    }
-                                },
-                                x: {
-                                    grid: { display: false },
-                                    ticks: { color: 'var(--muted)', font: { size: 11 } }
-                                }
-                            },
-                            elements: {
-                                point: {
-                                    hoverBackgroundColor: '#4f8bff'
-                                }
-                            }
-                        }
-                    });
-                }
-
-                // Project Performance (Bar Chart)
-                if (ctxP) {
-                    const completed = latestProjects.filter(p => p.status === 'completed').length;
-                    const ongoing = latestProjects.length - completed;
-
-                    chartProjects?.destroy();
-                    chartProjects = new Chart(ctxP, {
-                        type: 'bar',
-                        data: {
-                            labels: ['Ongoing', 'Completed'],
-                            datasets: [{
-                                data: [ongoing, completed],
-                                backgroundColor: ['rgba(79, 139, 255, 0.8)', 'rgba(42, 167, 123, 0.8)'],
-                                borderColor: ['#4f8bff', '#2aa77b'],
-                                borderWidth: 2,
-                                borderRadius: 8,
-                                borderSkipped: false
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
-                                legend: { display: false },
-                                tooltip: {
-                                    backgroundColor: 'rgba(0,0,0,0.8)',
-                                    titleColor: '#ffffff',
-                                    bodyColor: '#ffffff',
-                                    borderColor: '#4f8bff',
-                                    borderWidth: 1,
-                                    cornerRadius: 8,
-                                    displayColors: false
-                                }
-                            },
-                            scales: {
-                                y: {
-                                    beginAtZero: true,
-                                    grid: { color: 'rgba(255,255,255,0.1)', drawBorder: false },
-                                    ticks: { color: 'var(--muted)', font: { size: 11 } }
-                                },
-                                x: {
-                                    grid: { display: false },
-                                    ticks: { color: 'var(--muted)', font: { size: 11 } }
-                                }
-                            }
-                        }
-                    });
-                }
-
-                // Expense Breakdown (Doughnut Chart)
-                if (ctxE) {
-                    const totalExpense = latestProjects.reduce((s, p) => s + Number((p.developerPayment ?? p.expense) || 0), 0);
-                    const totalRevenue = latestProjects.reduce((s, p) => s + Number((p.companyPayment ?? p.revenue) || 0), 0);
-                    const profit = totalRevenue; // Company revenue is profit
-
-                    chartExpenses?.destroy();
-                    chartExpenses = new Chart(ctxE, {
-                        type: 'doughnut',
-                        data: {
-                            labels: ['Revenue', 'Expenses', 'Profit'],
-                            datasets: [{
-                                data: [totalRevenue, totalExpense, Math.max(0, profit)],
-                                backgroundColor: ['rgba(42, 167, 123, 0.8)', 'rgba(255, 107, 107, 0.8)', 'rgba(79, 139, 255, 0.8)'],
-                                borderColor: ['#2aa77b', '#ff6b6b', '#4f8bff'],
-                                borderWidth: 2
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
-                                legend: {
-                                    display: true,
-                                    position: 'bottom',
-                                    labels: {
-                                        color: 'var(--muted)',
-                                        font: { size: 11 },
-                                        padding: 15,
-                                        usePointStyle: true
-                                    }
-                                },
-                                tooltip: {
-                                    backgroundColor: 'rgba(0,0,0,0.8)',
-                                    titleColor: '#ffffff',
-                                    bodyColor: '#ffffff',
-                                    borderColor: '#4f8bff',
-                                    borderWidth: 1,
-                                    cornerRadius: 8,
-                                    callbacks: {
-                                        label: function (context) {
-                                            return context.label + ': ₹' + Number(context.parsed).toLocaleString('en-IN');
-                                        }
-                                    }
-                                }
-                            },
-                            cutout: '60%'
-                        }
-                    });
-                }
-
-                // Developer Productivity (Horizontal Bar Chart)
-                if (ctxProd) {
-                    const devProductivity = latestProjects.reduce((acc, p) => {
-                        if (p.assignedDevelopers) {
-                            p.assignedDevelopers.forEach(devId => {
-                                acc[devId] = (acc[devId] || 0) + (p.progress || 0);
-                            });
-                        }
-                        return acc;
-                    }, {});
-
-                    const devLabels = Object.keys(devProductivity).slice(0, 5); // Top 5
-                    const devData = devLabels.map(id => devProductivity[id] / (devLabels.length || 1));
-
-                    chartProductivity?.destroy();
-                    chartProductivity = new Chart(ctxProd, {
-                        type: 'bar',
-                        data: {
-                            labels: devLabels.length ? devLabels.map(id => `Dev ${id.slice(-4)}`) : ['No Data'],
-                            datasets: [{
-                                data: devData.length ? devData : [0],
-                                backgroundColor: 'rgba(160, 201, 255, 0.8)',
-                                borderColor: '#a0c9ff',
-                                borderWidth: 2,
-                                borderRadius: 8,
-                                borderSkipped: false
-                            }]
-                        },
-                        options: {
-                            indexAxis: 'y',
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
-                                legend: { display: false },
-                                tooltip: {
-                                    backgroundColor: 'rgba(0,0,0,0.8)',
-                                    titleColor: '#ffffff',
-                                    bodyColor: '#ffffff',
-                                    borderColor: '#4f8bff',
-                                    borderWidth: 1,
-                                    cornerRadius: 8,
-                                    displayColors: false
-                                }
-                            },
-                            scales: {
-                                x: {
-                                    beginAtZero: true,
-                                    max: 100,
-                                    grid: { color: 'rgba(255,255,255,0.1)', drawBorder: false },
-                                    ticks: {
-                                        color: 'var(--muted)',
-                                        font: { size: 11 },
-                                        callback: function (value) { return value + '%'; }
-                                    }
-                                },
-                                y: {
-                                    grid: { display: false },
-                                    ticks: { color: 'var(--muted)', font: { size: 11 } }
-                                }
-                            }
-                        }
-                    });
-                }
-
-                // Update KPI Cards
-                updateKPICards();
-
-            } catch (e) { console.error('charts error', e); }
+            const timeFilter = document.getElementById('analyticsPeriod')?.value || 'all';
+            renderAnalytics({ ctxR, ctxP, ctxE, ctxProd }, latestProjects, { timeFilter, developersMap });
         }
 
-        function updateKPICards() {
-            const totalRevenue = latestProjects.reduce((s, p) => s + Number((p.companyPayment ?? p.revenue) || 0), 0);
-            const totalExpense = latestProjects.reduce((s, p) => s + Number((p.developerPayment ?? p.expense) || 0), 0);
-            const completed = latestProjects.filter(p => p.status === 'completed').length;
-            const ongoing = latestProjects.length - completed;
-            const avgProgress = latestProjects.length > 0 ? latestProjects.reduce((s, p) => s + Number(p.progress || 0), 0) / latestProjects.length : 0;
+        document.getElementById('analyticsPeriod')?.addEventListener('change', refreshCharts);
 
-            // Calculate growth (simplified)
-            const currentMonth = new Date().getMonth();
-            const currentYear = new Date().getFullYear();
-            const currentMonthRevenue = latestProjects
-                .filter(p => {
-                    const d = p.createdAt?.toDate?.() || new Date();
-                    return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
-                })
-                .reduce((s, p) => s + Number((p.companyPayment ?? p.revenue) || 0), 0);
-
-            const lastMonthRevenue = latestProjects
-                .filter(p => {
-                    const d = p.createdAt?.toDate?.() || new Date();
-                    const lastMonth = currentMonth === 0 ? 11 : currentMonth - 1;
-                    const lastYear = currentMonth === 0 ? currentYear - 1 : currentYear;
-                    return d.getMonth() === lastMonth && d.getFullYear() === lastYear;
-                })
-                .reduce((s, p) => s + Number((p.companyPayment ?? p.revenue) || 0), 0);
-
-            const growth = lastMonthRevenue > 0 ? ((currentMonthRevenue - lastMonthRevenue) / lastMonthRevenue * 100) : 0;
-
-            // Update KPI elements
-            const kpiRevenue = document.getElementById('kpiRevenue');
-            const kpiRevenueChange = document.getElementById('kpiRevenueChange');
-            const kpiGrowth = document.getElementById('kpiGrowth');
-            const kpiGrowthChange = document.getElementById('kpiGrowthChange');
-            const kpiProjects = document.getElementById('kpiProjects');
-            const kpiProjectsChange = document.getElementById('kpiProjectsChange');
-            const kpiEfficiency = document.getElementById('kpiEfficiency');
-            const kpiEfficiencyChange = document.getElementById('kpiEfficiencyChange');
-
-            if (kpiRevenue) kpiRevenue.textContent = `₹${totalRevenue.toLocaleString('en-IN')}`;
-            if (kpiRevenueChange) kpiRevenueChange.textContent = `₹${totalExpense.toLocaleString('en-IN')} dev payments`;
-            if (kpiGrowth) kpiGrowth.textContent = `${growth >= 0 ? '+' : ''}${growth.toFixed(1)}%`;
-            if (kpiGrowthChange) kpiGrowthChange.textContent = 'vs last month';
-            if (kpiProjects) kpiProjects.textContent = String(ongoing);
-            if (kpiProjectsChange) kpiProjectsChange.textContent = `${completed} completed`;
-            if (kpiEfficiency) kpiEfficiency.textContent = `${avgProgress.toFixed(0)}%`;
-            if (kpiEfficiencyChange) kpiEfficiencyChange.textContent = 'avg completion';
-        }
 
         // Notes / announcements
         const noteText = document.getElementById('noteText');
-        const addNoteBtn = document.getElementById('addNoteBtn');
         const notesList = document.getElementById('notesList');
         addNoteBtn?.addEventListener('click', async () => {
             const text = noteText.value.trim(); if (!text) return;
@@ -3428,6 +3225,7 @@
         const chatRef = dbRef(rtdb, 'chat');
 
         // Load existing messages on page load
+        // Load existing messages on page load
         function loadExistingMessages() {
             if (!chatMessages) return;
             chatMessages.innerHTML = '';
@@ -3442,19 +3240,40 @@
                         div.innerHTML = `<div class="event-time">${escapeHtml(m.user || '')}</div><div class="event-title">${escapeHtml(m.text || '')}</div><div class="event-notes">${time}</div>`;
                         chatMessages.appendChild(div);
                     });
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                    // REMOVED AUTO SCROLL ON LOAD to prevent page jumping
+                    // chatMessages.scrollTop = chatMessages.scrollHeight;
                 }
             }).catch(e => console.error('load messages error:', e));
         }
 
         // Load existing messages
-        loadExistingMessages();
+        // Load messages via onChildAdded (handles both existing and new)
+        let initialLoadParams = true;
+        onChildAdded(chatRef, (snap) => {
+            if (!chatMessages) return;
+            const m = snap.val();
+            // dedupe if needed, but simplistic approach first
+            const div = document.createElement('div');
+            div.className = 'event-item';
+            const time = new Date(m.ts || Date.now()).toLocaleString('en-IN');
+            div.innerHTML = `<div class="event-time">${escapeHtml(m.user || '')}</div><div class="event-title">${escapeHtml(m.text || '')}</div><div class="event-notes">${time}</div>`;
+            chatMessages.appendChild(div);
+
+            // Only scroll if it's a NEW message interacting with the user, OR if user was already at bottom. 
+            // For now, easier to just NOT scroll on initial load batch.
+            // Check if document is ready.
+            if (!initialLoadParams) {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        });
+
+        // Give a small buffer for initial data load before enabling auto-scroll
+        setTimeout(() => { initialLoadParams = false; }, 2000);
 
         sendChatBtn?.addEventListener('click', async () => {
             const text = chatInput?.value.trim(); if (!text) return; const user = auth.currentUser?.email || 'anon';
             try { await dbPush(chatRef, { text, user, ts: Date.now() }); if (chatInput) chatInput.value = ''; } catch (e) { console.error('chat send', e); }
         });
-        onChildAdded(chatRef, (snap) => { if (!chatMessages) return; const m = snap.val(); const div = document.createElement('div'); div.className = 'event-item'; const time = new Date(m.ts || Date.now()).toLocaleString('en-IN'); div.innerHTML = `<div class="event-time">${escapeHtml(m.user || '')}</div><div class="event-title">${escapeHtml(m.text || '')}</div><div class="event-notes">${time}</div>`; chatMessages.appendChild(div); chatMessages.scrollTop = chatMessages.scrollHeight; });
 
         // ------------------------------
         // Finance Overview (filters + export)
@@ -3618,4 +3437,5 @@
         });
     </script>
 </body>
+
 </html>
