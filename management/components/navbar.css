@@ -15,7 +15,7 @@
     position: sticky;
     top: 0;
     transition: transform 0.3s ease;
-    background: rgba(12, 12, 12, 0.8) !important; /* Ensure nice backdrop */
+    background: var(--header-bg) !important;
     backdrop-filter: blur(12px);
     z-index: 9999;
 }
@@ -80,7 +80,7 @@
         right: 0;
         bottom: 0;
         height: 100vh;
-        background: rgba(12, 12, 12, 0.95);
+        background: var(--panel);
         backdrop-filter: blur(16px);
         flex-direction: column;
         justify-content: center;
@@ -150,7 +150,7 @@
 .notif-list { max-height: 300px; overflow-y: auto; }
 .notif-item { padding: 12px 16px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.2s; }
 .notif-item:last-child { border-bottom: none; }
-.notif-item:hover { background: #1a1a1a; }
+.notif-item:hover { background: var(--hover-bg); }
 .notif-item.unread { background: rgba(160, 201, 255, 0.05); }
 .notif-item.unread:hover { background: rgba(160, 201, 255, 0.1); }
 .notif-text { font-size: 13px; color: var(--text); margin-bottom: 4px; }
