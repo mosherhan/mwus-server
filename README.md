@@ -34,9 +34,9 @@ Unauthorized copying, modification, or redistribution is prohibited. Please cont
 
 ## Contact
 For inquiries and collaborations:  
-Email: hello@makewithus.com  
-Website: [makewithus.com](https://makewithus.com)  
+Email: makewithus.in@gmail.com  
+Website: [makewithus.in](https://makewithus.in)  
 
 ---
 
-© 2025 MakeWithUs. All rights reserved.
+© 2026 MakeWithUs. All rights reserved.
